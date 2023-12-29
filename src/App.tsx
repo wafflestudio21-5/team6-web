@@ -1,9 +1,9 @@
 import "./App.css";
-import Modal from "./components/Modal";
+import SignupModal from "./components/SignupModal";
 function App() {
   return (
     <>
-      <Modal />
+      <SignupModal />
     </>
   );
 }

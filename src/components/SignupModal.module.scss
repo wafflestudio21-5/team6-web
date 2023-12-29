@@ -1,0 +1,187 @@
+.modalContainer {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.297);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modalBox {
+    width: 375px;
+    height: 580px;
+    background-color: white;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    padding-top: 35px;
+    img {
+      width: 70%;
+      margin: 0 auto;
+      transform: scale(0.7);
+    }
+    h2 {
+      font-size: 17px;
+      text-align: center;
+    }
+    section {
+      margin: 0 20px;
+      form {
+        label {
+          display: flex;
+          -webkit-box-align: center;
+          align-items: center;
+          background: rgb(245, 245, 245);
+          width: 100%;
+          height: 44px;
+          padding: 0px 12px;
+          margin-top: 7px;
+          border-radius: 6px;
+
+          input {
+            flex-grow: 1;
+            border: none;
+            background-color: inherit;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: -0.6px;
+            line-height: 21px;
+            &:focus {
+              outline: none;
+            }
+          }
+          .inputClearIcon {
+            width: 24px;
+            height: 24px;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGZpbGw9IiNBMEEwQTAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEyLjIwOCAxMS40TDkuMzggOC41N2wtLjgwOS44MDkgMi44MjkgMi44MjgtMi44MjkgMi44MjguODA5LjgwOSAyLjgyOC0yLjgyOSAyLjgyOCAyLjgyOS44MDktLjgwOS0yLjgyOS0yLjgyOCAyLjgyOS0yLjgyOC0uODA5LS44MDktMi44MjggMi44Mjl6TTEyIDIwYTggOCAwIDEgMSAwLTE2IDggOCAwIDAgMSAwIDE2eiIvPgo8L3N2Zz4K");
+            background-repeat: no-repeat;
+            cursor: pointer;
+          }
+          .validationIconBox {
+            .validationIcon {
+              width: 24px;
+              height: 24px;
+              margin-left: 24px;
+              background-repeat: no-repeat;
+            }
+            .validIcon {
+              background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSI+CiAgICAgICAgPGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iMTAuNSIgc3Ryb2tlPSIjMEZDM0I5Ii8+CiAgICAgICAgPHBhdGggZmlsbD0iIzBGQzNCOSIgZD0iTTkuMzkgMTIuODM5bDUuNjU2LTUuNjU3YTEgMSAwIDEgMSAxLjQxNCAxLjQxNGwtNi4zNjQgNi4zNjRhLjk5Ny45OTcgMCAwIDEtMS40MTQgMGwtMi44MjgtMi44MjhhMSAxIDAgMSAxIDEuNDE0LTEuNDE0bDIuMTIxIDIuMTJ6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=");
+            }
+            .invalidIcon {
+              background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSI+CiAgICAgICAgPGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iMTAuNSIgc3Ryb2tlPSIjRjUwMDAwIi8+CiAgICAgICAgPHBhdGggZmlsbD0iI0Y1MDAwMCIgZD0iTTExIDE0YTEuNSAxLjUgMCAxIDEgMCAzIDEuNSAxLjUgMCAwIDEgMC0zem0wLTlhMS41IDEuNSAwIDAgMSAxLjUgMS41VjExYTEuNSAxLjUgMCAwIDEtMyAwVjYuNUExLjUgMS41IDAgMCAxIDExIDV6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=");
+            }
+          }
+        }
+        .validLabel {
+          background: rgb(245, 245, 245);
+        }
+        .invalidLabel {
+          background: rgb(255, 240, 240);
+          border: 1px solid rgb(245, 0, 0);
+        }
+
+        button {
+          width: 100%;
+          height: 44px;
+          border-radius: 6px;
+          border: none;
+          margin: 16px 0;
+          cursor: pointer;
+          font-size: 17px;
+          background: rgb(255, 47, 110);
+          color: white;
+          &:hover {
+            filter: brightness(110%);
+          }
+          &:active {
+            filter: brightness(120%);
+          }
+        }
+        .errorMessage {
+          color: rgb(245, 0, 0);
+          font-size: 13px;
+          font-weight: 400;
+          letter-spacing: -0.2px;
+          line-height: 18px;
+          margin: 6px 12px 4px;
+        }
+      }
+      .loginGuideBox {
+        margin-top: 20px;
+        font-size: 15px;
+        color: rgb(140, 140, 140);
+        text-align: center;
+        button {
+          background: none;
+          padding: 0px;
+          border: none;
+          margin: 0px;
+          cursor: pointer;
+          color: rgb(255, 47, 110);
+          font-size: inherit;
+          font-weight: 400;
+        }
+      }
+      .divisionLine {
+        display: flex;
+        flex-basis: 100%;
+        align-items: center;
+        color: rgb(160, 160, 160);
+        font-size: 14px;
+        margin: 24px 0;
+        &::before,
+        &::after {
+          content: "";
+          flex-grow: 1;
+          height: 1px;
+          background-color: rgb(160, 160, 160);
+        }
+        span {
+          margin: 0 14px;
+        }
+      }
+      .socialLoginButtonList {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        padding: 0;
+        list-style-type: none;
+        list-style: none;
+        button {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          border: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0;
+          cursor: pointer;
+          &:hover {
+            filter: brightness(105%);
+          }
+        }
+        .kakaoLogin {
+          background: rgb(247, 227, 23);
+          img {
+            transform: scale(0.9);
+          }
+        }
+        .goggleLogin {
+          border: 1px solid rgb(227, 228, 230);
+          background: white;
+          img {
+            transform: scale(0.9);
+          }
+        }
+        .naverLogin {
+          background-image: url("./../assets/naverLoginIcon.png");
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+      }
+    }
+  }
+}
