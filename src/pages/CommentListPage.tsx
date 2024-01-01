@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-export default function ContentsCommentsPage() {
+export default function CommentListPage() {
   const { id } = useParams();
   return (
     <div>

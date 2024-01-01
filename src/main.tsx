@@ -4,10 +4,10 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Header from "./pages/Header.tsx";
 import MainPage from "./pages/MainPage.tsx";
-import ContentsPage from "./pages/ContentsPage.tsx";
-import ContentsCommentsPage from "./pages/ContentsCommentsPage.tsx";
-import CommentsPage from "./pages/CommentsPage.tsx";
-import UsersPage from "./pages/UsersPage.tsx";
+import ContentPage from "./pages/ContentPage.tsx";
+import CommentListPage from "./pages/CommentListPage.tsx";
+import CommentPage from "./pages/CommentPage.tsx";
+import UserPage from "./pages/UserPage.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
 
 const router = createBrowserRouter([
@@ -21,19 +21,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/contents/:id",
-        element: <ContentsPage />,
+        element: <ContentPage />,
       },
       {
         path: "/contents/:id/comments",
-        element: <ContentsCommentsPage />,
+        element: <CommentListPage />,
       },
       {
         path: "/comments/:id",
-        element: <CommentsPage />,
+        element: <CommentPage />,
       },
       {
         path: "users/:id",
-        element: <UsersPage />,
+        element: <UserPage />,
       },
       {
         path: "/search",
