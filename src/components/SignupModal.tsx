@@ -47,7 +47,6 @@ export default function SignupModal() {
                 autoComplete="off"
                 placeholder="이름"
                 type="text"
-                id="name"
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
               />
@@ -79,7 +78,6 @@ export default function SignupModal() {
                 autoComplete="off"
                 placeholder="아이디"
                 type="text"
-                id="id"
                 value={idInput}
                 onChange={(e) => {
                   setIdInput(e.target.value);
@@ -115,7 +113,6 @@ export default function SignupModal() {
                 autoComplete="off"
                 placeholder="비밀번호"
                 type="password"
-                id="password"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
               />
