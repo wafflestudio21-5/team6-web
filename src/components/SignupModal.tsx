@@ -17,14 +17,13 @@ export default function SignupModal() {
         ? "정확하지 않은 아이디입니다."
         : "",
     password:
-      passwordInput.length === 0 ||
+      !passwordInput ||
       !validatePassword(passwordInput) ||
       passwordInput.includes(" ")
         ? "비밀번호는 영문, 숫자, 특수문자 중 2가지 이상을 조합하여 최소 10자리 이상이여야 합니다."
         : "",
   };
-  const isAllInputsValid =
-    error.name === "" && error.id === "" && error.password === ""; // input이 모두 유효한지 확인
+  const isAllInputsValid = !error.name && !error.id && !error.password; // input이 모두 유효한지 확인
 
   return (
     <div className={styles.modalContainer}>
@@ -39,7 +38,7 @@ export default function SignupModal() {
           <form action="#">
             <label
               className={`${
-                error.name.length === 0 || nameInput.length === 0
+                !error.name || !nameInput
                   ? styles.validLabel
                   : styles.invalidLabel
               }`}
@@ -52,34 +51,28 @@ export default function SignupModal() {
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
               />
-              {nameInput.length !== 0 && (
+              {!!nameInput && (
                 <div
                   className={styles.inputClearIcon}
                   onClick={() => setNameInput("")}
                 />
               )}
-              {nameInput.length !== 0 && (
+              {!!nameInput && (
                 <div className={styles.validationIconBox}>
                   <div
                     className={`${styles.validationIcon} ${
-                      error.name.length === 0
-                        ? styles.validIcon
-                        : styles.invalidIcon
+                      !error.name ? styles.validIcon : styles.invalidIcon
                     }`}
                   />
                 </div>
               )}
             </label>
 
-            {nameInput.length !== 0 && (
-              <p className={styles.errorMessage}>{error.name}</p>
-            )}
+            {!!nameInput && <p className={styles.errorMessage}>{error.name}</p>}
 
             <label
               className={`${
-                error.id.length === 0 || idInput.length === 0
-                  ? styles.validLabel
-                  : styles.invalidLabel
+                !error.id || !idInput ? styles.validLabel : styles.invalidLabel
               }`}
             >
               <input
@@ -92,32 +85,28 @@ export default function SignupModal() {
                   setIdInput(e.target.value);
                 }}
               />
-              {idInput.length !== 0 && (
+              {!!idInput && (
                 <div
                   className={styles.inputClearIcon}
                   onClick={() => setIdInput("")}
                 />
               )}
-              {idInput.length !== 0 && (
+              {!!idInput && (
                 <div className={styles.validationIconBox}>
                   <div
                     className={`${styles.validationIcon} ${
-                      error.id.length === 0
-                        ? styles.validIcon
-                        : styles.invalidIcon
+                      !error.id ? styles.validIcon : styles.invalidIcon
                     }`}
                   />
                 </div>
               )}
             </label>
 
-            {idInput.length !== 0 && (
-              <p className={styles.errorMessage}>{error.id}</p>
-            )}
+            {!!idInput && <p className={styles.errorMessage}>{error.id}</p>}
 
             <label
               className={`${
-                error.password.length === 0 || passwordInput.length === 0
+                !error.password || !passwordInput
                   ? styles.validLabel
                   : styles.invalidLabel
               }`}
@@ -130,26 +119,24 @@ export default function SignupModal() {
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
               />
-              {passwordInput.length !== 0 && (
+              {!!passwordInput && (
                 <div
                   className={styles.inputClearIcon}
                   onClick={() => setPasswordInput("")}
                 />
               )}
-              {passwordInput.length !== 0 && (
+              {!!passwordInput && (
                 <div className={styles.validationIconBox}>
                   <div
                     className={`${styles.validationIcon} ${
-                      error.password.length === 0
-                        ? styles.validIcon
-                        : styles.invalidIcon
+                      !error.password ? styles.validIcon : styles.invalidIcon
                     }`}
                   />
                 </div>
               )}
             </label>
 
-            {passwordInput.length !== 0 && (
+            {!!passwordInput && (
               <p className={styles.errorMessage}>{error.password}</p>
             )}
 
