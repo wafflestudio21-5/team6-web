@@ -1,7 +1,11 @@
 import "./App.css";
-
+import SignupModal from "./components/SignupModal";
 function App() {
-  return <></>;
+  return (
+    <>
+      <SignupModal />
+    </>
+  );
 }
 
 export default App;
