@@ -9,6 +9,7 @@ import CommentListPage from "./pages/CommentListPage.tsx";
 import CommentPage from "./pages/CommentPage.tsx";
 import UserPage from "./pages/UserPage.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
+import StoragePage from "./pages/StoragePage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "users/:id",
         element: <UserPage />,
+      },
+      {
+        path: "users/:id/contents",
+        element: <StoragePage />,
       },
       {
         path: "/search",
