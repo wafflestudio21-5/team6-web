@@ -1,39 +1,33 @@
 import { useState } from "react";
-import validatePassword from "../utils/validatePassword";
 import Logo from "../assets/logo.svg";
 import styles from "./AuthModalStyle.module.scss";
 import { CurrentModalType } from "../pages/Layout";
 
-type SignupModalProps = {
+type LoginModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
 };
 
-export default function SignupModal({ setCurrentModal }: SignupModalProps) {
-  const [nameInput, setNameInput] = useState("");
+export default function LoginModal({ setCurrentModal }: LoginModalProps) {
   const [idInput, setIdInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const error = {
-    name:
-      nameInput.length < 2 || nameInput.length > 20 || nameInput.includes(" ")
-        ? "정확하지 않은 이름입니다."
-        : "",
     id:
       idInput.length < 2 || idInput.length > 20 || idInput.includes(" ")
         ? "정확하지 않은 아이디입니다."
         : "",
     password:
-      !passwordInput ||
-      !validatePassword(passwordInput) ||
-      passwordInput.includes(" ")
-        ? "비밀번호는 영문, 숫자, 특수문자 중 2가지 이상을 조합하여 최소 10자리 이상이여야 합니다."
+      passwordInput.length < 10 || passwordInput.includes(" ")
+        ? "비밀번호는 공백이 없는 10자리 이상이어야 합니다."
         : "",
   };
-  const isAllInputsValid = !error.name && !error.id && !error.password; // input이 모두 유효한지 확인
+  const isAllInputsValid = !error.id && !error.password; // input이 모두 유효한지 확인
 
   return (
     <div
       className={styles.modalContainer}
-      onClick={() => setCurrentModal(null)}
+      onClick={() => {
+        setCurrentModal(null);
+      }}
     >
       <div
         className={styles.modalBox}
@@ -46,42 +40,9 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
           className={styles.watchaPediaLogo}
           alt="watchaPediaLogo"
         />
-        <h2>회원가입</h2>
+        <h2>로그인</h2>
         <section>
           <form action="#">
-            <label
-              className={`${
-                !error.name || !nameInput
-                  ? styles.validLabel
-                  : styles.invalidLabel
-              }`}
-            >
-              <input
-                autoComplete="off"
-                placeholder="이름"
-                type="text"
-                value={nameInput}
-                onChange={(e) => setNameInput(e.target.value)}
-              />
-              {!!nameInput && (
-                <div
-                  className={styles.inputClearIcon}
-                  onClick={() => setNameInput("")}
-                />
-              )}
-              {!!nameInput && (
-                <div className={styles.validationIconBox}>
-                  <div
-                    className={`${styles.validationIcon} ${
-                      !error.name ? styles.validIcon : styles.invalidIcon
-                    }`}
-                  />
-                </div>
-              )}
-            </label>
-
-            {!!nameInput && <p className={styles.errorMessage}>{error.name}</p>}
-
             <label
               className={`${
                 !error.id || !idInput ? styles.validLabel : styles.invalidLabel
@@ -154,20 +115,20 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               type="button"
               disabled={!isAllInputsValid}
               onClick={() => {
-                // console.log("회원가입");
-              }}
-            >
-              회원가입
-            </button>
-          </form>
-          <div className={styles.toLoginModalBox}>
-            이미 가입하셨나요?{" "}
-            <button
-              onClick={() => {
-                setCurrentModal("login");
+                // console.log("로그인");
               }}
             >
               로그인
+            </button>
+          </form>
+          <div className={styles.toSignUpModalBox}>
+            계정이 없으신가요?{" "}
+            <button
+              onClick={() => {
+                setCurrentModal("signup");
+              }}
+            >
+              회원가입
             </button>
           </div>
           <div className={styles.divisionLine}>

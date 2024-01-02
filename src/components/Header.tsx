@@ -1,7 +1,12 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
+import { CurrentModalType } from "../pages/Layout";
 
-export default function Header() {
+type HeaderProps = {
+  setCurrentModal: (modal: CurrentModalType) => void;
+};
+
+export default function Header({ setCurrentModal }: HeaderProps) {
   const navigate = useNavigate();
   const searchParams = useSearchParams()[0];
   const query = searchParams.get("query");
@@ -30,7 +35,13 @@ export default function Header() {
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={searchKeyDown}
         />
-        <button>로그인</button>
+        <button
+          onClick={() => {
+            setCurrentModal("login");
+          }}
+        >
+          로그인
+        </button>
         <Link to="/users/idididid">
           <button>{"(로그인 했다치고)내프로필"}</button>
         </Link>

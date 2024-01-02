@@ -2,7 +2,8 @@
   width: 100vw;
   height: 100vh;
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.297);
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.504);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,20 +32,20 @@
 section {
   margin: 0 20px;
 
-  .toLoginModalBox {
+  .toLoginModalBox,
+  .toSignUpModalBox {
     margin-top: 20px;
     font-size: 15px;
     color: rgb(140, 140, 140);
     text-align: center;
     button {
+      font-size: 15px;
       background: none;
       padding: 0px;
       border: none;
       margin: 0px;
       cursor: pointer;
       color: rgb(255, 47, 110);
-      font-size: inherit;
-      font-weight: 400;
     }
   }
   .divisionLine {
@@ -172,14 +173,14 @@ form {
   .kakaoLoginButton {
     background: rgb(247, 227, 23);
     img {
-      transform: scale(1);
+      transform: scale(1.1);
     }
   }
   .googleLoginButton {
     border: 1px solid rgb(227, 228, 230);
     background: white;
     img {
-      transform: scale(0.9);
+      transform: scale(1.1);
     }
   }
   .naverLoginButton {
