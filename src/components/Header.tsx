@@ -1,5 +1,5 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -8,9 +8,9 @@ export default function Header() {
 
   const [searchText, setSearchText] = useState(query ? query : "");
 
-  useEffect(() => {
-    setSearchText(query ? query : "");
-  }, [query]);
+  // useEffect(() => {
+  //   setSearchText(query ? query : "");
+  // }, [query]);
 
   const searchKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && searchText) {
