@@ -1,4 +1,4 @@
-import { Outlet, Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function Header() {
@@ -35,7 +35,6 @@ export default function Header() {
           <button>{"(로그인 했다치고)내프로필"}</button>
         </Link>
       </header>
-      <Outlet />
     </div>
   );
 }

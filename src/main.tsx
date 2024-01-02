@@ -2,7 +2,7 @@ import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Header from "./pages/Header.tsx";
+import Layout from "./pages/Layout.tsx";
 import MainPage from "./pages/MainPage.tsx";
 import ContentPage from "./pages/ContentPage.tsx";
 import CommentListPage from "./pages/CommentListPage.tsx";
@@ -13,7 +13,7 @@ import SearchPage from "./pages/SearchPage.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Header />,
+    element: <Layout />,
     children: [
       {
         path: "/",
