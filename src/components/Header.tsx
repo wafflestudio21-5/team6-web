@@ -1,3 +1,4 @@
+import styles from "./Header.module.scss";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 
@@ -19,22 +20,46 @@ export default function Header() {
   };
 
   return (
-    <div>
-      <header>
-        <Link to="/">
-          <h1>헤더</h1>
-        </Link>
-        <input
-          type="text"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          onKeyDown={searchKeyDown}
-        />
-        <button>로그인</button>
-        <Link to="/users/idididid">
-          <button>{"(로그인 했다치고)내프로필"}</button>
-        </Link>
-      </header>
-    </div>
+    <header className={styles.header}>
+      <div className={styles.headerDiv}>
+        <ul>
+          <li className={styles.logoLi}>
+            <Link to="/">
+              <img
+                className={styles.logoImg}
+                src="/src/assets/logo.svg"
+                alt="왓챠피디아 로고"
+              />
+            </Link>
+          </li>
+          <li className={styles.searchLi}>
+            <div>
+              <div>
+                <form action="#">
+                  <label>
+                    <input
+                      autoComplete="off"
+                      placeholder="콘텐츠, 인물, 컬렉션, 유저를 검색해보세요."
+                      type="text"
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                      onKeyDown={searchKeyDown}
+                    />
+                  </label>
+                </form>
+              </div>
+            </div>
+          </li>
+          <li>
+            <button>로그인</button>
+          </li>
+          <li>
+            <Link to="/users/idididid">
+              <button>{"(로그인 했다치고)내프로필"}</button>
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </header>
   );
 }
