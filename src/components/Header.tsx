@@ -50,13 +50,11 @@ export default function Header() {
               </div>
             </div>
           </li>
-          <li>
-            <button>로그인</button>
+          <li className={styles.loginLi}>
+            <button className={styles.loginButton}>로그인</button>
           </li>
-          <li>
-            <Link to="/users/idididid">
-              <button>{"(로그인 했다치고)내프로필"}</button>
-            </Link>
+          <li className={styles.loginLi}>
+            <button className={styles.registerButton}>회원가입</button>
           </li>
         </ul>
       </div>
