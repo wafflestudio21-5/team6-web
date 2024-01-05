@@ -11,3 +11,11 @@ body,
   box-sizing: border-box;
   font-family: "Noto Sans KR";
 }
+
+button {
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}

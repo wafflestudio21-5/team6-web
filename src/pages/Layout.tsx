@@ -11,7 +11,7 @@ export default function Layout() {
   const [currentModal, setCurrentModal] = useState<CurrentModalType>(null);
 
   return (
-    <>
+    <div>
       {currentModal === "signup" && (
         <SignupModal setCurrentModal={setCurrentModal} />
       )}
@@ -21,6 +21,6 @@ export default function Layout() {
       <Header setCurrentModal={setCurrentModal} />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 }
