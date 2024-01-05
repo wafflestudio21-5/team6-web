@@ -5,7 +5,7 @@ import {
   useSearchParams,
   useLocation,
 } from "react-router-dom";
-import { useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -13,21 +13,18 @@ export default function Header() {
   const query = searchParams.get("query");
   const location = useLocation();
 
-  const searchRef = useRef<HTMLInputElement>(null);
+  const [searchInput, setSearchInput] = useState("");
 
   const logined = true; //for test
   const transparent = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
 
   useEffect(() => {
-    if (!searchRef.current) return;
-    searchRef.current.value = query ? query : "";
+    setSearchInput(query ? query : "");
   }, [query]);
 
   const searchKeyDown = (e: React.KeyboardEvent) => {
-    if (!searchRef.current) return;
-    const searchText = searchRef.current.value;
-    if (e.key === "Enter" && searchText) {
-      navigate("/search?query=" + searchText);
+    if (e.key === "Enter" && searchInput) {
+      navigate("/search?query=" + searchInput);
     }
   };
 
@@ -56,8 +53,10 @@ export default function Header() {
                     autoComplete="off"
                     placeholder="콘텐츠, 인물, 유저를 검색해보세요."
                     type="text"
-                    defaultValue={query ? query : ""}
-                    ref={searchRef}
+                    value={searchInput}
+                    onChange={(e) => {
+                      setSearchInput(e.target.value);
+                    }}
                     onKeyDown={searchKeyDown}
                   />
                 </label>
