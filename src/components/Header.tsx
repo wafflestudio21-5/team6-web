@@ -20,7 +20,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
 
   const [searchInput, setSearchInput] = useState("");
 
-  const logined = true; //for test
+  const logined = false; //for test
   const transparent = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
 
   useEffect(() => {
