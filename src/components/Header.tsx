@@ -32,56 +32,58 @@ export default function Header() {
     <header
       className={styles.header + (transparent ? " " + styles.transparent : "")}
     >
-      <div className={styles.headerDiv}>
-        <ul>
-          <li className={styles.logoLi}>
-            <Link to="/">
-              <img
-                className={styles.logoImg}
-                src={
-                  "/src/assets/logo" + (transparent ? "_white" : "") + ".svg"
-                }
-                alt="왓챠피디아 로고"
-              />
-            </Link>
-          </li>
-          <li className={styles.searchLi}>
-            <div>
-              <div>
-                <label>
-                  <input
-                    autoComplete="off"
-                    placeholder="콘텐츠, 인물, 유저를 검색해보세요."
-                    type="text"
-                    value={searchInput}
-                    onChange={(e) => {
-                      setSearchInput(e.target.value);
-                    }}
-                    onKeyDown={searchKeyDown}
-                  />
-                </label>
-              </div>
-            </div>
-          </li>
-          {logined ? (
-            <li className={styles.myProfileLi}>
-              <Link to="/users/idididid">
-                <div>
-                  <img src="/src/assets/user_default.jpg" />
-                </div>
+      <div>
+        <div className={styles.headerDiv}>
+          <ul>
+            <li className={styles.logoLi}>
+              <Link to="/">
+                <img
+                  className={styles.logoImg}
+                  src={
+                    "/src/assets/logo" + (transparent ? "_white" : "") + ".svg"
+                  }
+                  alt="왓챠피디아 로고"
+                />
               </Link>
             </li>
-          ) : (
-            <>
-              <li className={styles.loginLi}>
-                <button className={styles.loginButton}>로그인</button>
+            <li className={styles.searchLi}>
+              <div>
+                <div>
+                  <label>
+                    <input
+                      autoComplete="off"
+                      placeholder="콘텐츠, 인물, 유저를 검색해보세요."
+                      type="text"
+                      value={searchInput}
+                      onChange={(e) => {
+                        setSearchInput(e.target.value);
+                      }}
+                      onKeyDown={searchKeyDown}
+                    />
+                  </label>
+                </div>
+              </div>
+            </li>
+            {logined ? (
+              <li className={styles.myProfileLi}>
+                <Link to="/users/idididid">
+                  <div>
+                    <img src="/src/assets/user_default.jpg" />
+                  </div>
+                </Link>
               </li>
-              <li className={styles.loginLi}>
-                <button className={styles.registerButton}>회원가입</button>
-              </li>
-            </>
-          )}
-        </ul>
+            ) : (
+              <>
+                <li className={styles.loginLi}>
+                  <button className={styles.loginButton}>로그인</button>
+                </li>
+                <li className={styles.loginLi}>
+                  <button className={styles.registerButton}>회원가입</button>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
       </div>
     </header>
   );
