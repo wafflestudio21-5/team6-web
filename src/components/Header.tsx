@@ -1,3 +1,4 @@
+import { CurrentModalType } from "../pages/Layout";
 import styles from "./Header.module.scss";
 import {
   Link,
@@ -7,7 +8,11 @@ import {
 } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-export default function Header() {
+type HeaderProps = {
+  setCurrentModal: (modal: CurrentModalType) => void;
+};
+
+export default function Header({ setCurrentModal }: HeaderProps) {
   const navigate = useNavigate();
   const searchParams = useSearchParams()[0];
   const query = searchParams.get("query");
@@ -15,7 +20,7 @@ export default function Header() {
 
   const [searchInput, setSearchInput] = useState("");
 
-  const logined = true; //for test
+  const logined = false; //for test
   const transparent = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
 
   useEffect(() => {
@@ -75,10 +80,24 @@ export default function Header() {
             ) : (
               <>
                 <li className={styles.loginLi}>
-                  <button className={styles.loginButton}>로그인</button>
+                  <button
+                    className={styles.loginButton}
+                    onClick={() => {
+                      setCurrentModal("login");
+                    }}
+                  >
+                    로그인
+                  </button>
                 </li>
                 <li className={styles.loginLi}>
-                  <button className={styles.registerButton}>회원가입</button>
+                  <button
+                    className={styles.registerButton}
+                    onClick={() => {
+                      setCurrentModal("signup");
+                    }}
+                  >
+                    회원가입
+                  </button>
                 </li>
               </>
             )}
