@@ -1,4 +1,6 @@
 import { CurrentModalType } from "../pages/Layout";
+import Logo from "../assets/logo.svg";
+import WhiteLogo from "../assets/logo_white.svg";
 import styles from "./Header.module.scss";
 import {
   Link,
@@ -44,9 +46,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
               <Link to="/">
                 <img
                   className={styles.logoImg}
-                  src={
-                    "/src/assets/logo" + (transparent ? "_white" : "") + ".svg"
-                  }
+                  src={transparent ? WhiteLogo : Logo}
                   alt="왓챠피디아 로고"
                 />
               </Link>
