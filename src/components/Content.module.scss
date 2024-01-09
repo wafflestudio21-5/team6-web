@@ -152,3 +152,70 @@
     border-bottom: solid 1px $light-gray;
   }
 }
+
+.castCon {
+  @include pageContainer;
+
+  h2 {
+    margin: 0;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    height: 228px;
+    margin: 4px 0 16px 0;
+    padding: 0;
+
+    li {
+      height: 76px;
+      width: 25%;
+      padding-right: 15px;
+      list-style-type: none;
+
+      @media (max-width: 1020px) {
+        width: 50%;
+      }
+      @media (max-width: 720px) {
+        width: 100%;
+      }
+    }
+  }
+  .castCard {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+
+    img {
+      width: 56px;
+      height: 56px;
+      border-radius: 5px;
+      margin-right: 12px;
+    }
+    .castDescCon {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+
+      .castName {
+        margin: 0;
+        color: $medium-black;
+        font-size: 17px;
+        font-weight: 400;
+      }
+      .castRole {
+        margin: 4px 0 0 0;
+        color: $medium-gray;
+        font-size: 14px;
+      }
+    }
+    .borderBottom {
+      border-bottom: solid 1px $extra-light-gray;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import styles from "./Content.module.scss";
 import { Carousel } from "./Carousel";
 import profileDefault from "../assets/user_default.jpg";
 import StarRating from "./StarRating";
+import { contentReviewMenu } from "../const";
 
 function ContentHeader() {
   // 임시
@@ -95,6 +96,49 @@ function ContentPanel() {
     </section>
   );
 }
+
+function ContentCast() {
+  // 임시
+  const cast = {
+    img: "https://an2-img.amz.wtchn.net/image/v2/MsLKK8t7W1kQuIr3SztdjQ.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk1qUXdlREkwTUNKZExDSndJam9pTDNZeEwzQmxiM0JzWlM5dFpXUnBkVzB2WWpKa016TTRZMll4TmpsbE5qSXpPRGsxTVdRdWFuQm5JbjAuVWJRSHJiR0d0Q2V3WjFvdlFPdEk1ZE5wUnppUHNoc2tCcDE0ZDJGQjhGTQ",
+    name: "크리스토퍼 놀란",
+    role: "출연",
+  };
+  const castList = [
+    { img: profileDefault, name: "크리스토퍼 놀란", role: "감독" },
+  ];
+  for (let i = 0; i < 23; i++) castList.push(cast);
+
+  return (
+    <section className={styles.castCon}>
+      <h2>출연/제작</h2>
+      <Carousel>
+        <ul>
+          {castList.map((cast, idx) => (
+            <li>
+              <a className={styles.castCard}>
+                <img src={cast.img} alt="" />
+                <div
+                  className={`${styles.castDescCon} ${
+                    idx % 3 !== 2 ? styles.borderBottom : ""
+                  }`}
+                >
+                  <h3 className={styles.castName}>{cast.name}</h3>
+                  <p className={styles.castRole}>{cast.role}</p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Carousel>
+    </section>
+  );
+}
+
+function ContentComments() {
+  return <div>comment</div>;
+}
+
 const Content = {
   Header: ContentHeader,
   Panel: ContentPanel,
