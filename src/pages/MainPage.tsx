@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getBoxofficeList } from "../apis/home";
-import { MovieType } from "../type";
+import { MovieType, TestType } from "../type";
+import { getTest } from "../apis/test";
+
 export default function MainPage() {
-  const [boxOfficeList, setBoxofficeList] = useState<MovieType[] | null>(null);
+  const [testData, setTestData] = useState<TestType | null>(null);
 
   useEffect(() => {
-    getBoxofficeList()
+    getTest()
       .then((data) => {
-        setBoxofficeList(data);
+        setTestData(data);
+        console.log(data);
       })
-      .catch((error) => {
-        alert(error.message);
+      .catch(() => {
+        alert("데이터를 불러오는데 실패했습니다.");
       });
   }, []);
 
