@@ -28,6 +28,7 @@
 }
 
 .panelBackground {
+  display: flex; // 자식의 width에 margin이 포함되어 계산
   margin-bottom: 60px;
   background-color: #f7f7f7;
 }
