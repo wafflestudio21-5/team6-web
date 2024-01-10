@@ -43,10 +43,15 @@
   font-weight: 500;
   color: $medium-gray;
 
-  img {
-    width: 280px;
-    height: 430px;
-    padding-bottom: 30px;
+  .imageCon {
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 280px;
+      height: 430px;
+      padding-bottom: 30px;
+    }
   }
   .reviewCon {
     width: 100%;

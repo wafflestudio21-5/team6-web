@@ -56,10 +56,10 @@ function ContentPanel() {
   return (
     <section className={styles.panelBackground}>
       <div className={styles.panelCon}>
-        <aside>
+        <div className={styles.imageCon}>
           <img src={content.posterSrc} alt="영화 포스터" />
           <div className={styles.ratingGraph}>평점 그래프</div>
-        </aside>
+        </div>
         <main className={styles.reviewCon}>
           <nav className={styles.reviewNav}>
             <div className={styles.userRatingCon}>
