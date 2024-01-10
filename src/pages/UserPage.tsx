@@ -1,12 +1,10 @@
-import { Link } from "react-router-dom";
+import styles from "./Userpage.module.scss";
+import User from "../components/User";
 
 export default function UserPage() {
   return (
-    <div>
-      <h1>유저 정보 페이지</h1>
-      <Link to={"contents"}>
-        <button>보관함</button>
-      </Link>
+    <div className={styles.background}>
+      <User />
     </div>
   );
 }
