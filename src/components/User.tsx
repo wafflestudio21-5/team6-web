@@ -2,18 +2,11 @@ import styles from "./User.module.scss";
 import { Link } from "react-router-dom";
 
 export default function User() {
-  const {
-    nickname,
-    identifier,
-    connect,
-    storage,
-    commentLikeCount,
-    evaluationCount,
-  } = {
+  const { nickname, identifier, connect, commentLikeCount, evaluationCount } = {
     nickname: "오수현 / 학생 / 컴퓨터공학부",
     identifier: "sh020119",
     connect: { followingCount: 100, followerCount: 20 },
-    storage: {},
+
     commentLikeCount: 3,
     evaluationCount: 4,
   };
