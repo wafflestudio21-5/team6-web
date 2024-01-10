@@ -51,7 +51,7 @@ function ContentPanel() {
     reviewedRating: 2.5,
   };
   // 추후에 hook으로 수정
-  const [rating, setRating] = useState(user.reviewedRating);
+  const [rating, setRating] = useState(2 * user.reviewedRating);
 
   return (
     <section className={styles.panelBackground}>
