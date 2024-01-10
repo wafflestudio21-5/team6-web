@@ -10,7 +10,7 @@ export default function ContentPage() {
       <Content.Header />
       <Content.Panel />
       <Content.Cast />
-      {/* <Content.Comments /> */}
+      <Content.Comments />
     </div>
   );
 }
