@@ -155,13 +155,15 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               type="button"
               disabled={!isAllInputsValid}
               onClick={() => {
-                console.log("회원가입");
+                alert("회원가입");
                 signupRequest("test", "test", "test")
                   .then((data) => {
+                    console.log("성공");
                     alert(data);
                   })
                   .catch((e) => {
-                    console.log(e);
+                    console.log("실패");
+                    console.log("e : ", e);
                     alert("회원가입에 실패했습니다.");
                   });
               }}

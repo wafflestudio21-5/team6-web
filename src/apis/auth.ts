@@ -1,12 +1,13 @@
 import { errorHandler } from "./custom";
 import { BASE_API_URL } from "./custom";
+
 export async function signupRequest(
   nickname: string,
   loginId: string,
   password: string,
 ) {
-  return fetch(`${BASE_API_URL}/auth/register`, {
-    method: "GET",
+  return fetch(`${BASE_API_URL}/auth/register/`, {
+    method: "POST",
     body: JSON.stringify({
       nickname,
       loginId,
