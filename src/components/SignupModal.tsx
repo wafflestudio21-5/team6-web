@@ -3,6 +3,7 @@ import validatePassword from "../utils/validatePassword";
 import Logo from "../assets/logo.svg";
 import styles from "./AuthModalStyle.module.scss";
 import { CurrentModalType } from "../pages/Layout";
+import { signupRequest } from "../apis/auth";
 
 type SignupModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -154,7 +155,15 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               type="button"
               disabled={!isAllInputsValid}
               onClick={() => {
-                // console.log("회원가입");
+                console.log("회원가입");
+                signupRequest("test", "test", "test")
+                  .then((data) => {
+                    alert(data);
+                  })
+                  .catch((e) => {
+                    console.log(e);
+                    alert("회원가입에 실패했습니다.");
+                  });
               }}
             >
               회원가입

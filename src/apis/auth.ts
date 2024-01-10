@@ -5,8 +5,8 @@ export async function signupRequest(
   loginId: string,
   password: string,
 ) {
-  return fetch(`${BASE_API_URL}/signup`, {
-    method: "POST",
+  return fetch(`${BASE_API_URL}/auth/register`, {
+    method: "GET",
     body: JSON.stringify({
       nickname,
       loginId,
