@@ -4,6 +4,7 @@ import Logo from "../assets/logo.svg";
 import styles from "./AuthModalStyle.module.scss";
 import { CurrentModalType } from "../pages/Layout";
 import { signupRequest } from "../apis/auth";
+import { BASE_API_URL } from "../apis/custom";
 
 type SignupModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -156,15 +157,12 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               disabled={!isAllInputsValid}
               onClick={() => {
                 alert("회원가입");
-                signupRequest("test", "test", "test")
+                signupRequest()
                   .then((data) => {
-                    console.log("성공");
-                    alert(data);
+                    console.log("data : ", data);
                   })
                   .catch((e) => {
-                    console.log("실패");
                     console.log("e : ", e);
-                    alert("회원가입에 실패했습니다.");
                   });
               }}
             >
@@ -186,7 +184,12 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
           </div>
           <ul className={styles.socialLoginButtonList}>
             <li>
-              <button className={styles.kakaoLoginButton}>
+              <button
+                className={styles.kakaoLoginButton}
+                onClick={() => {
+                  window.location.href = BASE_API_URL + "/auth/kakao/login/";
+                }}
+              >
                 <img
                   src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTIuMDM5NCAxOC4zQzE3LjAzMTggMTguMyAyMS4wNzg5IDE1LjA5ODggMjEuMDc4OSAxMS4xNUMyMS4wNzg5IDcuMjAxMTYgMTcuMDMxOCA0IDEyLjAzOTQgNEM3LjA0NzA5IDQgMyA3LjIwMTE2IDMgMTEuMTVDMyAxMy43MjQ5IDQuNzIwNzUgMTUuOTgxOSA3LjMwMjI5IDE3LjI0MDdDNy4wMzYwNyAxOC4zNTU0IDYuNTY4NTUgMjAuMzE5OCA2LjU1MTQ3IDIwLjQzODVDNi41Mjc1NCAyMC42MDQ4IDYuNzE5MjUgMjAuNzQwNiA2Ljg4NzU4IDIwLjYyNTFDNy4wMTA1IDIwLjU0MDggOS4yNTI5NSAxOS4wMTAyIDEwLjQ1NDEgMTguMTkwNEMxMC45Njg4IDE4LjI2MjQgMTEuNDk4NiAxOC4zIDEyLjAzOTQgMTguM1oiIGZpbGw9IiMzQzFFMUUiLz4KPC9zdmc+Cg=="
                   alt="kakaoLoginButton"
@@ -202,7 +205,12 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               </button>
             </li>
             <li>
-              <button className={styles.naverLoginButton}></button>
+              <button
+                className={styles.naverLoginButton}
+                onClick={() => {
+                  window.location.href = BASE_API_URL + "/auth/naver/login/";
+                }}
+              ></button>
             </li>
           </ul>
         </section>

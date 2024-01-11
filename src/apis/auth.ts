@@ -1,25 +1,31 @@
 import { errorHandler } from "./custom";
 import { BASE_API_URL } from "./custom";
 
-export async function signupRequest(
-  nickname: string,
-  loginId: string,
-  password: string,
-) {
+export async function signupRequest() {
   return fetch(`${BASE_API_URL}/auth/register/`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
-      nickname,
-      loginId,
-      password,
+      username: "test",
+      email: "test",
+      password1: "test",
+      password2: "test",
     }),
   }).then(errorHandler);
 }
 
 // 나중에 제너릭 사용해야 함
-export async function loginRequest(loginId: string, password: string) {
-  return fetch(`${BASE_API_URL}/login`, {
+export async function loginRequest() {
+  return fetch(`${BASE_API_URL}/auth/token/`, {
     method: "POST",
-    body: JSON.stringify({ loginId, password }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: "test",
+      password: "test",
+    }),
   }).then(errorHandler);
 }
