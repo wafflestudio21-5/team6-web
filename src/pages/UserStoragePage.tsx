@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 
-export default function StoragePage() {
+export default function UserStoragePage() {
   const { id } = useParams();
 
   return (
