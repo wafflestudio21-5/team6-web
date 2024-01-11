@@ -1,6 +1,7 @@
 import { CurrentModalType } from "../pages/Layout";
 import Logo from "../assets/logo.svg";
 import WhiteLogo from "../assets/logo_white.svg";
+import UserImage from "../assets/user_default.jpg";
 import styles from "./Header.module.scss";
 import {
   Link,
@@ -23,7 +24,23 @@ export default function Header({ setCurrentModal }: HeaderProps) {
   const [searchInput, setSearchInput] = useState("");
 
   const logined = true; //for test
-  const transparent = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
+  const inContentPage = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
+  const [isScrollTop, setIsScrollTop] = useState(true);
+
+  const handleScroll = () => {
+    if (window.scrollY) {
+      setIsScrollTop(false);
+    } else {
+      setIsScrollTop(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
 
   useEffect(() => {
     setSearchInput(query ? query : "");
@@ -37,7 +54,10 @@ export default function Header({ setCurrentModal }: HeaderProps) {
 
   return (
     <header
-      className={styles.header + (transparent ? " " + styles.transparent : "")}
+      className={
+        styles.header +
+        (inContentPage && isScrollTop ? " " + styles.transparent : "")
+      }
     >
       <div>
         <div className={styles.headerDiv}>
@@ -46,7 +66,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
               <Link to="/">
                 <img
                   className={styles.logoImg}
-                  src={transparent ? WhiteLogo : Logo}
+                  src={inContentPage && isScrollTop ? WhiteLogo : Logo}
                   alt="왓챠피디아 로고"
                 />
               </Link>
@@ -73,7 +93,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
               <li className={styles.myProfileLi}>
                 <Link to="/users/idididid">
                   <div>
-                    <img src="/src/assets/user_default.jpg" />
+                    <img src={UserImage} />
                   </div>
                 </Link>
               </li>
