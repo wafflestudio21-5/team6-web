@@ -44,29 +44,67 @@
   font-weight: 500;
   color: $medium-gray;
 
+  @media (max-width: $small-screen) {
+    flex-direction: column-reverse;
+  }
+
   .imageCon {
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     img {
       width: 280px;
-      height: 430px;
-      padding-bottom: 30px;
+      height: 400px;
+      margin-bottom: 30px;
+      transition: width 0.3s, height 0.3s;
+
+      @media (max-width: #{$medium-screen + 100}) {
+        width: 200px;
+        height: 280px;
+      }
+      @media (max-width: $small-screen) {
+        width: 280px;
+        height: 400px;
+      }
     }
   }
   .reviewCon {
     width: 100%;
     margin-left: 32px;
 
+    @media (max-width: $small-screen) {
+      margin-left: 0;
+    }
+
     .reviewNav {
-      display: flex;
-      height: 100px;
+      display: grid;
       justify-content: space-between;
+      justify-items: center;
       align-items: center;
-      border-bottom: solid 1px $light-gray;
+      row-gap: 20px;
+      grid-template:
+        "starRating avgRating menu"
+        / auto auto auto;
       padding-bottom: 10px;
 
+      @media (max-width: #{$max-screen + 120}) {
+        grid-template:
+          "starRating avgRating"
+          "menu menu"
+          / 1fr 1fr;
+        padding-bottom: 20px;
+      }
+      @media (max-width: $small-screen) {
+        grid-template:
+          "starRating"
+          "avgRating"
+          "menu"
+          / 1fr;
+      }
+
       .userRatingCon {
+        grid-area: starRating;
         display: flex;
         flex-direction: column;
         width: 220px;
@@ -79,9 +117,16 @@
         }
       }
       .avgRatingCon {
+        grid-area: avgRating;
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
+
+        @media (max-width: $small-screen) {
+          border-top: solid 1px $light-gray;
+          padding-top: 20px;
+        }
 
         .avgRatingDigit {
           margin-bottom: 8px;
@@ -92,9 +137,17 @@
         }
       }
       .reviewMenuCon {
+        grid-area: menu;
         display: flex;
+        justify-content: space-around;
+        width: 100%;
         margin: 0;
         padding: 0;
+
+        @media (max-width: #{$max-screen + 120}) {
+          border-top: solid 1px $light-gray;
+          padding-top: 20px;
+        }
 
         li {
           display: flex;
