@@ -1,9 +1,15 @@
+import styles from "./Footer.module.scss";
+
 export default function Footer() {
+  const comments = 999999999;
   return (
-    <div>
-      <footer>
-        <h2>지금까지 999,999,999개의 평가가 쌓였어요</h2>
-      </footer>
-    </div>
+    <footer>
+      <section className={styles.commentNumber}>
+        <span>
+          지금까지 <em>★{comments.toLocaleString("ko-KR")} 개의</em> 평가가
+          쌓였어요.
+        </span>
+      </section>
+    </footer>
   );
 }
