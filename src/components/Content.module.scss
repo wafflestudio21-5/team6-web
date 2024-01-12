@@ -30,7 +30,7 @@
 
 .panelBackground {
   display: flex; // 자식의 width에 margin이 포함되어 계산
-  margin-bottom: 60px;
+  margin: 0 0 60px 0;
   background-color: #f7f7f7;
 }
 .panelCon {
