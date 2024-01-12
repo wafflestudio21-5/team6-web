@@ -1,8 +1,11 @@
 footer {
   width: 100%;
 
-  .commentNumber {
+  section {
     margin: 0;
+  }
+
+  .commentNumber {
     background-color: #101113;
     line-height: 62px;
     height: 62px;
@@ -19,6 +22,59 @@ footer {
       em {
         color: #ff0558;
         font-style: normal;
+      }
+    }
+  }
+
+  .companyInfo {
+    padding: 20px 0 38px;
+    background-color: #1c1d1f;
+
+    .companyInfoDiv {
+      margin: 0 20px;
+      display: flex;
+
+      @media (min-width: 760px) {
+        margin: 0 3.5%;
+      }
+
+      @media (min-width: 1100px) {
+        margin: 0 60px;
+      }
+
+      @media (min-width: 1440px) {
+        margin: 0 auto;
+      }
+
+      .footerLeft {
+        flex: 1;
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: -0.3px;
+        line-height: 22px;
+
+        .clubIntro a {
+          color: #a5a5a7;
+        }
+
+        .teamInfo {
+          color: #848485;
+          margin-top: 13px;
+        }
+      }
+
+      .footerRight {
+        margin-top: 35px;
+        display: flex;
+
+        .blank {
+          width: 8px;
+        }
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
   }
