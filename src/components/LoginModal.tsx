@@ -2,7 +2,7 @@ import { useState } from "react";
 import Logo from "../assets/logo.svg";
 import styles from "./AuthModalStyle.module.scss";
 import { CurrentModalType } from "../pages/Layout";
-import { loginRequest } from "../apis/auth";
+import { loginRequest, naverLoginRequest } from "../apis/auth";
 import { BASE_API_URL } from "../apis/custom";
 
 type LoginModalProps = {
@@ -118,11 +118,14 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
               disabled={!isAllInputsValid}
               onClick={() => {
                 loginRequest()
+                  .then((res) => {
+                    return res.json();
+                  })
                   .then((d) => {
-                    console.log("data : ", d);
+                    console.log(d);
                   })
                   .catch((e) => {
-                    console.log("error : ", e);
+                    console.log(e);
                   });
               }}
             >
@@ -168,7 +171,8 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
               <button
                 className={styles.naverLoginButton}
                 onClick={() => {
-                  window.location.href = BASE_API_URL + "/auth/naver/login/";
+                  naverLoginRequest();
+                  // window.location.href = BASE_API_URL + "/auth/naver/login/";
                 }}
               ></button>
             </li>
