@@ -5,6 +5,7 @@
   align-items: flex-end;
   width: 100%;
   height: 550px;
+  margin: 0;
 }
 .headerCon {
   @include pageContainer;
@@ -29,7 +30,7 @@
 
 .panelBackground {
   display: flex; // 자식의 width에 margin이 포함되어 계산
-  margin-bottom: 60px;
+  margin: 0 0 60px 0;
   background-color: #f7f7f7;
 }
 .panelCon {
@@ -43,29 +44,67 @@
   font-weight: 500;
   color: $medium-gray;
 
+  @media (max-width: $small-screen) {
+    flex-direction: column-reverse;
+  }
+
   .imageCon {
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     img {
       width: 280px;
-      height: 430px;
-      padding-bottom: 30px;
+      height: 400px;
+      margin-bottom: 30px;
+      transition: width 0.3s, height 0.3s;
+
+      @media (max-width: #{$medium-screen + 100}) {
+        width: 200px;
+        height: 280px;
+      }
+      @media (max-width: $small-screen) {
+        width: 280px;
+        height: 400px;
+      }
     }
   }
   .reviewCon {
     width: 100%;
     margin-left: 32px;
 
+    @media (max-width: $small-screen) {
+      margin-left: 0;
+    }
+
     .reviewNav {
-      display: flex;
-      height: 100px;
+      display: grid;
       justify-content: space-between;
+      justify-items: center;
       align-items: center;
-      border-bottom: solid 1px $light-gray;
+      row-gap: 20px;
+      grid-template:
+        "starRating avgRating menu"
+        / auto auto auto;
       padding-bottom: 10px;
 
+      @media (max-width: #{$max-screen + 120}) {
+        grid-template:
+          "starRating avgRating"
+          "menu menu"
+          / 1fr 1fr;
+        padding-bottom: 20px;
+      }
+      @media (max-width: $small-screen) {
+        grid-template:
+          "starRating"
+          "avgRating"
+          "menu"
+          / 1fr;
+      }
+
       .userRatingCon {
+        grid-area: starRating;
         display: flex;
         flex-direction: column;
         width: 220px;
@@ -78,9 +117,16 @@
         }
       }
       .avgRatingCon {
+        grid-area: avgRating;
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
+
+        @media (max-width: $small-screen) {
+          border-top: solid 1px $light-gray;
+          padding-top: 20px;
+        }
 
         .avgRatingDigit {
           margin-bottom: 8px;
@@ -91,9 +137,17 @@
         }
       }
       .reviewMenuCon {
+        grid-area: menu;
         display: flex;
+        justify-content: space-around;
+        width: 100%;
         margin: 0;
         padding: 0;
+
+        @media (max-width: #{$max-screen + 120}) {
+          border-top: solid 1px $light-gray;
+          padding-top: 20px;
+        }
 
         li {
           display: flex;
@@ -128,34 +182,117 @@
         }
       }
     }
+    .userCommentCon {
+      width: 100%;
+      border-top: 1px solid $light-gray;
+      padding: 20px 0;
 
-    // .userCommentCon {
-    //   display: flex;
-    //   align-items: center;
-    //   width: 100%;
-    //   height: 64px;
-    //   margin: 20px 0;
-    //   border: solid 1px $light-gray;
-    //   border-radius: 6px;
-    //   padding: 12px 0;
-    //   background-color: $white;
+      h3 {
+        margin-bottom: 10px;
+        line-height: 12px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .userCommentBox {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        border: solid 1px $light-gray;
+        border-radius: 6px;
+        padding: 12px 20px;
+        background-color: $white;
 
-    //   .userCommentBox {
-    //     margin: 0 20px;
-    //   }
-    // }
+        @media (max-width: $small-screen) {
+          flex-direction: column;
+        }
+
+        .userCommentText {
+          width: 100%;
+          margin-right: 20px;
+          line-height: 20px;
+          font-size: 15px;
+          font-weight: 400;
+          color: $light-black;
+
+          @media (max-width: $small-screen) {
+            text-align: center;
+          }
+        }
+        .commentCreateBtn {
+          width: 256px;
+          height: 40px;
+          border: 1px solid $light-gray;
+          border-radius: 6px;
+          background-color: inherit;
+          font-size: 17px;
+          font-weight: 500;
+          text-align: center;
+          color: $dark-black;
+          cursor: pointer;
+
+          @media (max-width: $small-screen) {
+            margin-top: 10px;
+          }
+        }
+        .userImage {
+          width: 56px;
+          height: 56px;
+          margin-right: 20px;
+          border: 1px solid $extra-light-gray;
+          border-radius: 50%;
+
+          @media (max-width: $small-screen) {
+            margin-bottom: 10px;
+          }
+        }
+        .commentBtnBox {
+          display: flex;
+          align-items: center;
+
+          button {
+            display: flex;
+            align-items: center;
+            border-style: none;
+            padding: 16px 0 13px 0;
+            line-height: 16px;
+            font-size: 12px;
+            font-weight: 400;
+            color: $medium-gray;
+            background-color: inherit;
+            white-space: nowrap;
+            cursor: pointer;
+
+            img {
+              width: 18px;
+              height: 18px;
+              margin-right: 4px;
+            }
+          }
+          .virtualLineBox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 40px;
+            height: 100%;
+            .virtualLine {
+              width: 1px;
+              height: 8px;
+              background-color: $medium-gray;
+            }
+          }
+        }
+      }
+    }
     .overviewBox {
       min-height: 150px;
-      margin: 20px 0;
-
+      padding: 20px 0;
+      border-top: solid 1px $light-gray;
       line-height: 22px;
       font-size: 14px;
       white-space: pre-line;
     }
-  }
-
-  .borderBottom {
-    border-bottom: solid 1px $light-gray;
   }
 }
 
