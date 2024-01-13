@@ -30,8 +30,8 @@ export default function User() {
   const pageMode: "myPage" | "otherPage" | "notLoggedIn" = !myData
     ? "notLoggedIn"
     : id === myData.id
-    ? "myPage"
-    : "otherPage";
+      ? "myPage"
+      : "otherPage";
 
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
