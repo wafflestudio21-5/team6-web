@@ -158,6 +158,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               disabled={!isAllInputsValid}
               onClick={() => {
                 alert("회원가입");
+                console.log(document.cookie);
                 getTest()
                   .then((res) => {
                     return res.json();

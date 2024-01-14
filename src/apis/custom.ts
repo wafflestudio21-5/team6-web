@@ -1,5 +1,4 @@
-export const BASE_API_URL =
-  "https://wafflepedia-env.eba-wjpwvtcu.ap-northeast-2.elasticbeanstalk.com";
+export const BASE_API_URL = "https://wafflepedia.xyz";
 
 export function errorHandler(res: Response) {
   if (!res.ok) {

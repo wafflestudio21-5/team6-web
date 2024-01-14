@@ -17,12 +17,14 @@ export async function signupRequest() {
 
   return fetch(`${BASE_API_URL}/auth/register/`, {
     method: "POST",
+
     headers: {
       "Content-Type": "application/json",
-      //  "Content-Type": "application/x-www-form-urlencoded",
+      credentials: "include",
     },
     body: jsondata,
   }).then();
+  // Authorization , credentials, Content-Type
 }
 
 export async function naverLoginRequest() {
@@ -36,6 +38,7 @@ export async function loginRequest() {
   return fetch(`${BASE_API_URL}/auth/token/`, {
     method: "POST",
     headers: {
+      //  credentials: "include",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
