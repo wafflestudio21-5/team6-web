@@ -35,15 +35,17 @@ export async function naverLoginRequest() {
 
 // 나중에 제너릭 사용해야 함
 export async function loginRequest() {
-  return fetch(`${BASE_API_URL}/auth/token/`, {
+  return fetch("https://wafflepedia.xyz/auth/token/", {
     method: "POST",
     headers: {
-      //  credentials: "include",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       username: "sh020119",
       password: "dhtngus1!1!",
     }),
-  }).then();
+    //  credentials: "include",
+  });
 }
+
+///
