@@ -48,6 +48,7 @@ function ContentPanel() {
   const user = {
     name: "WOOJIN",
     reviewedRating: 2.5,
+    comment: "오펜하이머는 얼마나 좋았을까...",
   };
   // 추후에 hook으로 수정
   const [rating, setRating] = useState(2 * user.reviewedRating);
@@ -100,13 +101,34 @@ function ContentPanel() {
               </li>
             </ul>
           </nav>
-          {/* <div className={styles.borderBottom}>
-            <div className={styles.userCommentCon}>
-              <div className={styles.userCommentBox}>
+          <div className={styles.userCommentCon}>
+            <div className={styles.userCommentBox}>
+              <div className={styles.userCommentText}>
                 대단한 작품이군요! {user.name} 님의 감동을 글로 남겨보세요
               </div>
+              <button className={styles.commentCreateBtn}>코멘트 남기기</button>
             </div>
-          </div> */}
+          </div>
+          <div className={styles.userCommentCon}>
+            <h3>내가 쓴 코멘트</h3>
+            <div className={styles.userCommentBox}>
+              <img className={styles.userImage} src={profileDefault} alt="" />
+              <a className={styles.userCommentText}>{user.comment}</a>
+              <div className={styles.commentBtnBox}>
+                <button>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0iI0EwQTBBMCIgZD0iTTUuMjUgMTQuMjVoNy41di03LjVoMS41VjE1YS43NS43NSAwIDAgMS0uNzUuNzVoLTlhLjc1Ljc1IDAgMCAxLS43NS0uNzVWNi43NWgxLjV2Ny41ek0xMiA0LjVoMy43NVY2SDIuMjVWNC41SDZWM2EuNzUuNzUgMCAwIDEgLjc1LS43NWg0LjVBLjc1Ljc1IDAgMCAxIDEyIDN2MS41em0tMS41IDB2LS43NWgtM3YuNzVoM3pNNi43NSA2Ljc1aDEuNXY2Ljc1aC0xLjVWNi43NXptMyAwaDEuNXY2Ljc1aC0xLjVWNi43NXoiLz4KICAgIDwvZz4KPC9zdmc+Cg==" />
+                  수정
+                </button>
+                <div className={styles.virtualLineBox}>
+                  <div className={styles.virtualLine}></div>
+                </div>
+                <button>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0iI0EwQTBBMCIgZD0iTTIuMTggMTUuMzlsLjcwMy0zLjk4IDMuNzEzIDMuNzEyLTMuOTgxLjcwMmEuMzc0LjM3NCAwIDAgMS0uNDM0LS40MzR6bTEuNDk4LTQuNzc2bDYuMzY0LTYuMzY0IDMuNzEzIDMuNzEyLTYuMzY0IDYuMzY0LTMuNzEzLTMuNzEyek0xNS42MDcgNS4wNGEuNzUuNzUgMCAwIDEgMCAxLjA2bC0xLjA2IDEuMDYxLTMuNzEzLTMuNzEyIDEuMDYtMS4wNmEuNzUuNzUgMCAwIDEgMS4wNiAwbDIuNjUzIDIuNjUxeiIvPgogICAgPC9nPgo8L3N2Zz4K" />
+                  삭제
+                </button>
+              </div>
+            </div>
+          </div>
           <div className={styles.overviewBox}>{content.overView}</div>
         </main>
       </div>
@@ -171,7 +193,7 @@ function ContentComments() {
   };
   const comments = [];
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 8; i++) {
     comments.push(comment);
   }
   return (

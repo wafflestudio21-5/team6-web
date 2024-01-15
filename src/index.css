@@ -21,3 +21,7 @@ button {
 input {
   font-family: inherit;
 }
+
+a {
+  text-decoration: none;
+}
