@@ -67,7 +67,21 @@ function CommentHeader({
             <div className={styles.date}>{elapsedTime(date)}</div>
           </div>
         </Link>
-        {rating}
+        <Link to="/contents/idididid">
+          <div className={styles.movieName}>{movie.name}</div>
+          <div className={styles.releaseYear}>영화 · {movie.releaseYear}</div>
+        </Link>
+        <div className={styles.ratingDiv}>
+          <div className={styles.rating}>
+            <img
+              width="16px"
+              height="16px"
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGZpbGw9IiM0QTRBNEEiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEyIDE3Ljk4bC02LjAxNSA0LjM5MmMtLjUwOC4zNzItMS4xOTQtLjEyNi0uOTk4LS43MjVsMi4zMTctNy4wODEtNi4wMzUtNC4zNjdjLS41MS0uMzY5LS4yNDctMS4xNzUuMzgyLTEuMTc0bDcuNDQ3LjAxNiAyLjI4Ni03LjA5MWMuMTkyLS42IDEuMDQtLjYgMS4yMzMgMGwyLjI4NiA3LjA5IDcuNDQ3LS4wMTVjLjYyOS0uMDAxLjg5LjgwNS4zOCAxLjE3NGwtNi4wMzMgNC4zNjcgMi4zMTYgNy4wOGMuMTk2LjYtLjQ5IDEuMDk4LS45OTkuNzI2TDEyIDE3Ljk4eiIvPgo8L3N2Zz4K"
+              alt="star"
+            />
+            <span className={styles.ratingText}>{rating.toFixed(1)}</span>
+          </div>
+        </div>
       </div>
       <Link to="/contents/idididid" title={movie.name}>
         <div className={styles.poster}>
@@ -91,7 +105,8 @@ function CommentLikeReply({
 }) {
   return (
     <div className={styles.commentLikeReply}>
-      좋아요 {likes} 댓글 {replies}
+      <span className={styles.likes}>좋아요 {likes}</span>
+      <span>댓글 {replies}</span>
     </div>
   );
 }
