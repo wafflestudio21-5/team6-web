@@ -14,6 +14,7 @@ import UserRatingsPage from "./pages/UserRatingsPage.tsx";
 import UserCommentsPage from "./pages/UserCommentsPage.tsx";
 import UserFollowersPage from "./pages/UserFollowersPage.tsx";
 import UserFollowingsPage from "./pages/UserFollowingsPage.tsx";
+import AuthCallBackKakaoPage from "./pages/AuthCallBackKakaoPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
         path: "/search",
         element: <SearchPage />,
       },
+      { path: "/auth/callback/kakao", element: <AuthCallBackKakaoPage /> },
     ],
   },
 ]);

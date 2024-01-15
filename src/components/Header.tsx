@@ -23,7 +23,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
 
   const [searchInput, setSearchInput] = useState("");
 
-  const logined = true; //for test
+  const [logined, setLogined] = useState(false); //for test
   const inContentPage = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
   const [isScrollTop, setIsScrollTop] = useState(true);
 
@@ -52,12 +52,6 @@ export default function Header({ setCurrentModal }: HeaderProps) {
     }
   };
 
-  const jsonData = {
-    username: "frontTestId2",
-    password: "frontpass123",
-    password2: "frontpass123",
-  };
-
   return (
     <header
       className={
@@ -65,35 +59,6 @@ export default function Header({ setCurrentModal }: HeaderProps) {
         (inContentPage && isScrollTop ? " " + styles.transparent : "")
       }
     >
-      <button
-        onClick={() => {
-          fetch("https://wafflepedia.xyz/auth/token/", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(jsonData),
-            credentials: "include",
-          })
-            .then((response) => {
-              if (!response.ok) {
-                console.log(response.status);
-                // throw new Error(
-                //   `Network response was not ok: ${response.status}`,
-                // );
-              }
-              return response.json(); // JSON 형식으로 파싱
-            })
-            .then((data) => {
-              console.log("Response body:", data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }}
-      >
-        api연결
-      </button>
       <div>
         <div className={styles.headerDiv}>
           <ul>
@@ -124,6 +89,13 @@ export default function Header({ setCurrentModal }: HeaderProps) {
                 </div>
               </div>
             </li>
+            <button
+              onClick={() => {
+                setLogined(!logined);
+              }}
+            >
+              로그인 여부 토글(ui 변경)
+            </button>
             {logined ? (
               <li className={styles.myProfileLi}>
                 <Link to="/users/idididid">

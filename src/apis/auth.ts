@@ -1,41 +1,23 @@
-import { BASE_API_URL } from "./custom";
+import { BASE_API_URL } from "./const";
 
-const testInfo1 = {
-  username: "sh020119",
-  password1: "dhtngus1!1!",
-  password2: "dhtngus1!1!",
-};
-/*
-const testInfo2 = {
-  username: "오수현",
-  password1: "suhyeon1234!4",
-  password2: "suhyeon1234!4",
-};*/
-
-export async function signupRequest() {
-  const jsondata = JSON.stringify(testInfo1);
-
+export async function signupRequest(
+  nickname: string,
+  username: string,
+  password1: string,
+  password2: string,
+) {
   return fetch(`${BASE_API_URL}/auth/register/`, {
     method: "POST",
-
     headers: {
       "Content-Type": "application/json",
-      credentials: "include",
     },
-    body: jsondata,
-  }).then();
-  // Authorization , credentials, Content-Type
+    body: JSON.stringify({ nickname, username, password1, password2 }),
+  });
 }
 
-export async function naverLoginRequest() {
-  return fetch(`${BASE_API_URL}/auth/naver/login/`, {
-    method: "GET",
-  }).then((res) => console.log(res));
-}
-
-// 나중에 제너릭 사용해야 함
+// get access token && refresh token
 export async function loginRequest() {
-  return fetch("https://wafflepedia.xyz/auth/token/", {
+  return fetch(`${BASE_API_URL}/auth/token/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -48,4 +30,4 @@ export async function loginRequest() {
   });
 }
 
-///
+export async function logoutRequest() {}
