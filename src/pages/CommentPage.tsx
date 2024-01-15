@@ -19,9 +19,16 @@ export default function CommentPage() {
     자기 이야기가 영화로 만들어진다니.
     로버트는 얼마나 좋았을까.
         `,
-    likes: 1000,
+    likes: 200,
     liked: false,
-    replies: [],
+    replyNumber: 1000,
+    replies: new Array(9).fill({
+      userName: "J. Robert Oppenheimer",
+      date: new Date("2024-01-15 10:00"),
+      content: "I felt good.",
+      likes: 100,
+      liked: false,
+    }),
   };
 
   return (
