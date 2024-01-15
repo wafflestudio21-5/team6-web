@@ -8,6 +8,9 @@
   left: 0px;
   z-index: 51;
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.08);
+  background: #fff;
+  transition: background-color 200ms ease 0s;
+
   div {
     margin: 0 auto;
     max-width: $max-screen + 40px;
@@ -145,7 +148,7 @@
   box-shadow: none;
   background: transparent;
 
-  div {
+  div div {
     ul {
       .searchLi {
         label {
@@ -155,6 +158,15 @@
           input {
             color: rgb(255, 255, 255);
             caret-color: rgba(255, 255, 255, 0.7);
+          }
+          input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+          }
+          input::-webkit-input-placeholder {
+            color: rgba(255, 255, 255, 0.7);
+          }
+          input:-ms-input-placeholder {
+            color: rgba(255, 255, 255, 0.7);
           }
         }
       }

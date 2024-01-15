@@ -15,3 +15,22 @@ $light-pink: #ffacbb;
 $orange: #f88b08;
 
 $max-screen: 1320px;
+$medium-screen: 1000px;
+$small-screen: 680px;
+
+@mixin pageContainer {
+  max-width: $max-screen;
+  margin: 0 auto;
+
+  @media (max-width: #{$max-screen + 120}) {
+    margin: 0 60px;
+  }
+  @media (max-width: #{$medium-screen + 100}) {
+    max-width: $medium-screen;
+    margin: 0 auto;
+  }
+  @media (max-width: #{$medium-screen + 40}) {
+    max-width: $medium-screen;
+    margin: 0 20px;
+  }
+}
