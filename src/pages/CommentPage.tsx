@@ -13,11 +13,14 @@ export default function CommentPage() {
       rating: 4.0,
     },
     rating: 4.5,
+    date: new Date("2024-01-15 12:00"),
     content: `줄리어스 로버트 오펜하이머..
     줄리어스 로버트 오펜하이머..
     자기 이야기가 영화로 만들어진다니.
     로버트는 얼마나 좋았을까.
         `,
+    likes: 1000,
+    replies: [],
   };
 
   return (
