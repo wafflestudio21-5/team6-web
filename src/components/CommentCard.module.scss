@@ -1,0 +1,96 @@
+@import "../utils/common.module.scss";
+
+.cardCon {
+  min-width: 100%;
+  border-radius: 6px;
+  padding: 0 12px;
+  background-color: $extra-light-gray;
+  list-style-type: none;
+
+  .commentHead {
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 1px #e5e5e5;
+
+    .userBox {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      font-size: 17px;
+      font-weight: 400;
+      cursor: pointer;
+
+      img {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+        border: solid 1px $light-gray;
+        border-radius: 50%;
+      }
+    }
+    .reviewRating {
+      display: flex;
+      align-items: center;
+      border: solid 1px $light-gray;
+      border-radius: 16px;
+      padding: 0 8px;
+      height: 26px;
+      font-size: 14px;
+      font-weight: 400;
+      color: $light-black;
+      background-color: $white;
+
+      svg {
+        margin-right: 3px;
+        fill: $light-black;
+      }
+    }
+  }
+  .commentTextBox {
+    width: 100%;
+    height: 120px;
+    margin: 12px 0 15px 0;
+
+    .commentText {
+      display: block;
+      line-height: 24px;
+      font-size: 14px;
+      font-weight: 400;
+      word-break: break-all;
+      white-space-collapse: preserve;
+      cursor: pointer;
+    }
+  }
+  .commentFeedbackCon {
+    display: flex;
+    align-items: center;
+    height: 46px;
+    border-bottom: solid 1px #e5e5e5;
+    border-top: solid 1px #e5e5e5;
+    font-size: 14px;
+    font-weight: 400;
+    color: $medium-gray;
+
+    img {
+      width: 18px;
+      height: 18px;
+      margin: 0 3px;
+    }
+  }
+  .commentLikeBtnBox {
+    width: 100%;
+    padding: 10px 0;
+    button {
+      margin-left: -4px;
+      border-style: none;
+      padding: 2px 8px;
+      line-height: 22px;
+      font-size: 17px;
+      font-weight: 400;
+      color: $pink;
+      cursor: pointer;
+    }
+  }
+}
