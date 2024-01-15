@@ -127,4 +127,74 @@
       margin-right: 18px;
     }
   }
+
+  .likeReplyBar {
+    margin: 0;
+
+    hr {
+      border: 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .likeReplyGrid {
+      margin: 0 20px;
+      display: grid;
+      position: relative;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 1px;
+      height: 43px;
+
+      button {
+        background: none;
+        padding: 0;
+        border: none;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #67686a;
+        font-size: 15px;
+        letter-spacing: -0.3px;
+        line-height: 18px;
+        border-radius: 5px;
+        margin: 3px;
+        cursor: pointer;
+        transition: all 70ms linear 0s;
+      }
+
+      button:hover {
+        background-color: rgba(41, 42, 50, 0.08);
+        color: rgba(41, 42, 50, 1);
+        svg :not([fill="none"]) {
+          fill: rgba(41, 42, 50, 1);
+        }
+      }
+
+      .likeButton::after {
+        content: "";
+        position: absolute;
+        right: -4px;
+        background: #f0f0f0;
+        width: 1px;
+        height: 14px;
+      }
+
+      .likeButtonLiked {
+        color: rgb(255, 47, 110);
+        .likeSvg {
+          color: rgb(255, 47, 110);
+        }
+      }
+
+      .fillTarget {
+        transition: all 70ms linear 0s;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+      }
+    }
+  }
 }

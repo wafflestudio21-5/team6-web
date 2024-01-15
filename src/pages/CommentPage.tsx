@@ -20,6 +20,7 @@ export default function CommentPage() {
     로버트는 얼마나 좋았을까.
         `,
     likes: 1000,
+    liked: false,
     replies: [],
   };
 
