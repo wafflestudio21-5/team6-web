@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Content.module.scss";
 import { Carousel } from "./Carousel";
 import profileDefault from "../assets/user_default.jpg";
@@ -225,7 +226,9 @@ function ContentComments() {
                 </div>
               </div>
               <div className={styles.commentTextBox}>
-                <a className={styles.commentText}>{comment.text}</a>
+                <Link to="/comments/idididid" className={styles.commentText}>
+                  {comment.text}
+                </Link>
               </div>
               <div className={styles.commentFeedbackCon}>
                 <img
