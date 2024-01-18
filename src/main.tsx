@@ -15,7 +15,7 @@ import UserCommentsPage from "./pages/UserCommentsPage.tsx";
 import UserFollowersPage from "./pages/UserFollowersPage.tsx";
 import UserFollowingsPage from "./pages/UserFollowingsPage.tsx";
 import AuthCallBackKakaoPage from "./pages/AuthCallBackKakaoPage.tsx";
-
+import { AuthContextProvider } from "./contexts/authContext.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -76,5 +76,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />,
+  <AuthContextProvider>
+    <RouterProvider router={router} />,
+  </AuthContextProvider>,
 );

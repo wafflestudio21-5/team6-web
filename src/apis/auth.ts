@@ -15,18 +15,33 @@ export async function signupRequest(
   });
 }
 
-// get access token && refresh token
-export async function loginRequest() {
+export async function loginRequest(username: string, password: string) {
   return fetch(`${BASE_API_URL}/auth/token/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      username: "sh020119",
-      password: "dhtngus1!1!",
+      username,
+      password,
     }),
-    //  credentials: "include",
+  });
+}
+
+// 리프레시 토큰 및 엑세스 토큰을 갱신. 자동로그인을 위해 사용
+export async function newTokenRequest() {
+  return fetch(`${BASE_API_URL}/auth/token/refresh/new/`, {
+    method: "POST",
+    credentials: "include",
+  });
+}
+
+export async function myUserDataRequest(accessToken: string) {
+  return fetch(`${BASE_API_URL}/users/mypage/`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   });
 }
 

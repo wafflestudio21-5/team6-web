@@ -13,6 +13,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
   const [nameInput, setNameInput] = useState("");
   const [idInput, setIdInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+
   const error = {
     name:
       nameInput.length < 2 || nameInput.length > 20 || nameInput.includes(" ")
@@ -155,11 +156,10 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               type="button"
               disabled={!isAllInputsValid}
               onClick={() => {
-                signupRequest()
+                signupRequest(nameInput, idInput, passwordInput, passwordInput) // 서버 쪽에는 두 개의 패스워드 입력 받기로 되어 있으나 일단 원래 서비스 처럼 구현
                   .then((res) => {
                     if (!res.ok) {
                       console.log(res);
-                      throw new Error(`error : ${res.status}`);
                     }
                     return res.json();
                   })

@@ -3,6 +3,7 @@ import Logo from "../assets/logo.svg";
 import WhiteLogo from "../assets/logo_white.svg";
 import UserImage from "../assets/user_default.jpg";
 import styles from "./Header.module.scss";
+import { newTokenRequest } from "../apis/auth";
 import {
   Link,
   useNavigate,
@@ -10,6 +11,9 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { BASE_API_URL } from "../apis/const";
+import { myUserDataRequest } from "../apis/auth";
+import { useAuthContext } from "../contexts/authContext";
 
 type HeaderProps = {
   setCurrentModal: (modal: CurrentModalType) => void;
@@ -21,9 +25,11 @@ export default function Header({ setCurrentModal }: HeaderProps) {
   const query = searchParams.get("query");
   const location = useLocation();
 
-  const [searchInput, setSearchInput] = useState("");
+  const { authData, setAuthData } = useAuthContext();
+  const accessToken = authData.accessToken;
+  const logined = !!accessToken;
 
-  const [logined, setLogined] = useState(false); //for test
+  const [searchInput, setSearchInput] = useState("");
   const inContentPage = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
   const [isScrollTop, setIsScrollTop] = useState(true);
 
@@ -89,13 +95,67 @@ export default function Header({ setCurrentModal }: HeaderProps) {
                 </div>
               </div>
             </li>
+
             <button
               onClick={() => {
-                setLogined(!logined);
+                fetch(`${BASE_API_URL}/auth/token/`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    username: "sh020119",
+                    password: "dhtngus1!1!",
+                  }),
+                  credentials: "include",
+                })
+                  .then((response) => {
+                    if (!response.ok) {
+                      console.log(response.status);
+                      // throw new Error(
+                      //   `Network response was not ok: ${response.status}`,
+                      // );
+                    }
+                    return response.json(); // JSON 형식으로 파싱
+                  })
+                  .then((data) => {
+                    console.log("access", data.access);
+                    setAuthData({ ...authData, accessToken: data.access });
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
               }}
             >
-              로그인 여부 토글(ui 변경)
+              api연결 과 엑세스 토큰/쿠키 발급
             </button>
+            <button
+              onClick={() => {
+                fetch(`${BASE_API_URL}/sample/connection-check`, {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {},
+                })
+                  .then((response) => {
+                    if (!response.ok) {
+                      console.log(response.status);
+                      // throw new Error(
+                      //   `Network response was not ok: ${response.status}`,
+                      // );
+                    }
+                    return response.json(); // JSON 형식으로 파싱
+                  })
+                  .then((data) => {
+                    console.log("Response body:", data);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            >
+              테스트 쿠키 전송 되는지 확인
+            </button>
+
             {logined ? (
               <li className={styles.myProfileLi}>
                 <Link to="/users/idididid">

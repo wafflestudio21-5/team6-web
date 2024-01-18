@@ -4,12 +4,15 @@ import styles from "./AuthModalStyle.module.scss";
 import { CurrentModalType } from "../pages/Layout";
 import { loginRequest } from "../apis/auth";
 import { KAKAO_AUTH_URL } from "../apis/const";
+import { useAuthContext } from "../contexts/authContext";
 
 type LoginModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
 };
 
 export default function LoginModal({ setCurrentModal }: LoginModalProps) {
+  const { authData, setAuthData } = useAuthContext();
+
   const [idInput, setIdInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const error = {
@@ -117,16 +120,16 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
               type="button"
               disabled={!isAllInputsValid}
               onClick={() => {
-                loginRequest()
+                loginRequest(idInput, passwordInput)
                   .then((res) => {
                     if (!res.ok) {
                       console.log(res);
-                      throw new Error(`error : ${res.status}`);
                     }
                     return res.json();
                   })
                   .then((data) => {
                     console.log(data);
+                    setAuthData({ ...authData, accessToken: data.access });
                   });
               }}
             >
