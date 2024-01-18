@@ -4,6 +4,7 @@ import styles from "./CommentInfo.module.scss";
 import { MovieType } from "./ContentList";
 import ReplyList from "./ReplyList";
 import elapsedTime from "../utils/elapsedTime";
+import { useState } from "react";
 
 export type ReplyType = {
   userName: string;
@@ -92,7 +93,13 @@ function CommentLikeReply({
   );
 }
 
-function LikeReplyBar({ liked }: { liked: boolean }) {
+function LikeReplyBar({
+  liked,
+  onLikeClick,
+}: {
+  liked: boolean;
+  onLikeClick: () => void;
+}) {
   console.log(liked);
   return (
     <section className={styles.likeReplyBar}>
@@ -102,6 +109,7 @@ function LikeReplyBar({ liked }: { liked: boolean }) {
           className={
             styles.likeButton + (liked ? " " + styles.likeButtonLiked : "")
           }
+          onClick={onLikeClick}
         >
           {liked ? (
             <svg className={styles.likeSvg} fill="#ff2f6e" viewBox="0 0 20 20">
@@ -159,6 +167,18 @@ function LikeReplyBar({ liked }: { liked: boolean }) {
 }
 
 export default function CommentInfo({ comment }: { comment: CommentType }) {
+  const [liked, setLiked] = useState(comment.liked);
+  const [likes, setLikes] = useState(comment.likes);
+
+  const onLikeClick = () => {
+    if (liked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
+    }
+    setLiked(!liked);
+  };
+
   return (
     <section className={styles.commentInfo}>
       <CommentHeader
@@ -168,8 +188,8 @@ export default function CommentInfo({ comment }: { comment: CommentType }) {
         date={comment.date}
       />
       <CommentBody content={comment.content} />
-      <CommentLikeReply likes={comment.likes} replies={comment.replyNumber} />
-      <LikeReplyBar liked={comment.liked} />
+      <CommentLikeReply likes={likes} replies={comment.replyNumber} />
+      <LikeReplyBar liked={liked} onLikeClick={onLikeClick} />
       <ReplyList replyNumber={comment.replyNumber} replies={comment.replies} />
     </section>
   );
