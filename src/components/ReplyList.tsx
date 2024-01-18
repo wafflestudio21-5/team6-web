@@ -79,20 +79,36 @@ function Reply({ reply }: { reply: ReplyType }) {
   );
 }
 
-export default function ReplyList({
-  replyNumber,
-  replies,
-}: {
-  replyNumber: number;
-  replies: ReplyType[];
-}) {
+export default function ReplyList({ replyNumber }: { replyNumber: number }) {
+  const defaultReply = {
+    userName: "J. Robert Oppenheimer",
+    date: new Date("2024-01-15 10:00"),
+    content: "I felt good.",
+    likes: 100,
+    liked: false,
+  };
+
+  const [replies, setReplies] = useState<ReplyType[]>(
+    new Array(9).fill(defaultReply),
+  );
+
+  const showMoreReplies = () => {
+    if (replies.length == replyNumber) return;
+    const numberToAdd = Math.min(replyNumber - replies.length, 9);
+    setReplies(replies.concat(new Array(numberToAdd).fill(defaultReply)));
+  };
+
   return (
     <section className={styles.replyList}>
       <div className={styles.replyListHeader}>
-        <button>이전 댓글 보기</button>
-        <div>
-          {replyNumber}개 중 {replies.length}개
-        </div>
+        {replies.length == replyNumber || (
+          <>
+            <button onClick={showMoreReplies}>이전 댓글 보기</button>
+            <div>
+              {replyNumber}개 중 {replies.length}개
+            </div>
+          </>
+        )}
       </div>
       <div className={styles.replies}>
         {replies.map((reply: ReplyType, index: number) => (

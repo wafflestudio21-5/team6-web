@@ -23,7 +23,6 @@ type CommentType = {
   likes: number;
   liked: boolean;
   replyNumber: number;
-  replies: ReplyType[];
 };
 
 function CommentHeader({
@@ -190,7 +189,7 @@ export default function CommentInfo({ comment }: { comment: CommentType }) {
       <CommentBody content={comment.content} />
       <CommentLikeReply likes={likes} replies={comment.replyNumber} />
       <LikeReplyBar liked={liked} onLikeClick={onLikeClick} />
-      <ReplyList replyNumber={comment.replyNumber} replies={comment.replies} />
+      <ReplyList replyNumber={comment.replyNumber} />
     </section>
   );
 }
