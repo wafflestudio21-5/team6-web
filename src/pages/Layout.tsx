@@ -14,7 +14,7 @@ export default function Layout() {
   const { authData, setAuthData } = useAuthContext();
 
   // 자동 로그인
-  useEffect(() => {
+  /*  useEffect(() => {
     newTokenRequest()
       .then((res) => {
         if (!res.ok) {
@@ -43,21 +43,19 @@ export default function Layout() {
         setIsLoginConfirmed(true);
         console.log(`-----자동 로그인 로직 끝-------`);
       });
-  }, []);
+  }, []);*/
 
   return (
-    isLoginConfirmed && (
-      <div>
-        {currentModal === "signup" && (
-          <SignupModal setCurrentModal={setCurrentModal} />
-        )}
-        {currentModal === "login" && (
-          <LoginModal setCurrentModal={setCurrentModal} />
-        )}
-        <Header setCurrentModal={setCurrentModal} />
-        <Outlet />
-        <Footer />
-      </div>
-    )
+    <div>
+      {currentModal === "signup" && (
+        <SignupModal setCurrentModal={setCurrentModal} />
+      )}
+      {currentModal === "login" && (
+        <LoginModal setCurrentModal={setCurrentModal} />
+      )}
+      <Header setCurrentModal={setCurrentModal} />
+      <Outlet />
+      <Footer />
+    </div>
   );
 }
