@@ -3,8 +3,21 @@ import styles from "./ReplyList.module.scss";
 import userImage from "../assets/user_default.jpg";
 import { Link } from "react-router-dom";
 import elapsedTime from "../utils/elapsedTime";
+import { useState } from "react";
 
 function Reply({ reply }: { reply: ReplyType }) {
+  const [liked, setLiked] = useState(reply.liked);
+  const [likes, setLikes] = useState(reply.likes);
+
+  const onLikeClick = () => {
+    if (liked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
+    }
+    setLiked(!liked);
+  };
+
   return (
     <div className={styles.reply}>
       <Link to="/users/idididid">
@@ -20,8 +33,11 @@ function Reply({ reply }: { reply: ReplyType }) {
           <div className={styles.timeAgo}>{elapsedTime(reply.date)}</div>
         </div>
         <div className={styles.replyContent}>{reply.content}</div>
-        <div className={reply.liked ? styles.liked : styles.unliked}>
-          {reply.liked ? (
+        <button
+          className={liked ? styles.liked : styles.unliked}
+          onClick={onLikeClick}
+        >
+          {liked ? (
             <svg className={styles.likeSvg} fill="#ff2f6e" viewBox="0 0 20 20">
               <path
                 className={styles.fillTarget}
@@ -56,8 +72,8 @@ function Reply({ reply }: { reply: ReplyType }) {
               ></path>
             </svg>
           )}
-          {reply.likes}
-        </div>
+          {likes}
+        </button>
       </div>
     </div>
   );

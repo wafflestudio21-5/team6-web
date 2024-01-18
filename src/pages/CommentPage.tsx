@@ -21,7 +21,7 @@ export default function CommentPage() {
         `,
     likes: 200,
     liked: false,
-    replyNumber: 1000,
+    replyNumber: 20,
     replies: new Array(9).fill({
       userName: "J. Robert Oppenheimer",
       date: new Date("2024-01-15 10:00"),
