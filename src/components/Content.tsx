@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import styles from "./Content.module.scss";
 import { Carousel } from "./Carousel";
 import profileDefault from "../assets/user_default.jpg";
