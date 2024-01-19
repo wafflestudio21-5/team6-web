@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import styles from "./Layout.module.scss";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SignupModal from "../components/SignupModal";
@@ -52,8 +53,12 @@ export default function Layout() {
           <LoginModal setCurrentModal={setCurrentModal} />
         )}
         <Header setCurrentModal={setCurrentModal} />
-        <Outlet />
-        <Footer />
+        <section className={styles.mainSection}>
+          <div className={styles.mainDiv}>
+            <Outlet />
+            <Footer />
+          </div>
+        </section>
       </div>
     )
   );
