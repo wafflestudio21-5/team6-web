@@ -1,0 +1,133 @@
+.fixedTab {
+  position: fixed;
+  top: 62px;
+  width: 100%;
+  z-index: 100;
+  background-color: white;
+  border-bottom: 1px solid rgb(227, 227, 227);
+}
+
+.followPage {
+  padding-top: 150px;
+  padding-bottom: 40px;
+}
+
+.backButtonContainer {
+  padding: 0 16px;
+  height: 44px;
+  button {
+    padding: 0px;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background-color: inherit;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9IiNGRjJGNkUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTYuNzU1IDExLjk4OGw0Ljk1OCA0Ljk1OGEuOTguOTggMCAxIDEtMS4zODcgMS4zODdMNCAxMi4wMDdsLjAwNS0uMDA1TDQgMTEuOTk3bDYuMzQzLTYuMzQzYS45Ny45NyAwIDEgMSAxLjM3MyAxLjM3M2wtNC45NjEgNC45NnoiLz4KICAgICAgICA8cGF0aCBkPSJNNiAxMWgxM2ExIDEgMCAwIDEgMCAySDZ2LTJ6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=");
+  }
+}
+.titleContainer {
+  padding: 0 16px;
+  height: 44px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.followListContainer {
+  max-width: 640px;
+  margin: 20px auto 0px;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      box-sizing: border-box;
+      width: 100%;
+      height: 104px;
+      padding-right: 15px;
+      padding-left: 15px;
+      a {
+        height: 100%;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  }
+}
+.imgBox {
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  img {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 67px;
+    height: 67px;
+  }
+}
+.userBox {
+  display: flex;
+  flex: 1 1 0%;
+  -webkit-box-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  height: 100%;
+  border-bottom: 1px solid rgb(240, 240, 240);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  .infoWrapper {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding: 0px 10px 0px 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    p {
+      font-weight: 400;
+      letter-spacing: -0.7px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: rgb(41, 42, 50);
+      font-size: 16px;
+      line-height: 21px;
+      margin-bottom: -1px;
+    }
+    div {
+      color: rgb(140, 140, 140);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: -0.3px;
+      line-height: 19px;
+      white-space: nowrap;
+      margin-top: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .followButtonWrapper {
+    button {
+      border: none;
+      margin: 0px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 17px;
+      height: 28px;
+      padding: 6px 11px 5px 12px;
+      border-radius: 14px;
+    }
+  }
+}
+.isFollowing {
+  background: rgb(255, 234, 241);
+  color: rgb(255, 47, 110);
+}
+.isNotFollowing {
+  background: rgb(245, 245, 247);
+  color: rgb(116, 116, 123);
+}

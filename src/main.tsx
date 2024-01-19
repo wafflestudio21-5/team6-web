@@ -12,8 +12,8 @@ import UserStoragePage from "./pages/UserStoragePage.tsx";
 import UserLikesPage from "./pages/UserLikesPage.tsx";
 import UserRatingsPage from "./pages/UserRatingsPage.tsx";
 import UserCommentsPage from "./pages/UserCommentsPage.tsx";
-import UserFollowersPage from "./pages/UserFollowersPage.tsx";
-import UserFollowingsPage from "./pages/UserFollowingsPage.tsx";
+
+import UserFollowPage from "./pages/UserFollowPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -42,11 +42,11 @@ const router = createBrowserRouter([
       },
       {
         path: "users/:id/followers", // 유저가 남긴 평가 모음 페이지
-        element: <UserFollowersPage />,
+        element: <UserFollowPage />,
       },
       {
         path: "users/:id/followings", // 유저가 남긴 평가 모음 페이지
-        element: <UserFollowingsPage />,
+        element: <UserFollowPage />,
       },
       {
         path: "users/:id/ratings", // 유저가 남긴 평가 모음 페이지
