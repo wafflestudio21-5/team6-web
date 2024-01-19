@@ -1,13 +1,24 @@
 import { createContext, useContext, useState } from "react";
 
-type AuthDataType = {
-  user: {};
+type AuthContextType = {
+  myUserData: MyUserType;
+  setMyUserData: (authData: MyUserType) => void;
   accessToken: string | null;
+  setAccessToken: (accessToken: string | null) => void;
+  isLogined: boolean;
+  autoLoginConfirmed: boolean;
+  setAutoLoginConfirmed: (autoLoginConfirmed: boolean) => void;
 };
 
-type AuthContextType = {
-  authData: AuthDataType;
-  setAuthData: (authData: AuthDataType) => void;
+type MyUserType = {
+  id: number;
+  username: string;
+  nickname: "string";
+  bio: string;
+  profile_photo: string | null;
+  background_photo: string | null;
+  followers_count: number;
+  following_count: number;
 };
 
 export const AuthContext = createContext<AuthContextType>(
@@ -23,13 +34,23 @@ export function AuthContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [authData, setAuthData] = useState<AuthDataType>({
-    user: { nickname: "오수현", username: "sh020119" },
-    accessToken: null,
-  });
+  const [myUserData, setMyUserData] = useState<MyUserType>({} as MyUserType);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [autoLoginConfirmed, setAutoLoginConfirmed] = useState(false); // 맨 처음 자동 로그인 로직이 끝난 이후에 true
+  const isLogined = !!accessToken;
 
   return (
-    <AuthContext.Provider value={{ authData, setAuthData }}>
+    <AuthContext.Provider
+      value={{
+        myUserData,
+        setMyUserData,
+        isLogined,
+        accessToken,
+        setAccessToken,
+        autoLoginConfirmed,
+        setAutoLoginConfirmed,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

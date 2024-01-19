@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import validatePassword from "../utils/validatePassword";
 import Logo from "../assets/logo.svg";
 import styles from "./AuthModalStyle.module.scss";
 import { CurrentModalType } from "../pages/Layout";
-import { signupRequest } from "../apis/auth";
+import { loginRequest, signupRequest } from "../apis/auth";
+import { useAuthContext } from "../contexts/authContext";
+import { defaultHandleResponse } from "../apis/custom";
 
 type SignupModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -12,8 +14,11 @@ type SignupModalProps = {
 export default function SignupModal({ setCurrentModal }: SignupModalProps) {
   const [nameInput, setNameInput] = useState("");
   const [idInput, setIdInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
-
+  const [passwordInput1, setPasswordInput1] = useState("");
+  const [passwordInput2, setPasswordInput2] = useState("");
+  const [authErrorMessage, setAuthErrorMessage] = useState<string | null>(null);
+  const [isSignupSuccess, setIsSignupSuccess] = useState(false); // 회원가입 성공 여부
+  const { setAccessToken } = useAuthContext();
   const error = {
     name:
       nameInput.length < 2 || nameInput.length > 20 || nameInput.includes(" ")
@@ -24,13 +29,40 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
         ? "정확하지 않은 아이디입니다."
         : "",
     password:
-      !passwordInput ||
-      !validatePassword(passwordInput) ||
-      passwordInput.includes(" ")
+      !passwordInput1 ||
+      !validatePassword(passwordInput1) ||
+      passwordInput1.includes(" ")
         ? "비밀번호는 영문, 숫자, 특수문자 중 2가지 이상을 조합하여 최소 10자리 이상이여야 합니다."
         : "",
   };
   const isAllInputsValid = !error.name && !error.id && !error.password; // input이 모두 유효한지 확인
+
+  const authRequest = async () => {
+    return loginRequest(idInput, passwordInput1)
+      .then(defaultHandleResponse)
+      .then((data) => {
+        setAccessToken(data.access);
+        setCurrentModal(null);
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  };
+
+  useEffect(() => {
+    isSignupSuccess && authRequest();
+  }, [isSignupSuccess]); // 회원가입 시 자동 로그인
+
+  useEffect(() => {
+    const onKeyEnter = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && isAllInputsValid && !authErrorMessage)
+        authRequest();
+    };
+    window.addEventListener("keydown", onKeyEnter);
+    return () => {
+      window.removeEventListener("keydown", onKeyEnter);
+    };
+  });
 
   return (
     <div
@@ -43,6 +75,30 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
           e.stopPropagation();
         }}
       >
+        {!!authErrorMessage && (
+          <div
+            className={styles.authErrorBoxContainer}
+            onClick={() => {
+              setAuthErrorMessage(null);
+            }}
+          >
+            <div
+              className={styles.authErrorBox}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <p> {authErrorMessage}</p>
+              <button
+                onClick={() => {
+                  setAuthErrorMessage(null);
+                }}
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        )}
         <img
           src={Logo}
           className={styles.watchaPediaLogo}
@@ -119,7 +175,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
 
             <label
               className={`${
-                !error.password || !passwordInput
+                !error.password || !passwordInput1
                   ? styles.validLabel
                   : styles.invalidLabel
               }`}
@@ -128,16 +184,16 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
                 autoComplete="off"
                 placeholder="비밀번호"
                 type="password"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
+                value={passwordInput1}
+                onChange={(e) => setPasswordInput1(e.target.value)}
               />
-              {!!passwordInput && (
+              {!!passwordInput1 && (
                 <div
                   className={styles.inputClearIcon}
-                  onClick={() => setPasswordInput("")}
+                  onClick={() => setPasswordInput1("")}
                 />
               )}
-              {!!passwordInput && (
+              {!!passwordInput1 && (
                 <div className={styles.validationIconBox}>
                   <div
                     className={`${styles.validationIcon} ${
@@ -148,26 +204,72 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               )}
             </label>
 
-            {!!passwordInput && (
+            {!!passwordInput1 && (
               <p className={styles.errorMessage}>{error.password}</p>
             )}
+
+            <label
+              className={`${
+                !error.password || !passwordInput2
+                  ? styles.validLabel
+                  : styles.invalidLabel
+              }`}
+            >
+              <input
+                autoComplete="off"
+                placeholder="비밀번호 확인"
+                type="password"
+                value={passwordInput2}
+                onChange={(e) => setPasswordInput2(e.target.value)}
+              />
+            </label>
 
             <button
               type="button"
               disabled={!isAllInputsValid}
               onClick={() => {
-                signupRequest(nameInput, idInput, passwordInput, passwordInput) // 서버 쪽에는 두 개의 패스워드 입력 받기로 되어 있으나 일단 원래 서비스 처럼 구현
+                signupRequest(
+                  nameInput,
+                  idInput,
+                  passwordInput1,
+                  passwordInput2,
+                )
                   .then((res) => {
                     if (!res.ok) {
-                      console.log(res);
+                      console.log(res); // res.json()에 에러 메시지가 담겨 있음
                     }
                     return res.json();
                   })
-                  .then((d) => {
-                    console.log(d);
+                  .then((data) => {
+                    if ("access" in data) {
+                      setIsSignupSuccess(true);
+                      return;
+                    }
+                    if (
+                      "username" in data &&
+                      data.username[0].includes("already exists")
+                    ) {
+                      setAuthErrorMessage("이미 존재하는 아이디입니다.");
+                    } else if (
+                      "non_field_errors" in data &&
+                      data.non_field_errors[0].includes("didn't match.")
+                    ) {
+                      setAuthErrorMessage(
+                        "두 비밀번호를 동일하게 입력해주세요.",
+                      );
+                    } else if (
+                      "non_field_errors" in data &&
+                      data.non_field_errors[0].includes("too similar")
+                    ) {
+                      setAuthErrorMessage(
+                        "아이디와 비밀번호가 매우 유사합니다.",
+                      );
+                    } else {
+                      setAuthErrorMessage("예상치 못한 오류가 발생하였습니다.");
+                    }
                   })
-                  .catch((e) => {
-                    console.log(e);
+                  .catch(() => {
+                    setAuthErrorMessage("예상치 못한 오류가 발생하였습니다.");
                   });
               }}
             >

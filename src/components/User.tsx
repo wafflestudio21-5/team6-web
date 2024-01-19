@@ -1,12 +1,15 @@
+import { useEffect } from "react";
 import { useAuthContext } from "../contexts/authContext";
 import styles from "./User.module.scss";
 import { Link, useParams } from "react-router-dom";
+import { followersRequest, userProfileRequest } from "../apis/user";
+import { defaultHandleResponse } from "../apis/custom";
 
 export default function User() {
   const { id } = useParams();
-  const { authData } = useAuthContext();
-
-  console.log("authData : ", authData);
+  const { myUserData } = useAuthContext();
+  const {} = myUserData;
+  console.log("myUserData : ", myUserData);
   const {
     nickname,
     identifier,
@@ -23,6 +26,21 @@ export default function User() {
     ratingCount: 4,
   }; // 다음 정보는 추후 서버에서 fetching
 
+  useEffect(() => {
+    userProfileRequest(17)
+      .then(defaultHandleResponse)
+      .then((d) => {
+        console.log(d);
+      });
+  }, []);
+  useEffect(() => {
+    followersRequest(17)
+      .then(defaultHandleResponse)
+      .then((d) => {
+        console.log(d);
+      });
+  }, []);
+
   const myData = {
     id: "idA",
     followingId: ["idB", "idC", "idD"],
@@ -30,12 +48,11 @@ export default function User() {
 
   const checkFollowing = myData?.followingId.includes(id as string); // assertion은 나중에 없앨테니 무시하셔도 됩니다.
 
-  const pageMode: "myPage" | "otherPage" | "notLoggedIn" = "myPage";
-  /* !myData
+  const pageMode: "myPage" | "otherPage" | "notLoggedIn" = !myData
     ? "notLoggedIn"
     : id === myData.id
     ? "myPage"
-    : "otherPage";*/
+    : "otherPage";
 
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.

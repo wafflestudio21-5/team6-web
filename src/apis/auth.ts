@@ -21,18 +21,11 @@ export async function loginRequest(username: string, password: string) {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify({
       username,
       password,
     }),
-  });
-}
-
-// 리프레시 토큰 및 엑세스 토큰을 갱신. 자동로그인을 위해 사용
-export async function newTokenRequest() {
-  return fetch(`${BASE_API_URL}/auth/token/refresh/new/`, {
-    method: "POST",
-    credentials: "include",
   });
 }
 
@@ -45,4 +38,16 @@ export async function myUserDataRequest(accessToken: string) {
   });
 }
 
+// 리프레시 토큰 및 엑세스 토큰을 갱신. 자동로그인을 위해 사용
+export async function newTokenRequest() {
+  return fetch(`${BASE_API_URL}/auth/token/refresh/new/`, {
+    method: "POST",
+    credentials: "include",
+  });
+}
+
 export async function logoutRequest() {}
+// 프론트 단에서는 엑세스 토큰을 삭제...
+export async function kakaoLogoutRequest() {
+  //
+}

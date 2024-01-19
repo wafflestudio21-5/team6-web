@@ -1,20 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "../assets/logo.svg";
 import styles from "./AuthModalStyle.module.scss";
 import { CurrentModalType } from "../pages/Layout";
 import { loginRequest } from "../apis/auth";
 import { KAKAO_AUTH_URL } from "../apis/const";
 import { useAuthContext } from "../contexts/authContext";
+import { defaultHandleResponse } from "../apis/custom";
 
 type LoginModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
 };
 
 export default function LoginModal({ setCurrentModal }: LoginModalProps) {
-  const { authData, setAuthData } = useAuthContext();
-
+  const { setAccessToken } = useAuthContext();
   const [idInput, setIdInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [authErrorMessage, setAuthErrorMessage] = useState<string | null>(null);
   const error = {
     id:
       idInput.length < 2 || idInput.length > 20 || idInput.includes(" ")
@@ -26,6 +27,36 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
         : "",
   };
   const isAllInputsValid = !error.id && !error.password; // input이 모두 유효한지 확인
+
+  const authRequest = async () => {
+    return loginRequest(idInput, passwordInput)
+      .then(defaultHandleResponse)
+      .then((data) => {
+        setAccessToken(data.access);
+        setCurrentModal(null);
+      })
+      .catch((e) => {
+        console.log(e);
+        if (e.message === "401") {
+          setAuthErrorMessage("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
+        } else {
+          setAuthErrorMessage(
+            "알 수 없는 오류가 발생했습니다. 다시 시도해 주세요",
+          );
+        }
+      });
+  };
+
+  useEffect(() => {
+    const onKeyEnter = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && isAllInputsValid && !authErrorMessage)
+        authRequest();
+    };
+    window.addEventListener("keydown", onKeyEnter);
+    return () => {
+      window.removeEventListener("keydown", onKeyEnter);
+    };
+  });
 
   return (
     <div
@@ -40,6 +71,30 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
           e.stopPropagation();
         }}
       >
+        {!!authErrorMessage && (
+          <div
+            className={styles.authErrorBoxContainer}
+            onClick={() => {
+              setAuthErrorMessage(null);
+            }}
+          >
+            <div
+              className={styles.authErrorBox}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <p> {authErrorMessage}</p>
+              <button
+                onClick={() => {
+                  setAuthErrorMessage(null);
+                }}
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        )}
         <img
           src={Logo}
           className={styles.watchaPediaLogo}
@@ -119,19 +174,7 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
             <button
               type="button"
               disabled={!isAllInputsValid}
-              onClick={() => {
-                loginRequest(idInput, passwordInput)
-                  .then((res) => {
-                    if (!res.ok) {
-                      console.log(res);
-                    }
-                    return res.json();
-                  })
-                  .then((data) => {
-                    console.log(data);
-                    setAuthData({ ...authData, accessToken: data.access });
-                  });
-              }}
+              onClick={authRequest}
             >
               로그인
             </button>

@@ -6,6 +6,5 @@ export type MovieType = {
   rating: number;
 };
 export type TestType = {
-  message : string;
-}
-
+  message: string;
+};
