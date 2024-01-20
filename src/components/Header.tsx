@@ -13,6 +13,8 @@ import {
 import { useState, useEffect } from "react";
 // import { myUserDataRequest } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
+import { logoutRequest } from "../apis/auth";
+import { defaultHandleResponse } from "../apis/custom";
 
 type HeaderProps = {
   setCurrentModal: (modal: CurrentModalType) => void;
@@ -98,6 +100,23 @@ export default function Header({ setCurrentModal }: HeaderProps) {
               }}
             >
               내 유저 데이터 확인
+            </button>
+            <button
+              onClick={() => {
+                logoutRequest()
+                  .then(defaultHandleResponse)
+                  .then((data) => {
+                    alert("로그아웃 성공");
+                    console.log(data);
+                    //     window.location.reload();
+                  })
+                  .catch(() => {
+                    console.log("로그아웃 실패");
+                  });
+              }}
+            >
+              {" "}
+              로그아웃
             </button>
             {isLogined ? (
               <li className={styles.myProfileLi}>

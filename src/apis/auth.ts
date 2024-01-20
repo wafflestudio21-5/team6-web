@@ -46,7 +46,13 @@ export async function newTokenRequest() {
   });
 }
 
-export async function logoutRequest() {}
+export async function logoutRequest() {
+  return fetch(`${BASE_API_URL}/auth/token/logout/`, {
+    method: "POST",
+    credentials: "include",
+  });
+}
+
 // 프론트 단에서는 엑세스 토큰을 삭제...
 export async function kakaoLogoutRequest() {
   //
