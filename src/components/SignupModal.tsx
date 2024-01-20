@@ -3,9 +3,9 @@ import validatePassword from "../utils/validatePassword";
 import Logo from "../assets/logo.svg";
 import styles from "./SignupModal.module.scss";
 import { CurrentModalType } from "../pages/Layout";
-import { loginRequest, signupRequest } from "../apis/auth";
+import { postLogin, postSignup } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
-import { defaultHandleResponse } from "../apis/custom";
+import { defaultResponseHandler } from "../apis/custom";
 
 type SignupModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -39,7 +39,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
 
   const signupHandler = () =>
     isAllInputsValid &&
-    signupRequest(nameInput, idInput, passwordInput1, passwordInput2)
+    postSignup(nameInput, idInput, passwordInput1, passwordInput2)
       .then((res) => {
         if (!res.ok) {
           console.log(res); // res.json()에 에러 메시지가 담겨 있음
@@ -74,8 +74,8 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
   const authHandler = async () => {
     return (
       isSignupSuccess &&
-      loginRequest(idInput, passwordInput1)
-        .then(defaultHandleResponse)
+      postLogin(idInput, passwordInput1)
+        .then(defaultResponseHandler)
         .then((data) => {
           setAccessToken(data.access);
           setCurrentModal(null);

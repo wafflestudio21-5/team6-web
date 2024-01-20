@@ -2,9 +2,9 @@ import { useState } from "react";
 import Logo from "../assets/logo.svg";
 import styles from "./LoginModal.module.scss";
 import { CurrentModalType } from "../pages/Layout";
-import { loginRequest } from "../apis/auth";
+import { postLogin } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
-import { defaultHandleResponse } from "../apis/custom";
+import { defaultResponseHandler } from "../apis/custom";
 
 type LoginModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -31,8 +31,8 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
     return (
       isAllInputsValid &&
       !authErrorMessage &&
-      loginRequest(idInput, passwordInput)
-        .then(defaultHandleResponse)
+      postLogin(idInput, passwordInput)
+        .then(defaultResponseHandler)
         .then((data) => {
           setAccessToken(data.access);
           setCurrentModal(null);

@@ -1,7 +1,7 @@
 import styles from "./SettingModal.module.scss";
 import { CurrentModalType } from "../../pages/Layout";
-import { logoutRequest, withDrawalUserRequest } from "../../apis/auth";
-import { defaultHandleResponse } from "../../apis/custom";
+import { postLogout, deleteWithDrawalUser } from "../../apis/auth";
+import { defaultResponseHandler } from "../../apis/custom";
 import { useAuthContext } from "../../contexts/authContext";
 import { useState } from "react";
 type SettingModalProps = {
@@ -105,8 +105,8 @@ function LogoutAlertBoxContainer({ setAlertMessage }: ButtonBoxProps) {
           </button>
           <button
             onClick={() => {
-              logoutRequest()
-                .then(defaultHandleResponse)
+              postLogout()
+                .then(defaultResponseHandler)
                 .then(() => {
                   window.location.reload();
                 })
@@ -150,12 +150,12 @@ function WithdrawalAlertBoxContainer({ setAlertMessage }: ButtonBoxProps) {
           </button>
           <button
             onClick={() => {
-              withDrawalUserRequest(accessToken ? accessToken : "")
-                .then(defaultHandleResponse)
+              deleteWithDrawalUser(accessToken ? accessToken : "")
+                .then(defaultResponseHandler)
                 .then(() => {
-                  return logoutRequest(); //회원탈퇴 후에 서버 쪽에서 리프레시 토큰을 따로 블랙리스트화 하지 않아서 강제로그아웃
+                  return postLogout(); //회원탈퇴 후에 서버 쪽에서 리프레시 토큰을 따로 블랙리스트화 하지 않아서 강제로그아웃
                 })
-                .then(defaultHandleResponse)
+                .then(defaultResponseHandler)
                 .then(() => {
                   alert("회원탈퇴 성공");
                   window.location.reload();

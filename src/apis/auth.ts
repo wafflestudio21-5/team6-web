@@ -1,6 +1,6 @@
 import { BASE_API_URL } from "./const";
 
-export async function signupRequest(
+export async function postSignup(
   nickname: string,
   username: string,
   password1: string,
@@ -15,7 +15,7 @@ export async function signupRequest(
   });
 }
 
-export async function loginRequest(username: string, password: string) {
+export async function postLogin(username: string, password: string) {
   return fetch(`${BASE_API_URL}/auth/token/`, {
     method: "POST",
     headers: {
@@ -29,7 +29,7 @@ export async function loginRequest(username: string, password: string) {
   });
 }
 
-export async function myUserDataRequest(accessToken: string) {
+export async function getMyUserData(accessToken: string) {
   return fetch(`${BASE_API_URL}/users/mypage/`, {
     method: "GET",
     headers: {
@@ -39,21 +39,21 @@ export async function myUserDataRequest(accessToken: string) {
 }
 
 // 리프레시 토큰 및 엑세스 토큰을 갱신. 자동로그인을 위해 사용
-export async function newTokenRequest() {
+export async function postNewToken() {
   return fetch(`${BASE_API_URL}/auth/token/refresh/new/`, {
     method: "POST",
     credentials: "include",
   });
 }
 
-export async function logoutRequest() {
+export async function postLogout() {
   return fetch(`${BASE_API_URL}/auth/token/logout/`, {
     method: "POST",
     credentials: "include",
   });
 }
 
-export async function withDrawalUserRequest(accessToken: string) {
+export async function deleteWithDrawalUser(accessToken: string) {
   return fetch(`${BASE_API_URL}/users/mypage/delete/`, {
     method: "DELETE",
     credentials: "include",
@@ -63,9 +63,9 @@ export async function withDrawalUserRequest(accessToken: string) {
   });
 }
 
-export async function kakaoAutoCallbackRequest(code: string | null) {
+export async function getKakaoAutoCallback(code: string | null) {
   return fetch(`${BASE_API_URL}/auth/kakao/login?code=${code}`);
 }
 
 // withdrawal with kakao
-export async function withDrawalUserWithKakaoRequest() {}
+export async function postWithDrawalUserWithKakao() {}
