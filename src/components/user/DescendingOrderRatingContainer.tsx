@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./DescendingOrderContainer.module.scss";
+import styles from "./DescendingOrderRatingContainer.module.scss";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 
-export default function DescendingOrderContainer() {
+export default function DescendingOrderRatingContainer() {
   return (
     <section className={styles.DescendingOrderContainer}>
       {Array(10)

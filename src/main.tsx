@@ -14,6 +14,7 @@ import UserRatingsPage from "./pages/UserRatingsPage.tsx";
 import UserCommentsPage from "./pages/UserCommentsPage.tsx";
 
 import UserFollowPage from "./pages/UserFollowPage.tsx";
+import RatingListWithNumberPage from "./pages/RatingListWithNumberPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "users/:id/ratings", // 유저가 남긴 평가 모음 페이지
         element: <UserRatingsPage />,
+      },
+      {
+        path: "users/:id/ratings/:ratingNumber", // 유저가 남긴 평가 모음 페이지
+        element: <RatingListWithNumberPage />,
       },
       {
         path: "users/:id/comments", // 유저가 남긴 코멘트 모음 페이지
