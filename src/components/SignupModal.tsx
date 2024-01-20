@@ -37,32 +37,58 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
   };
   const isAllInputsValid = !error.name && !error.id && !error.password; // input이 모두 유효한지 확인
 
-  const authRequest = async () => {
-    return loginRequest(idInput, passwordInput1)
-      .then(defaultHandleResponse)
-      .then((data) => {
-        setAccessToken(data.access);
-        setCurrentModal(null);
+  const signupHandler = () =>
+    isAllInputsValid &&
+    signupRequest(nameInput, idInput, passwordInput1, passwordInput2)
+      .then((res) => {
+        if (!res.ok) {
+          console.log(res); // res.json()에 에러 메시지가 담겨 있음
+        }
+        return res.json();
       })
-      .catch((e) => {
-        alert(e);
+      .then((data) => {
+        if ("access" in data) {
+          setIsSignupSuccess(true);
+          return;
+        }
+        if ("username" in data && data.username[0].includes("already exists")) {
+          setAuthErrorMessage("이미 존재하는 아이디입니다.");
+        } else if (
+          "non_field_errors" in data &&
+          data.non_field_errors[0].includes("didn't match.")
+        ) {
+          setAuthErrorMessage("두 비밀번호를 동일하게 입력해주세요.");
+        } else if (
+          "non_field_errors" in data &&
+          data.non_field_errors[0].includes("too similar")
+        ) {
+          setAuthErrorMessage("아이디와 비밀번호가 매우 유사합니다.");
+        } else {
+          setAuthErrorMessage("예상치 못한 오류가 발생하였습니다.");
+        }
+      })
+      .catch(() => {
+        setAuthErrorMessage("예상치 못한 오류가 발생하였습니다.");
       });
+
+  const authHandler = async () => {
+    return (
+      isSignupSuccess &&
+      loginRequest(idInput, passwordInput1)
+        .then(defaultHandleResponse)
+        .then((data) => {
+          setAccessToken(data.access);
+          setCurrentModal(null);
+        })
+        .catch((e) => {
+          alert(e);
+        })
+    );
   };
 
   useEffect(() => {
-    isSignupSuccess && authRequest();
+    authHandler();
   }, [isSignupSuccess]); // 회원가입 시 자동 로그인
-
-  useEffect(() => {
-    const onKeyEnter = (e: KeyboardEvent) => {
-      if (e.key === "Enter" && isAllInputsValid && !authErrorMessage)
-        authRequest();
-    };
-    window.addEventListener("keydown", onKeyEnter);
-    return () => {
-      window.removeEventListener("keydown", onKeyEnter);
-    };
-  });
 
   return (
     <div
@@ -106,7 +132,12 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
         />
         <h2>회원가입</h2>
         <section>
-          <form action="#">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              signupHandler();
+            }}
+          >
             <label
               className={`${
                 !error.name || !nameInput
@@ -224,55 +255,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               />
             </label>
 
-            <button
-              type="button"
-              disabled={!isAllInputsValid}
-              onClick={() => {
-                signupRequest(
-                  nameInput,
-                  idInput,
-                  passwordInput1,
-                  passwordInput2,
-                )
-                  .then((res) => {
-                    if (!res.ok) {
-                      console.log(res); // res.json()에 에러 메시지가 담겨 있음
-                    }
-                    return res.json();
-                  })
-                  .then((data) => {
-                    if ("access" in data) {
-                      setIsSignupSuccess(true);
-                      return;
-                    }
-                    if (
-                      "username" in data &&
-                      data.username[0].includes("already exists")
-                    ) {
-                      setAuthErrorMessage("이미 존재하는 아이디입니다.");
-                    } else if (
-                      "non_field_errors" in data &&
-                      data.non_field_errors[0].includes("didn't match.")
-                    ) {
-                      setAuthErrorMessage(
-                        "두 비밀번호를 동일하게 입력해주세요.",
-                      );
-                    } else if (
-                      "non_field_errors" in data &&
-                      data.non_field_errors[0].includes("too similar")
-                    ) {
-                      setAuthErrorMessage(
-                        "아이디와 비밀번호가 매우 유사합니다.",
-                      );
-                    } else {
-                      setAuthErrorMessage("예상치 못한 오류가 발생하였습니다.");
-                    }
-                  })
-                  .catch(() => {
-                    setAuthErrorMessage("예상치 못한 오류가 발생하였습니다.");
-                  });
-              }}
-            >
+            <button type="submit" disabled={!isAllInputsValid}>
               회원가입
             </button>
           </form>

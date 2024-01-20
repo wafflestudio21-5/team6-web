@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Logo from "../assets/logo.svg";
 import styles from "./AuthModalStyle.module.scss";
 import { CurrentModalType } from "../pages/Layout";
@@ -28,35 +28,28 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
   };
   const isAllInputsValid = !error.id && !error.password; // input이 모두 유효한지 확인
 
-  const authRequest = async () => {
-    return loginRequest(idInput, passwordInput)
-      .then(defaultHandleResponse)
-      .then((data) => {
-        setAccessToken(data.access);
-        setCurrentModal(null);
-      })
-      .catch((e) => {
-        console.log(e);
-        if (e.message === "401") {
-          setAuthErrorMessage("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
-        } else {
-          setAuthErrorMessage(
-            "알 수 없는 오류가 발생했습니다. 다시 시도해 주세요",
-          );
-        }
-      });
+  const authHandler = async () => {
+    return (
+      isAllInputsValid &&
+      !authErrorMessage &&
+      loginRequest(idInput, passwordInput)
+        .then(defaultHandleResponse)
+        .then((data) => {
+          setAccessToken(data.access);
+          setCurrentModal(null);
+        })
+        .catch((e) => {
+          console.log(e);
+          if (e.message === "401") {
+            setAuthErrorMessage("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
+          } else {
+            setAuthErrorMessage(
+              "알 수 없는 오류가 발생했습니다. 다시 시도해 주세요",
+            );
+          }
+        })
+    );
   };
-
-  useEffect(() => {
-    const onKeyEnter = (e: KeyboardEvent) => {
-      if (e.key === "Enter" && isAllInputsValid && !authErrorMessage)
-        authRequest();
-    };
-    window.addEventListener("keydown", onKeyEnter);
-    return () => {
-      window.removeEventListener("keydown", onKeyEnter);
-    };
-  });
 
   return (
     <div
@@ -102,7 +95,12 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
         />
         <h2>로그인</h2>
         <section>
-          <form action="#">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              authHandler();
+            }}
+          >
             <label
               className={`${
                 !error.id || !idInput ? styles.validLabel : styles.invalidLabel
@@ -171,11 +169,7 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
               <p className={styles.errorMessage}>{error.password}</p>
             )}
 
-            <button
-              type="button"
-              disabled={!isAllInputsValid}
-              onClick={authRequest}
-            >
+            <button type="submit" disabled={!isAllInputsValid}>
               로그인
             </button>
           </form>
