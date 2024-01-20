@@ -105,6 +105,32 @@
       .relatedHeader {
         width: 278px;
         margin: 0px 11px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .recommendList {
+        display: block;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          cursor: pointer;
+          text-align: left;
+          height: 32px;
+          width: 278px;
+          padding: 0 11px;
+          color: rgb(41, 42, 50);
+          font-size: 14px;
+          letter-spacing: -0.3px;
+          line-height: 32px;
+          white-space: nowrap;
+        }
+
+        li:hover {
+          background-color: rgb(247, 247, 247);
+        }
       }
     }
   }
