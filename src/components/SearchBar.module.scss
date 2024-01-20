@@ -56,6 +56,58 @@
       }
     }
   }
+  .recommend {
+    position: absolute;
+    top: calc(100% - 6px);
+    left: auto;
+    z-index: 1;
+    background-color: rgb(255, 255, 255);
+    width: 300px;
+    border-radius: 2px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 4px 0px;
+
+    section {
+      padding: 5px 0px;
+      margin: 0;
+
+      h2 {
+        float: left;
+        color: rgb(255, 5, 88);
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: -0.2px;
+        line-height: 19px;
+        margin: 5px 0px 6px;
+      }
+
+      .recentHeader {
+        width: 278px;
+        margin: 0px 11px;
+        display: flex;
+        justify-content: space-between;
+        button {
+          background: none;
+          padding: 0px;
+          border: none;
+          cursor: pointer;
+          color: rgb(126, 126, 126);
+          font-size: 12px;
+          font-weight: 400;
+          letter-spacing: -0.26px;
+          margin: 5px 0px 7px;
+        }
+
+        button:hover {
+          opacity: 0.8;
+        }
+      }
+
+      .relatedHeader {
+        width: 278px;
+        margin: 0px 11px;
+      }
+    }
+  }
 }
 
 .searchBar.transparent {
