@@ -1,0 +1,76 @@
+.fixedTab {
+  position: fixed;
+  top: 62px;
+  width: 100%;
+  z-index: 30;
+  background-color: white;
+  border-bottom: 1px solid rgb(227, 227, 227);
+}
+
+.ratingsPage {
+  padding-top: 200px;
+  padding-bottom: 40px;
+}
+
+.backButtonContainer {
+  padding: 0 16px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  button {
+    padding: 0px;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background-color: inherit;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9IiNGRjJGNkUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTYuNzU1IDExLjk4OGw0Ljk1OCA0Ljk1OGEuOTguOTggMCAxIDEtMS4zODcgMS4zODdMNCAxMi4wMDdsLjAwNS0uMDA1TDQgMTEuOTk3bDYuMzQzLTYuMzQzYS45Ny45NyAwIDEgMSAxLjM3MyAxLjM3M2wtNC45NjEgNC45NnoiLz4KICAgICAgICA8cGF0aCBkPSJNNiAxMWgxM2ExIDEgMCAwIDEgMCAySDZ2LTJ6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=");
+  }
+}
+.titleContainer {
+  padding: 0 16px;
+  height: 44px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.navContainer {
+  padding: 0 16px;
+  height: 44px;
+  width: 310px;
+  .latestOrderNav,
+  .highRatingOrderNav {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(120, 120, 120);
+
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    min-width: 48px;
+    width: 50%;
+    height: 100%;
+
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  .chosen {
+    border-bottom: 3px solid rgb(255, 47, 110);
+    color: rgb(255, 47, 110);
+  }
+}
+@media (max-width: 768px) {
+  .navContainer {
+    width: 100%;
+  }
+  .titleContainer {
+    text-align: center;
+  }
+}
+
+.movieListSection {
+  padding: 0px 10px 20px 10px;
+  width: 100%;
+  margin: 0;
+}

@@ -1,12 +1,21 @@
-import UserCard from "../components/UserCard";
+import { useEffect } from "react";
+import UserCard from "../components/user/UserCard";
 import styles from "./UserFollowPage.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
+useEffect;
 export default function UserFollowPage() {
   const { pathname } = useLocation();
   const mode = pathname.split("/")[pathname.split("/").length - 1];
   const title = mode === "followings" ? "팔로잉 중" : "팔로워";
   const navigate = useNavigate();
-
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+      });
+    };
+    scrollToTop();
+  }, []);
   return (
     <>
       <div className={styles.fixedTab}>
