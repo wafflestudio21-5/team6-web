@@ -8,7 +8,12 @@ import { useState, useEffect } from "react";
 import { myUserDataRequest, newTokenRequest } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
 import { defaultHandleResponse } from "../apis/custom";
+import SettingModal from "../components/user/SettingModal";
+
 export type CurrentModalType = null | "signup" | "login" | "setting";
+export type OutletContextType = {
+  setCurrentModal: (currentModal: CurrentModalType) => void;
+};
 
 export default function Layout() {
   const [currentModal, setCurrentModal] = useState<CurrentModalType>(null);
@@ -60,10 +65,13 @@ export default function Layout() {
         {currentModal === "login" && (
           <LoginModal setCurrentModal={setCurrentModal} />
         )}
+        {currentModal === "setting" && (
+          <SettingModal setCurrentModal={setCurrentModal} />
+        )}
         <Header setCurrentModal={setCurrentModal} />
         <section className={styles.mainSection}>
           <div className={styles.mainDiv}>
-            <Outlet />
+            <Outlet context={{ setCurrentModal } satisfies OutletContextType} />
             <Footer />
           </div>
         </section>

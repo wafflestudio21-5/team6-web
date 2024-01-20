@@ -3,10 +3,12 @@
 import styles from "./User.module.scss";
 import { Link } from "react-router-dom";
 // import { followersRequest, userProfileRequest } from "../../apis/user";
-import { defaultHandleResponse } from "../../apis/custom";
-import { logoutRequest } from "../../apis/auth";
+import { OutletContextType } from "../../pages/Layout";
+import { useOutletContext } from "react-router-dom";
 
 export default function User() {
+  const { setCurrentModal } = useOutletContext<OutletContextType>();
+
   // const { pageUserId } = useParams();
   // const { myUserData } = useAuthContext();
   /*const {
@@ -42,15 +44,7 @@ export default function User() {
           <button
             className={styles.setBttn}
             onClick={() => {
-              logoutRequest()
-                .then(defaultHandleResponse)
-                .then(() => {
-                  window.location.reload();
-                })
-                .catch((e) => {
-                  console.log(e);
-                  alert("로그아웃 실패");
-                });
+              setCurrentModal("setting");
             }}
           />
         </div>

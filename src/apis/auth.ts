@@ -53,10 +53,19 @@ export async function logoutRequest() {
   });
 }
 
-// 프론트 단에서는 엑세스 토큰을 삭제...
-export async function kakaoLogoutRequest() {
-  //
+export async function withDrawalUserRequest(accessToken: string) {
+  return fetch(`${BASE_API_URL}/users/mypage/delete/`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 }
+
 export async function kakaoAutoCallbackRequest(code: string | null) {
   return fetch(`${BASE_API_URL}/auth/kakao/login?code=${code}`);
 }
+
+// withdrawal with kakao
+export async function withDrawalUserWithKakaoRequest() {}
