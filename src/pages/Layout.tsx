@@ -29,8 +29,10 @@ export default function Layout() {
         // 리프레시 토큰은 쿠키에서 갱신되고 엑세스 토큰이 data로 받아와진다.
         const accessToken = data.access;
         setAccessToken(accessToken);
+      })
+      .finally(() => {
+        setAutoLoginConfirmed(true);
       });
-    setAutoLoginConfirmed(true);
   }, []);
 
   // 로그인이 성공하여 엑세스 토큰을 얻으면 다음 코드가 실행
