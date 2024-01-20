@@ -14,7 +14,7 @@ export default function AuthCallBackKakaoPage() {
       .then(defaultHandleResponse)
       .then((data) => {
         setAccessToken(data.access);
-        navigate(-1);
+        navigate(-2);
       })
       .catch((e) => {
         console.log(e);
