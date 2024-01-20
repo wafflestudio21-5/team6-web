@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./UserRatingsPage.module.scss";
 import { useEffect, useState } from "react";
-import LatestOrderRatingList from "../components/user/LatestOrderRatingList";
-import DescendingOrderRatingContainer from "../components/user/DescendingOrderRatingContainer";
+import LatestOrderRatingList from "../../components/user/LatestOrderRatingList";
+import DescendingOrderRatingContainer from "../../components/user/DescendingOrderRatingContainer";
 export default function UserRatingsPage() {
   const navigate = useNavigate();
   const [navMode, setNavMode] = useState<"latest" | "descending">("latest");

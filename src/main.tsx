@@ -6,15 +6,15 @@ import MainPage from "./pages/MainPage.tsx";
 import ContentPage from "./pages/ContentPage.tsx";
 import CommentListPage from "./pages/CommentListPage.tsx";
 import CommentPage from "./pages/CommentPage.tsx";
-import UserPage from "./pages/UserPage.tsx";
+import UserPage from "./pages/user/UserPage.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
-import UserStoragePage from "./pages/UserStoragePage.tsx";
-import UserLikesPage from "./pages/UserLikesPage.tsx";
-import UserRatingsPage from "./pages/UserRatingsPage.tsx";
-import UserCommentsPage from "./pages/UserCommentsPage.tsx";
+import UserStoragePage from "./pages/user/UserStoragePage.tsx";
+import UserLikesPage from "./pages/user/UserLikesPage.tsx";
+import UserRatingsPage from "./pages/user/UserRatingsPage.tsx";
 
-import UserFollowPage from "./pages/UserFollowPage.tsx";
+import UserFollowPage from "./pages/user/UserFollowPage.tsx";
 import RatingListWithNumberPage from "./pages/RatingListWithNumberPage.tsx";
+import UserCommentListPage from "./pages/user/UserCommentListPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
       },
       {
         path: "users/:id/comments", // 유저가 남긴 코멘트 모음 페이지
-        element: <UserCommentsPage />,
+        element: <UserCommentListPage />,
       },
       {
         path: "users/:id/contents", // 보관함 페이지

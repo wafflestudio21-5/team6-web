@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import UserCard from "../components/user/UserCard";
+import UserCard from "../../components/user/UserCard";
 import styles from "./UserFollowPage.module.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 useEffect;
