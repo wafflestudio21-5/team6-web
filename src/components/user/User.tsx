@@ -1,52 +1,25 @@
-import { useEffect } from "react";
-import { useAuthContext } from "../../contexts/authContext";
+// import { useEffect } from "react";
+// import { useAuthContext } from "../../contexts/authContext";
 import styles from "./User.module.scss";
-import { Link, useParams } from "react-router-dom";
-import { followersRequest, userProfileRequest } from "../../apis/user";
+import { Link } from "react-router-dom";
+// import { followersRequest, userProfileRequest } from "../../apis/user";
 import { defaultHandleResponse } from "../../apis/custom";
+import { logoutRequest } from "../../apis/auth";
 
 export default function User() {
-  const { id } = useParams();
-  const { myUserData } = useAuthContext();
-  const {} = myUserData;
-  console.log("myUserData : ", myUserData);
-  const {
-    nickname,
-    identifier,
-    connect,
-    likeCommentCount,
-    writtenCommentCount,
-    ratingCount,
-  } = {
-    nickname: "오수현 / 학생 / 컴퓨터공학부",
-    identifier: "sh020119",
-    connect: { followingCount: 100, followerCount: 20 },
-    writtenCommentCount: 10,
-    likeCommentCount: 3,
-    ratingCount: 4,
-  }; // 다음 정보는 추후 서버에서 fetching
+  // const { pageUserId } = useParams();
+  // const { myUserData } = useAuthContext();
+  /*const {
+    id: myUserId,
+    username: myUserName,
+    nickname: myNickname,
+    followers_count: myFollowers_count,
+    following_count: myFollowing_count,
+    bio: myBio,
+  } = myUserData as MyUserType;*/
+  // User 컴포넌트는 내 유저 페이지 뿐 아니라 다른 사람의 유저 페이지에서도 렌더링되므로, 추후 코드에 반영해야 한다
 
-  useEffect(() => {
-    userProfileRequest(17)
-      .then(defaultHandleResponse)
-      .then((d) => {
-        console.log(d);
-      });
-  }, []);
-  useEffect(() => {
-    followersRequest(17)
-      .then(defaultHandleResponse)
-      .then((d) => {
-        console.log(d);
-      });
-  }, []);
-
-  const myData = {
-    id: "idA",
-    followingId: ["idB", "idC", "idD"],
-  }; // 다음 정보는 추후 userContext 등에서 가져옴
-
-  const checkFollowing = myData?.followingId.includes(id as string); // assertion은 나중에 없앨테니 무시하셔도 됩니다.
+  // const checkFollowing = myData?.followingId.includes(id as string); // assertion은 나중에 없앨테니 무시하셔도 됩니다.
 
   const pageMode: "myPage" | "otherPage" | "notLoggedIn" = "myPage";
   /* !myData
@@ -59,49 +32,62 @@ export default function User() {
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
   // isLoggedIn : 팔로우 버튼 보여준다(무조건 팔로우) / 좋아요 섹션 보여주지 않는다.
 
-  console.log("pageMode : ", pageMode, "checkFollowing : ", checkFollowing);
+  // console.log("pageMode : ", pageMode, "checkFollowing : ", checkFollowing);
 
   return (
     <div className={styles.userContainer}>
       {/* profile section. user 기본 정보와 평가&코멘트 탭을 포함하는 섹션 */}
       <section className={styles.profileSection}>
         <div className={styles.setBttnBox}>
-          <button className={styles.setBttn} />
+          <button
+            className={styles.setBttn}
+            onClick={() => {
+              logoutRequest()
+                .then(defaultHandleResponse)
+                .then(() => {
+                  window.location.reload();
+                })
+                .catch((e) => {
+                  console.log(e);
+                  alert("로그아웃 실패");
+                });
+            }}
+          />
         </div>
         <div className={styles.profileInfoBox}>
           <div className={styles.profilePhoto}></div>
-          <h1>{nickname}</h1>
-          <p>{identifier}</p>
+          <h1>닉네임</h1>
+          <p>유저네임</p>
           <div className={styles.connection}>
             <Link to="followers">
-              팔로워 <span>{connect.followerCount}</span>
+              팔로워 <span>팔로워 수</span>
             </Link>
             <div className={styles.verticalLine} />
             <Link to="followings">
-              팔로잉 <span>{connect.followingCount}</span>
+              팔로잉 <span>팔로잉 수</span>
             </Link>
           </div>
           {pageMode !== "myPage" && (
             <button
-              className={`${styles.followBttn} ${
-                checkFollowing && styles.unfollow
-              }`}
+              /*   className={`${styles.followBttn} ${
+              checkFollowing && styles.unfollow
+              }`}*/
               onClick={() => {
                 //().then(()=>{toggle에 성공한 경우에만 UI에 반영한다.})
               }}
             >
-              {checkFollowing ? "팔로잉" : "팔로우"}
+              {/*checkFollowing ? "팔로잉" : "팔로우"*/}
             </button>
           )}
         </div>
         <div className={styles.userTabBox}>
           <Link to="ratings" className={styles.ratings}>
-            <span className={styles.count}>{ratingCount}</span>
+            <span className={styles.count}>매긴 별점 갯수</span>
             <span className={styles.underLetter}>평가</span>
           </Link>
           <div className={styles.verticalLine} />
           <Link to="comments" className={styles.comments}>
-            <span className={styles.count}>{writtenCommentCount}</span>
+            <span className={styles.count}>쓴 코멘트 갯수</span>
             <span className={styles.underLetter}>코멘트</span>
           </Link>
         </div>
@@ -141,7 +127,7 @@ export default function User() {
           <h1>좋아요</h1>
           <Link to="likes" className={styles.commentLikeTab}>
             <span>좋아한 코멘트</span>
-            <span className={styles.likeCommentCount}>{likeCommentCount}</span>
+            <span className={styles.likeCommentCount}>좋아요한코멘트갯수</span>
             <img
               alt="link"
               src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOSIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDkgMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xIDFMNyA3TDEgMTMiIHN0cm9rZT0iI0E1QTVBQSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg=="
