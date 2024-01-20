@@ -1,8 +1,7 @@
-import { useNavigate, useParams } from "react-router-dom";
-import styles from "./RatingListWithNumberPage.module.scss";
-export default function RatingListWithNumberPage() {
-  const { ratingNumber } = useParams();
-  const number = parseInt(!!ratingNumber ? ratingNumber : "0");
+import { useNavigate } from "react-router-dom";
+import styles from "./MovieListPage.module.scss";
+
+export default function UserContentDoingsPage() {
   const navigate = useNavigate();
   return (
     <>
@@ -14,11 +13,11 @@ export default function RatingListWithNumberPage() {
             }}
           />
         </div>
-        <div className={styles.titleContainer}>{number / 2}점 준 영화</div>
+        <div className={styles.titleContainer}>보는 중</div>
       </div>
       <div className={styles.ratingsPage}>
         <section className={styles.movieListSection}>
-          <ul className={styles.movieWithNumberList}>
+          <ul className={styles.movieList}>
             {Array(20)
               .fill(0)
               .map(() => {

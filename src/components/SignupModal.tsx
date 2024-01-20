@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import validatePassword from "../utils/validatePassword";
 import Logo from "../assets/logo.svg";
 import styles from "./AuthModalStyle.module.scss";
 import { CurrentModalType } from "../pages/Layout";
+import { loginRequest, signupRequest } from "../apis/auth";
+import { useAuthContext } from "../contexts/authContext";
+import { defaultHandleResponse } from "../apis/custom";
 
 type SignupModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -11,7 +14,11 @@ type SignupModalProps = {
 export default function SignupModal({ setCurrentModal }: SignupModalProps) {
   const [nameInput, setNameInput] = useState("");
   const [idInput, setIdInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordInput1, setPasswordInput1] = useState("");
+  const [passwordInput2, setPasswordInput2] = useState("");
+  const [authErrorMessage, setAuthErrorMessage] = useState<string | null>(null);
+  const [isSignupSuccess, setIsSignupSuccess] = useState(false); // 회원가입 성공 여부
+  const { setAccessToken } = useAuthContext();
   const error = {
     name:
       nameInput.length < 2 || nameInput.length > 20 || nameInput.includes(" ")
@@ -22,13 +29,66 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
         ? "정확하지 않은 아이디입니다."
         : "",
     password:
-      !passwordInput ||
-      !validatePassword(passwordInput) ||
-      passwordInput.includes(" ")
+      !passwordInput1 ||
+      !validatePassword(passwordInput1) ||
+      passwordInput1.includes(" ")
         ? "비밀번호는 영문, 숫자, 특수문자 중 2가지 이상을 조합하여 최소 10자리 이상이여야 합니다."
         : "",
   };
   const isAllInputsValid = !error.name && !error.id && !error.password; // input이 모두 유효한지 확인
+
+  const signupHandler = () =>
+    isAllInputsValid &&
+    signupRequest(nameInput, idInput, passwordInput1, passwordInput2)
+      .then((res) => {
+        if (!res.ok) {
+          console.log(res); // res.json()에 에러 메시지가 담겨 있음
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if ("access" in data) {
+          setIsSignupSuccess(true);
+          return;
+        }
+        if ("username" in data && data.username[0].includes("already exists")) {
+          setAuthErrorMessage("이미 존재하는 아이디입니다.");
+        } else if (
+          "non_field_errors" in data &&
+          data.non_field_errors[0].includes("didn't match.")
+        ) {
+          setAuthErrorMessage("두 비밀번호를 동일하게 입력해주세요.");
+        } else if (
+          "non_field_errors" in data &&
+          data.non_field_errors[0].includes("too similar")
+        ) {
+          setAuthErrorMessage("아이디와 비밀번호가 매우 유사합니다.");
+        } else {
+          setAuthErrorMessage("예상치 못한 오류가 발생하였습니다.");
+        }
+      })
+      .catch(() => {
+        setAuthErrorMessage("예상치 못한 오류가 발생하였습니다.");
+      });
+
+  const authHandler = async () => {
+    return (
+      isSignupSuccess &&
+      loginRequest(idInput, passwordInput1)
+        .then(defaultHandleResponse)
+        .then((data) => {
+          setAccessToken(data.access);
+          setCurrentModal(null);
+        })
+        .catch((e) => {
+          alert(e);
+        })
+    );
+  };
+
+  useEffect(() => {
+    authHandler();
+  }, [isSignupSuccess]); // 회원가입 시 자동 로그인
 
   return (
     <div
@@ -41,6 +101,30 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
           e.stopPropagation();
         }}
       >
+        {!!authErrorMessage && (
+          <div
+            className={styles.authErrorBoxContainer}
+            onClick={() => {
+              setAuthErrorMessage(null);
+            }}
+          >
+            <div
+              className={styles.authErrorBox}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <p> {authErrorMessage}</p>
+              <button
+                onClick={() => {
+                  setAuthErrorMessage(null);
+                }}
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        )}
         <img
           src={Logo}
           className={styles.watchaPediaLogo}
@@ -48,7 +132,12 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
         />
         <h2>회원가입</h2>
         <section>
-          <form action="#">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              signupHandler();
+            }}
+          >
             <label
               className={`${
                 !error.name || !nameInput
@@ -117,7 +206,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
 
             <label
               className={`${
-                !error.password || !passwordInput
+                !error.password || !passwordInput1
                   ? styles.validLabel
                   : styles.invalidLabel
               }`}
@@ -126,16 +215,16 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
                 autoComplete="off"
                 placeholder="비밀번호"
                 type="password"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
+                value={passwordInput1}
+                onChange={(e) => setPasswordInput1(e.target.value)}
               />
-              {!!passwordInput && (
+              {!!passwordInput1 && (
                 <div
                   className={styles.inputClearIcon}
-                  onClick={() => setPasswordInput("")}
+                  onClick={() => setPasswordInput1("")}
                 />
               )}
-              {!!passwordInput && (
+              {!!passwordInput1 && (
                 <div className={styles.validationIconBox}>
                   <div
                     className={`${styles.validationIcon} ${
@@ -146,17 +235,27 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               )}
             </label>
 
-            {!!passwordInput && (
+            {!!passwordInput1 && (
               <p className={styles.errorMessage}>{error.password}</p>
             )}
 
-            <button
-              type="button"
-              disabled={!isAllInputsValid}
-              onClick={() => {
-                // console.log("회원가입");
-              }}
+            <label
+              className={`${
+                !error.password || !passwordInput2
+                  ? styles.validLabel
+                  : styles.invalidLabel
+              }`}
             >
+              <input
+                autoComplete="off"
+                placeholder="비밀번호 확인"
+                type="password"
+                value={passwordInput2}
+                onChange={(e) => setPasswordInput2(e.target.value)}
+              />
+            </label>
+
+            <button type="submit" disabled={!isAllInputsValid}>
               회원가입
             </button>
           </form>
@@ -173,9 +272,9 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
           <div className={styles.divisionLine}>
             <span>OR</span>
           </div>
-          <ul className={styles.socialLoginButtonList}>
+          {/*<ul className={styles.socialLoginButtonList}>
             <li>
-              <button className={styles.kakaoLoginButton}>
+              <button className={styles.kakaoLoginButton} onClick={() => {}}>
                 <img
                   src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTIuMDM5NCAxOC4zQzE3LjAzMTggMTguMyAyMS4wNzg5IDE1LjA5ODggMjEuMDc4OSAxMS4xNUMyMS4wNzg5IDcuMjAxMTYgMTcuMDMxOCA0IDEyLjAzOTQgNEM3LjA0NzA5IDQgMyA3LjIwMTE2IDMgMTEuMTVDMyAxMy43MjQ5IDQuNzIwNzUgMTUuOTgxOSA3LjMwMjI5IDE3LjI0MDdDNy4wMzYwNyAxOC4zNTU0IDYuNTY4NTUgMjAuMzE5OCA2LjU1MTQ3IDIwLjQzODVDNi41Mjc1NCAyMC42MDQ4IDYuNzE5MjUgMjAuNzQwNiA2Ljg4NzU4IDIwLjYyNTFDNy4wMTA1IDIwLjU0MDggOS4yNTI5NSAxOS4wMTAyIDEwLjQ1NDEgMTguMTkwNEMxMC45Njg4IDE4LjI2MjQgMTEuNDk4NiAxOC4zIDEyLjAzOTQgMTguM1oiIGZpbGw9IiMzQzFFMUUiLz4KPC9zdmc+Cg=="
                   alt="kakaoLoginButton"
@@ -183,7 +282,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               </button>
             </li>
             <li>
-              <button className={styles.googleLoginButton}>
+                    <button className={styles.googleLoginButton}>
                 <img
                   src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjAuNjQgMTIuMjA0MkMyMC42NCAxMS41NjYgMjAuNTgyNyAxMC45NTI0IDIwLjQ3NjQgMTAuMzYzM0gxMlYxMy44NDQ2SDE2Ljg0MzZDMTYuNjM1IDE0Ljk2OTYgMTYuMDAwOSAxNS45MjI4IDE1LjA0NzcgMTYuNTYxVjE4LjgxOTJIMTcuOTU2NEMxOS42NTgyIDE3LjI1MjQgMjAuNjQgMTQuOTQ1MSAyMC42NCAxMi4yMDQyVjEyLjIwNDJaIiBmaWxsPSIjNDI4NUY0Ii8+CiAgICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTExLjk5OTggMjFDMTQuNDI5OCAyMSAxNi40NjcgMjAuMTk0MSAxNy45NTYxIDE4LjgxOTVMMTUuMDQ3NSAxNi41NjEzQzE0LjI0MTYgMTcuMTAxMyAxMy4yMTA3IDE3LjQyMDQgMTEuOTk5OCAxNy40MjA0QzkuNjU1NjcgMTcuNDIwNCA3LjY3MTU4IDE1LjgzNzIgNi45NjM4NSAxMy43MUgzLjk1NzAzVjE2LjA0MThDNS40Mzc5NCAxOC45ODMxIDguNDgxNTggMjEgMTEuOTk5OCAyMVYyMVoiIGZpbGw9IiMzNEE4NTMiLz4KICAgIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNi45NjQwOSAxMy43MDk4QzYuNzg0MDkgMTMuMTY5OCA2LjY4MTgyIDEyLjU5MyA2LjY4MTgyIDExLjk5OThDNi42ODE4MiAxMS40MDY2IDYuNzg0MDkgMTAuODI5OCA2Ljk2NDA5IDEwLjI4OThWNy45NTgwMUgzLjk1NzI3QzMuMzQ3NzMgOS4xNzMwMSAzIDEwLjU0NzYgMyAxMS45OTk4QzMgMTMuNDUyMSAzLjM0NzczIDE0LjgyNjYgMy45NTcyNyAxNi4wNDE2TDYuOTY0MDkgMTMuNzA5OFYxMy43MDk4WiIgZmlsbD0iI0ZCQkMwNSIvPgogICAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMi4wNDI3IDYuNTc5NTVDMTMuMzY0MSA2LjU3OTU1IDE0LjU1MDUgNy4wMzM2NCAxNS40ODMyIDcuOTI1NDVMMTguMDY0NSA1LjM0NDA5QzE2LjUwNTkgMy44OTE4MiAxNC40Njg2IDMgMTIuMDQyNyAzQzguNTI0NTUgMyA1LjQ4MDkxIDUuMDE2ODIgNCA3Ljk1ODE4TDcuMDA2ODIgMTAuMjlDNy43MTQ1NSA4LjE2MjczIDkuNjk4NjQgNi41Nzk1NSAxMi4wNDI3IDYuNTc5NTVWNi41Nzk1NVoiIGZpbGw9IiNFQTQzMzUiLz4KPC9zdmc+Cg=="
                   alt="googleLoginButton"
@@ -191,9 +290,14 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
               </button>
             </li>
             <li>
-              <button className={styles.naverLoginButton}></button>
+              <button
+                className={styles.naverLoginButton}
+                onClick={() => {
+                  window.location.href = BASE_API_URL + "/auth/naver/login/";
+                }}
+              ></button>
             </li>
-          </ul>
+          </ul>*/}
         </section>
       </div>
     </div>

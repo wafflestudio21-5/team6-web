@@ -8,6 +8,7 @@ export default function UserFollowPage() {
   const mode = pathname.split("/")[pathname.split("/").length - 1];
   const title = mode === "followings" ? "팔로잉 중" : "팔로워";
   const navigate = useNavigate();
+
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
@@ -16,6 +17,7 @@ export default function UserFollowPage() {
     };
     scrollToTop();
   }, []);
+
   return (
     <>
       <div className={styles.fixedTab}>
@@ -31,9 +33,6 @@ export default function UserFollowPage() {
       <div className={styles.followPage}>
         <div className={styles.followListContainer}>
           <ul className={styles.followList}>
-            <UserCard />
-            <UserCard />
-            <UserCard />
             <UserCard />
             <UserCard />
             <UserCard />

@@ -1,9 +1,15 @@
+import { useEffect } from "react";
+import { useAuthContext } from "../../contexts/authContext";
 import styles from "./User.module.scss";
 import { Link, useParams } from "react-router-dom";
+import { followersRequest, userProfileRequest } from "../../apis/user";
+import { defaultHandleResponse } from "../../apis/custom";
 
 export default function User() {
   const { id } = useParams();
-
+  const { myUserData } = useAuthContext();
+  const {} = myUserData;
+  console.log("myUserData : ", myUserData);
   const {
     nickname,
     identifier,
@@ -19,6 +25,21 @@ export default function User() {
     likeCommentCount: 3,
     ratingCount: 4,
   }; // 다음 정보는 추후 서버에서 fetching
+
+  useEffect(() => {
+    userProfileRequest(17)
+      .then(defaultHandleResponse)
+      .then((d) => {
+        console.log(d);
+      });
+  }, []);
+  useEffect(() => {
+    followersRequest(17)
+      .then(defaultHandleResponse)
+      .then((d) => {
+        console.log(d);
+      });
+  }, []);
 
   const myData = {
     id: "idA",
