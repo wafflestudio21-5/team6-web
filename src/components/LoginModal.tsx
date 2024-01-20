@@ -3,7 +3,6 @@ import Logo from "../assets/logo.svg";
 import styles from "./LoginModal.module.scss";
 import { CurrentModalType } from "../pages/Layout";
 import { loginRequest } from "../apis/auth";
-import { KAKAO_AUTH_URL } from "../apis/const";
 import { useAuthContext } from "../contexts/authContext";
 import { defaultHandleResponse } from "../apis/custom";
 
@@ -191,7 +190,11 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
               <button
                 className={styles.kakaoLoginButton}
                 onClick={() => {
-                  window.location.href = KAKAO_AUTH_URL;
+                  window.open(
+                    "/auth/toKakao",
+                    "_blank",
+                    "width=350,height=600",
+                  );
                 }}
               >
                 <img
