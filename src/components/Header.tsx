@@ -3,6 +3,7 @@ import Logo from "../assets/logo.svg";
 import WhiteLogo from "../assets/logo_white.svg";
 import UserImage from "../assets/user_default.jpg";
 import styles from "./Header.module.scss";
+// import { newTokenRequest } from "../apis/auth";
 import {
   Link,
   useNavigate,
@@ -10,6 +11,10 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useState, useEffect } from "react";
+// import { myUserDataRequest } from "../apis/auth";
+import { useAuthContext } from "../contexts/authContext";
+import { logoutRequest } from "../apis/auth";
+import { defaultHandleResponse } from "../apis/custom";
 
 type HeaderProps = {
   setCurrentModal: (modal: CurrentModalType) => void;
@@ -21,9 +26,9 @@ export default function Header({ setCurrentModal }: HeaderProps) {
   const query = searchParams.get("query");
   const location = useLocation();
 
-  const [searchInput, setSearchInput] = useState("");
+  const { isLogined, myUserData } = useAuthContext();
 
-  const logined = true; //for test
+  const [searchInput, setSearchInput] = useState("");
   const inContentPage = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
   const [isScrollTop, setIsScrollTop] = useState(true);
 
@@ -89,9 +94,33 @@ export default function Header({ setCurrentModal }: HeaderProps) {
                 </div>
               </div>
             </li>
-            {logined ? (
+            <button
+              onClick={() => {
+                console.log(myUserData);
+              }}
+            >
+              내 유저 데이터 확인
+            </button>
+            <button
+              onClick={() => {
+                logoutRequest()
+                  .then(defaultHandleResponse)
+                  .then((data) => {
+                    alert("로그아웃 성공");
+                    console.log(data);
+                    //     window.location.reload();
+                  })
+                  .catch(() => {
+                    console.log("로그아웃 실패");
+                  });
+              }}
+            >
+              {" "}
+              로그아웃
+            </button>
+            {isLogined ? (
               <li className={styles.myProfileLi}>
-                <Link to="/users/idididid">
+                <Link to={`/users/${myUserData.id}`}>
                   <div>
                     <img src={UserImage} />
                   </div>
