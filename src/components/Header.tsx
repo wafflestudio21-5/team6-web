@@ -3,20 +3,15 @@ import Logo from "../assets/logo.svg";
 import WhiteLogo from "../assets/logo_white.svg";
 import UserImage from "../assets/user_default.jpg";
 import styles from "./Header.module.scss";
-import {
-  Link,
-  useNavigate,
-  useSearchParams,
-  useLocation,
-} from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import SearchBar from "./SearchBar";
 
 type HeaderProps = {
   setCurrentModal: (modal: CurrentModalType) => void;
 };
 
 export default function Header({ setCurrentModal }: HeaderProps) {
-  const navigate = useNavigate();
   const searchParams = useSearchParams()[0];
   const query = searchParams.get("query");
   const location = useLocation();
@@ -26,6 +21,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
   const logined = true; //for test
   const inContentPage = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
   const [isScrollTop, setIsScrollTop] = useState(true);
+  const transparent = inContentPage && isScrollTop;
 
   const handleScroll = () => {
     if (window.scrollY) {
@@ -46,18 +42,9 @@ export default function Header({ setCurrentModal }: HeaderProps) {
     setSearchInput(query ? query : "");
   }, [query]);
 
-  const searchKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && searchInput) {
-      navigate("/search?query=" + searchInput);
-    }
-  };
-
   return (
     <header
-      className={
-        styles.header +
-        (inContentPage && isScrollTop ? " " + styles.transparent : "")
-      }
+      className={styles.header + (transparent ? " " + styles.transparent : "")}
     >
       <div>
         <div className={styles.headerDiv}>
@@ -71,24 +58,11 @@ export default function Header({ setCurrentModal }: HeaderProps) {
                 />
               </Link>
             </li>
-            <li className={styles.searchLi}>
-              <div>
-                <div>
-                  <label>
-                    <input
-                      autoComplete="off"
-                      placeholder="콘텐츠, 인물, 유저를 검색해보세요."
-                      type="text"
-                      value={searchInput}
-                      onChange={(e) => {
-                        setSearchInput(e.target.value);
-                      }}
-                      onKeyDown={searchKeyDown}
-                    />
-                  </label>
-                </div>
-              </div>
-            </li>
+            <SearchBar
+              transparent={transparent}
+              searchInput={searchInput}
+              setSearchInput={setSearchInput}
+            />
             {logined ? (
               <li className={styles.myProfileLi}>
                 <Link to="/users/idididid">
