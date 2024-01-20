@@ -6,16 +6,20 @@ import MainPage from "./pages/MainPage.tsx";
 import ContentPage from "./pages/ContentPage.tsx";
 import CommentListPage from "./pages/CommentListPage.tsx";
 import CommentPage from "./pages/CommentPage.tsx";
-import UserPage from "./pages/UserPage.tsx";
+import UserPage from "./pages/user/UserPage.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
-import UserStoragePage from "./pages/UserStoragePage.tsx";
-import UserLikesPage from "./pages/UserLikesPage.tsx";
-import UserRatingsPage from "./pages/UserRatingsPage.tsx";
-import UserCommentsPage from "./pages/UserCommentsPage.tsx";
-import UserFollowersPage from "./pages/UserFollowersPage.tsx";
-import UserFollowingsPage from "./pages/UserFollowingsPage.tsx";
+import UserStoragePage from "./pages/user/UserStoragePage.tsx";
+import UserLikesPage from "./pages/user/UserLikesCommentListPage.tsx";
+import UserRatingsPage from "./pages/user/UserRatingsPage.tsx";
+import UserRatingsOrderPage from "./pages/user/UserRatingsOrderPage.tsx";
+import UserWrittenCommentListPage from "./pages/user/UserWrittenCommentListPage.tsx";
+import UserFollowingPage from "./pages/user/UserFollowingPage.tsx";
 import AuthCallBackKakaoPage from "./pages/AuthCallBackKakaoPage.tsx";
 import { AuthContextProvider } from "./contexts/authContext.tsx";
+import UserStorageDoingsPage from "./pages/user/UserStorageDoingsPage.tsx";
+import UserStorageWishesPage from "./pages/user/UserStorageWishesPage.tsx";
+import UserFollowerPage from "./pages/user/UserFollowerPage.tsx";
+import AuthToKaKao from "./pages/AuthToKakao.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,6 +29,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <MainPage />,
       },
+
       {
         path: "/contents/:id",
         element: <ContentPage />,
@@ -43,25 +48,36 @@ const router = createBrowserRouter([
       },
       {
         path: "users/:id/followers", // 유저가 남긴 평가 모음 페이지
-        element: <UserFollowersPage />,
+        element: <UserFollowerPage />,
       },
       {
         path: "users/:id/followings", // 유저가 남긴 평가 모음 페이지
-        element: <UserFollowingsPage />,
+        element: <UserFollowingPage />,
       },
       {
         path: "users/:id/ratings", // 유저가 남긴 평가 모음 페이지
         element: <UserRatingsPage />,
       },
       {
+        path: "users/:id/ratings/:ratingNumber", // 유저가 남긴 평가 모음 페이지
+        element: <UserRatingsOrderPage />,
+      },
+      {
         path: "users/:id/comments", // 유저가 남긴 코멘트 모음 페이지
-        element: <UserCommentsPage />,
+        element: <UserWrittenCommentListPage />,
       },
       {
         path: "users/:id/contents", // 보관함 페이지
         element: <UserStoragePage />,
       },
-
+      {
+        path: "users/:id/contents/wishes",
+        element: <UserStorageWishesPage />,
+      },
+      {
+        path: "users/:id/contents/doings",
+        element: <UserStorageDoingsPage />,
+      },
       {
         path: "users/:id/likes", // user가 영화에 대해 좋아요 남겼을 때의 페이지
         element: <UserLikesPage />,
@@ -70,9 +86,10 @@ const router = createBrowserRouter([
         path: "/search",
         element: <SearchPage />,
       },
-      { path: "/auth/callback/kakao", element: <AuthCallBackKakaoPage /> },
     ],
   },
+  { path: "/auth/callback/kakao", element: <AuthCallBackKakaoPage /> },
+  { path: "/auth/toKakao", element: <AuthToKaKao /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

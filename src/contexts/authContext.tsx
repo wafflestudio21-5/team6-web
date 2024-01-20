@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 type AuthContextType = {
-  myUserData: MyUserType;
+  myUserData: MyUserType | null;
   setMyUserData: (authData: MyUserType) => void;
   accessToken: string | null;
   setAccessToken: (accessToken: string | null) => void;
@@ -34,7 +34,7 @@ export function AuthContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [myUserData, setMyUserData] = useState<MyUserType>({} as MyUserType);
+  const [myUserData, setMyUserData] = useState<MyUserType | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [autoLoginConfirmed, setAutoLoginConfirmed] = useState(false); // 맨 처음 자동 로그인 로직이 끝난 이후에 true
   const isLogined = !!accessToken;
