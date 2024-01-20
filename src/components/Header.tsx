@@ -55,11 +55,11 @@ export default function Header({ setCurrentModal }: HeaderProps) {
     }
   };
 
-  const jsonData = {
+  /* const jsonData = {
     username: "frontTestId2",
     password: "frontpass123",
     password2: "frontpass123",
-  };
+  };*/
 
   return (
     <header

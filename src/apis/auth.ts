@@ -57,3 +57,6 @@ export async function logoutRequest() {
 export async function kakaoLogoutRequest() {
   //
 }
+export async function kakaoAutoCallbackRequest(code: string | null) {
+  return fetch(`${BASE_API_URL}/auth/kakao/login?code=${code}`);
+}
