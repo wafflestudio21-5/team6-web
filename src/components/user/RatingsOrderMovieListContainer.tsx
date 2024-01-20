@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./DescendingOrderRatingContainer.module.scss";
+import styles from "./RatingsOrderMovieListContainer.module.scss";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 
-export default function DescendingOrderRatingContainer() {
+export default function RatingsOrderMovieListContainer() {
   return (
-    <section className={styles.DescendingOrderContainer}>
+    <section className={styles.ratingsOrderMovieListContainer}>
       {Array(10)
         .fill(10)
         .map((_, index) => {

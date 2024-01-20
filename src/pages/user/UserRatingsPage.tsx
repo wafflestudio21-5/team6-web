@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./UserRatingsPage.module.scss";
 import { useEffect, useState } from "react";
-import LatestOrderRatingList from "../../components/user/LatestOrderRatingList";
-import DescendingOrderRatingContainer from "../../components/user/DescendingOrderRatingContainer";
+import DefaultMovieList from "../../components/user/DefaultMovieList";
+import RatingsOrderMovieListContainer from "../../components/user/RatingsOrderMovieListContainer";
 export default function UserRatingsPage() {
   const navigate = useNavigate();
-  const [navMode, setNavMode] = useState<"latest" | "descending">("latest");
+  const [navMode, setNavMode] = useState<"default" | "ratingsOrder">("default");
+
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
@@ -29,20 +30,20 @@ export default function UserRatingsPage() {
         <div className={styles.navContainer}>
           <div
             onClick={() => {
-              setNavMode("latest");
+              setNavMode("default");
             }}
-            className={`${styles.latestOrderNav} ${
-              navMode === "latest" && styles.chosen
+            className={`${styles.defaultNav} ${
+              navMode === "default" && styles.chosen
             }`}
           >
             전체
           </div>
           <div
             onClick={() => {
-              setNavMode("descending");
+              setNavMode("ratingsOrder");
             }}
-            className={`${styles.latestOrderNav} ${
-              navMode === "descending" && styles.chosen
+            className={`${styles.ratingsOrderNav} ${
+              navMode === "ratingsOrder" && styles.chosen
             }`}
           >
             별점 순
@@ -51,10 +52,10 @@ export default function UserRatingsPage() {
       </div>
       <div className={styles.ratingsPage}>
         <section className={styles.movieListSection}>
-          {navMode === "latest" ? (
-            <LatestOrderRatingList />
+          {navMode === "default" ? (
+            <DefaultMovieList />
           ) : (
-            <DescendingOrderRatingContainer />
+            <RatingsOrderMovieListContainer />
           )}
         </section>
       </div>

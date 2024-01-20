@@ -9,15 +9,16 @@ import CommentPage from "./pages/CommentPage.tsx";
 import UserPage from "./pages/user/UserPage.tsx";
 import SearchPage from "./pages/SearchPage.tsx";
 import UserStoragePage from "./pages/user/UserStoragePage.tsx";
-import UserLikesPage from "./pages/user/UserLikesPage.tsx";
+import UserLikesPage from "./pages/user/UserLikesCommentListPage.tsx";
 import UserRatingsPage from "./pages/user/UserRatingsPage.tsx";
-import RatingListWithNumberPage from "./pages/user/RatingListWithNumberPage.tsx";
-import UserCommentListPage from "./pages/user/UserCommentListPage.tsx";
-import UserFollowPage from "./pages/user/UserFollowPage.tsx";
+import UserRatingsOrderPage from "./pages/user/UserRatingsOrderPage.tsx";
+import UserWrittenCommentListPage from "./pages/user/UserWrittenCommentListPage.tsx";
+import UserFollowingPage from "./pages/user/UserFollowingPage.tsx";
 import AuthCallBackKakaoPage from "./pages/AuthCallBackKakaoPage.tsx";
 import { AuthContextProvider } from "./contexts/authContext.tsx";
-import UserContentDoingsPage from "./pages/user/UserContentDoingsPage.tsx";
-import UserContentWishesPage from "./pages/user/UserContentWishesPage.tsx";
+import UserStorageDoingsPage from "./pages/user/UserStorageDoingsPage.tsx";
+import UserStorageWishesPage from "./pages/user/UserStorageWishesPage.tsx";
+import UserFollowerPage from "./pages/user/UserFollowerPage.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -46,11 +47,11 @@ const router = createBrowserRouter([
       },
       {
         path: "users/:id/followers", // 유저가 남긴 평가 모음 페이지
-        element: <UserFollowPage />,
+        element: <UserFollowerPage />,
       },
       {
         path: "users/:id/followings", // 유저가 남긴 평가 모음 페이지
-        element: <UserFollowPage />,
+        element: <UserFollowingPage />,
       },
       {
         path: "users/:id/ratings", // 유저가 남긴 평가 모음 페이지
@@ -58,11 +59,11 @@ const router = createBrowserRouter([
       },
       {
         path: "users/:id/ratings/:ratingNumber", // 유저가 남긴 평가 모음 페이지
-        element: <RatingListWithNumberPage />,
+        element: <UserRatingsOrderPage />,
       },
       {
         path: "users/:id/comments", // 유저가 남긴 코멘트 모음 페이지
-        element: <UserCommentListPage />,
+        element: <UserWrittenCommentListPage />,
       },
       {
         path: "users/:id/contents", // 보관함 페이지
@@ -70,11 +71,11 @@ const router = createBrowserRouter([
       },
       {
         path: "users/:id/contents/wishes",
-        element: <UserContentDoingsPage />,
+        element: <UserStorageWishesPage />,
       },
       {
         path: "users/:id/contents/doings",
-        element: <UserContentWishesPage />,
+        element: <UserStorageDoingsPage />,
       },
       {
         path: "users/:id/likes", // user가 영화에 대해 좋아요 남겼을 때의 페이지

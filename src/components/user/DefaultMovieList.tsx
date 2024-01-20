@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./LatestOrderRatingList.module.scss";
+import styles from "./DefaultMovieList.module.scss";
 
-export default function LatestOrderRatingList() {
+export default function DefaultMovieList() {
   const navigate = useNavigate();
   return (
-    <ul className={styles.RatedMovieList}>
+    <ul className={styles.defaultMovieList}>
       {Array(100)
         .fill(0)
         .map(() => {

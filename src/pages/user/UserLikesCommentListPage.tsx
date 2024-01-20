@@ -1,8 +1,9 @@
 import CommentCard from "../../components/CommentCard";
-import styles from "./UserCommentListPage.module.scss";
+import styles from "./UserLikesCommentListPage.module.scss";
 import profileDefault from "../../assets/user_default.jpg";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
 type Comment = {
   user: {
     img: string;
@@ -17,13 +18,10 @@ type Comment = {
 const tmpComment: Comment = {
   user: {
     img: profileDefault,
-    name: "오수현",
+    name: "홍길동",
   },
   reviewRating: 3,
-  text: `줄리어스 로버트 오펜하이머..
-줄리어스 로버트 오펜하이머..
-자기 이야기가 영화로 만들어진다니.
-로버트는 얼마나 좋았을까.
+  text: `여기에는 해당 유저가 좋아요를 누른 코멘트가 들어갑니다.
   `,
   likeCount: 200,
   subcommentCount: 1000,
@@ -34,7 +32,7 @@ for (let i = 0; i < 8; i++) {
   tmpComments.push(tmpComment);
 }
 
-export default function UserCommentListPage() {
+export default function UserLikesPage() {
   const navigate = useNavigate();
   useEffect(() => {
     const scrollToTop = () => {
@@ -44,6 +42,7 @@ export default function UserCommentListPage() {
     };
     scrollToTop();
   }, []);
+
   return (
     <div className={styles.pageCon}>
       <header>
@@ -53,7 +52,7 @@ export default function UserCommentListPage() {
               navigate(-1);
             }}
           />
-          <h2>코멘트</h2>
+          <h2>내가 좋아요한 코멘트</h2>
         </div>
         <nav>
           <button>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Logo from "../assets/logo.svg";
-import styles from "./AuthModalStyle.module.scss";
+import styles from "./LoginModal.module.scss";
 import { CurrentModalType } from "../pages/Layout";
 import { loginRequest } from "../apis/auth";
 import { KAKAO_AUTH_URL } from "../apis/const";

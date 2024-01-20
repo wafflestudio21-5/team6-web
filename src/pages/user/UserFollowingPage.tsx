@@ -1,12 +1,9 @@
 import { useEffect } from "react";
 import UserCard from "../../components/user/UserCard";
-import styles from "./UserFollowPage.module.scss";
-import { useLocation, useNavigate } from "react-router-dom";
-useEffect;
-export default function UserFollowPage() {
-  const { pathname } = useLocation();
-  const mode = pathname.split("/")[pathname.split("/").length - 1];
-  const title = mode === "followings" ? "팔로잉 중" : "팔로워";
+import styles from "./UserFollowingPage.module.scss";
+import { useNavigate } from "react-router-dom";
+
+export default function UserFollowingPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +25,7 @@ export default function UserFollowPage() {
             }}
           />
         </div>
-        <div className={styles.titleContainer}>{title}</div>
+        <div className={styles.titleContainer}>팔로잉</div>
       </div>
       <div className={styles.followPage}>
         <div className={styles.followListContainer}>

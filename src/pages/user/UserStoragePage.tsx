@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./UserStoragePage.module.scss";
-import { MovieCarousel } from "../../components/user/DescendingOrderRatingContainer";
+import { MovieCarousel } from "../../components/user/RatingsOrderMovieListContainer";
 export default function UserStoragePage() {
   const { id } = useParams();
   const navigate = useNavigate();

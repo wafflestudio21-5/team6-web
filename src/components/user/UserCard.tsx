@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./../../pages/user/UserFollowPage.module.scss";
+import styles from "./UserCard.module.scss";
 import { Link } from "react-router-dom";
 
 export default function UserCard() {

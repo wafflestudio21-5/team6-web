@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./MovieListPage.module.scss";
+import styles from "./UserStorageWishesPage.module.scss";
 
-export default function UserContentDoingsPage() {
+export default function UserStorageWishesPage() {
   const navigate = useNavigate();
   return (
     <>
@@ -13,9 +13,9 @@ export default function UserContentDoingsPage() {
             }}
           />
         </div>
-        <div className={styles.titleContainer}>보는 중</div>
+        <div className={styles.titleContainer}>보고 싶어요</div>
       </div>
-      <div className={styles.ratingsPage}>
+      <div className={styles.wishesPage}>
         <section className={styles.movieListSection}>
           <ul className={styles.movieList}>
             {Array(20)

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import validatePassword from "../utils/validatePassword";
 import Logo from "../assets/logo.svg";
-import styles from "./AuthModalStyle.module.scss";
+import styles from "./SignupModal.module.scss";
 import { CurrentModalType } from "../pages/Layout";
 import { loginRequest, signupRequest } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
