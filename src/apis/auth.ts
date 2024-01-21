@@ -53,8 +53,13 @@ export async function postLogout() {
   });
 }
 
+export async function getKakaoAutoCallback(code: string | null) {
+  return fetch(`${BASE_API_URL}/auth/kakao/login?code=${code}`);
+}
+
+// 카카오 회원탈퇴 기능이 구현되어 있는 엔드포인트이나, 기본 탈퇴 기능도 구현되어 있어서 이 api만 사용
 export async function deleteWithDrawalUser(accessToken: string) {
-  return fetch(`${BASE_API_URL}/users/mypage/delete/`, {
+  return fetch(`${BASE_API_URL}/users/mypage/delete/kakao_unlink/`, {
     method: "DELETE",
     credentials: "include",
     headers: {
@@ -63,9 +68,13 @@ export async function deleteWithDrawalUser(accessToken: string) {
   });
 }
 
-export async function getKakaoAutoCallback(code: string | null) {
-  return fetch(`${BASE_API_URL}/auth/kakao/login?code=${code}`);
-}
-
-// withdrawal with kakao
-export async function postWithDrawalUserWithKakao() {}
+/*
+export async function deleteWithDrawalUser(accessToken: string) {
+  return fetch(`${BASE_API_URL}/users/mypage/delete/`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+}*/
