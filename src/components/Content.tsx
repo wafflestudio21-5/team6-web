@@ -41,46 +41,31 @@ function ContentHeader({ content }: { content: ContentType }) {
   );
 }
 
-function ContentPanel() {
-  const content = {
-    posterSrc:
-      "https://an2-img.amz.wtchn.net/image/v2/TnfLooyFVulaY3fZhLMNIw.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk9UQTFNRFk1TWpBNU9ERTVNamt5TkRNaWZRLmdfM0lvai1JZGVCbjVFRXhYQ3VFODMwdEN4MnNEa2JKbXV4VEk3QlJPYVE",
-    avgRating: 4.0,
-    ratingCount: 1000,
-    overView: `
-    “나는 이제 죽음이요, 세상의 파괴자가 되었다.” 
-  
-    세상을 구하기 위해 세상을 파괴할 지도 모르는 선택을 해야 하는 천재 과학자의 핵개발 프로젝트.
-    `,
-  };
-  const user = {
-    name: "WOOJIN",
-    reviewedRating: 2.5,
-    comment: "오펜하이머는 얼마나 좋았을까...",
-  };
-  // 추후에 hook으로 수정
-  const [rating, setRating] = useState(2 * user.reviewedRating);
+function ContentPanel({ content }: { content: ContentType }) {
+  const [currentModal, setCurrentModal] = useState<
+    "updateComment" | "createComment" | null
+  >(null);
 
   return (
     <section className={styles.panelBackground}>
       <div className={styles.panelCon}>
         <div className={styles.imageCon}>
-          <img src={content.posterSrc} alt="영화 포스터" />
+          <img src={content.poster} alt="영화 포스터" />
           <div className={styles.ratingGraph}>평점 그래프</div>
         </div>
         <main className={styles.reviewCon}>
           <nav className={styles.reviewNav}>
             <div className={styles.userRatingCon}>
               <div className={styles.starRatingBox}>
-                <StarRating rating={rating} setRating={setRating} />
+                <StarRating rating={content.myRate} movieCD={content.movieCD} />
               </div>
               <div className={styles.userRatingTextBox}>평가하기</div>
             </div>
             <div className={styles.avgRatingCon}>
               <div className={styles.avgRatingDigit}>
-                {content.avgRating.toFixed(1)}
+                {content.averageRate.toFixed(1)}
               </div>
-              평균 평점({content.ratingCount})
+              평균 평점(평점 총 개수)
             </div>
             <ul className={styles.reviewMenuCon}>
               <li>
@@ -91,7 +76,9 @@ function ContentPanel() {
                 </div>
                 보고싶어요
               </li>
-              <li>
+              <li onClick={() => setCurrentModal("createComment")}>
+                {" "}
+                {/* 내 코멘트 api추가시 로직 추가*/}
                 <div className={styles.reviewMenuIconBox}>
                   <svg aria-hidden="true" viewBox="0 0 24 24">
                     <path d="M3 17.253v3.75h3.75l11.06-11.06-3.75-3.75L3 17.253Zm17.71-10.21a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"></path>
@@ -109,37 +96,20 @@ function ContentPanel() {
               </li>
             </ul>
           </nav>
-          <div className={styles.userCommentCon}>
-            <div className={styles.userCommentBox}>
-              <div className={styles.userCommentText}>
-                대단한 작품이군요! {user.name} 님의 감동을 글로 남겨보세요
-              </div>
-              <button className={styles.commentCreateBtn}>코멘트 남기기</button>
-            </div>
-          </div>
-          <div className={styles.userCommentCon}>
-            <h3>내가 쓴 코멘트</h3>
-            <div className={styles.userCommentBox}>
-              <img className={styles.userImage} src={profileDefault} alt="" />
-              <a className={styles.userCommentText}>{user.comment}</a>
-              <div className={styles.commentBtnBox}>
-                <button>
-                  <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0iI0EwQTBBMCIgZD0iTTUuMjUgMTQuMjVoNy41di03LjVoMS41VjE1YS43NS43NSAwIDAgMS0uNzUuNzVoLTlhLjc1Ljc1IDAgMCAxLS43NS0uNzVWNi43NWgxLjV2Ny41ek0xMiA0LjVoMy43NVY2SDIuMjVWNC41SDZWM2EuNzUuNzUgMCAwIDEgLjc1LS43NWg0LjVBLjc1Ljc1IDAgMCAxIDEyIDN2MS41em0tMS41IDB2LS43NWgtM3YuNzVoM3pNNi43NSA2Ljc1aDEuNXY2Ljc1aC0xLjVWNi43NXptMyAwaDEuNXY2Ljc1aC0xLjVWNi43NXoiLz4KICAgIDwvZz4KPC9zdmc+Cg==" />
-                  수정
-                </button>
-                <div className={styles.virtualLineBox}>
-                  <div className={styles.virtualLine}></div>
-                </div>
-                <button>
-                  <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0iI0EwQTBBMCIgZD0iTTIuMTggMTUuMzlsLjcwMy0zLjk4IDMuNzEzIDMuNzEyLTMuOTgxLjcwMmEuMzc0LjM3NCAwIDAgMS0uNDM0LS40MzR6bTEuNDk4LTQuNzc2bDYuMzY0LTYuMzY0IDMuNzEzIDMuNzEyLTYuMzY0IDYuMzY0LTMuNzEzLTMuNzEyek0xNS42MDcgNS4wNGEuNzUuNzUgMCAwIDEgMCAxLjA2bC0xLjA2IDEuMDYxLTMuNzEzLTMuNzEyIDEuMDYtMS4wNmEuNzUuNzUgMCAwIDEgMS4wNiAwbDIuNjUzIDIuNjUxeiIvPgogICAgPC9nPgo8L3N2Zz4K" />
-                  삭제
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className={styles.overviewBox}>{content.overView}</div>
+          <MyCommentBox openModal={setCurrentModal} comment={null} />
+          {/* 아직 코멘트 받아오는 api가 없음 */}
+          <div className={styles.overviewBox}>{content.plot}</div>
         </main>
       </div>
+      {currentModal && (
+        <WritingModal
+          type="comment"
+          title={content.titleKo}
+          content=""
+          onSubmit={() => {}} // 생성, 수정에 맞게 api 호출
+          onClose={() => setCurrentModal(null)}
+        />
+      )}
     </section>
   );
 }
