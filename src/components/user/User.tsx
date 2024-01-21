@@ -1,4 +1,5 @@
 // import { useEffect } from "react";
+
 import { useAuthContext } from "../../contexts/authContext";
 import styles from "./User.module.scss";
 import { Link, useParams } from "react-router-dom";
@@ -58,6 +59,7 @@ export default function User() {
   }, [loginUserId]);
 
   // const checkFollowing = myData?.followingId.includes(id as string); // assertion은 나중에 없앨테니 무시하셔도 됩니다.
+
 
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
@@ -186,5 +188,6 @@ export default function User() {
         )}
       </div>
     )
+
   );
 }

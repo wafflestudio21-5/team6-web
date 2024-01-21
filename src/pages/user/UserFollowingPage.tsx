@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import UserCard from "../../components/user/UserCard";
 import styles from "./UserFollowingPage.module.scss";
 import { useNavigate } from "react-router-dom";
+
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { FollowerListType, FollowerType } from "../../type";
@@ -32,6 +33,7 @@ export default function UserFollowingPage() {
       });
   }, []);
 
+
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
@@ -53,6 +55,7 @@ export default function UserFollowingPage() {
         </div>
         <div className={styles.titleContainer}>팔로잉</div>
       </div>
+
       {!loading && (
         <div className={styles.followPage}>
           <div className={styles.followListContainer}>
@@ -64,6 +67,7 @@ export default function UserFollowingPage() {
           </div>
         </div>
       )}
+
     </>
   );
 }

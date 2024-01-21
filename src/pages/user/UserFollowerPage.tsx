@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import UserCard from "../../components/user/UserCard";
 import styles from "./UserFollowerPage.module.scss";
@@ -31,6 +32,7 @@ export default function UserFollowerPage() {
       });
   }, []);
 
+
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
@@ -52,6 +54,7 @@ export default function UserFollowerPage() {
         </div>
         <div className={styles.titleContainer}>팔로워</div>
       </div>
+
       {!loading && (
         <div className={styles.followPage}>
           <div className={styles.followListContainer}>
@@ -63,6 +66,7 @@ export default function UserFollowerPage() {
           </div>
         </div>
       )}
+
     </>
   );
 }
