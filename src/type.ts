@@ -19,8 +19,9 @@ export type UserDataType = {
   followers_count: number;
   following_count: number;
 };
+
 export type FollowerType = {
-  id: 17;
+  id: number;
   username: string;
   nickname: string;
   bio: string;

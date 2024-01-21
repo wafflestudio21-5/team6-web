@@ -2,9 +2,12 @@ import { useState } from "react";
 import styles from "./UserCard.module.scss";
 import { Link } from "react-router-dom";
 import { FollowerType } from "../../type";
+import { deleteFollow, postAddFollow } from "../../apis/user";
+import { useAuthContext } from "../../contexts/authContext";
 
 export default function UserCard({ follower }: { follower: FollowerType }) {
   const [isFollowing, setIsFollowing] = useState(false); // 나중에는 내 유저 데이터의 팔로우 목록과 비교하여 팔로우 중인지 아닌지를 판단해야 함
+  const { accessToken } = useAuthContext();
 
   return (
     <li>
@@ -27,6 +30,10 @@ export default function UserCard({ follower }: { follower: FollowerType }) {
               }
               onClick={(e) => {
                 e.preventDefault();
+                if (!accessToken) return alert("로그인이 필요합니다.");
+                isFollowing
+                  ? deleteFollow(accessToken, follower.id)
+                  : postAddFollow(accessToken, follower.id);
                 setIsFollowing(!isFollowing);
               }}
             >

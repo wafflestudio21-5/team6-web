@@ -1,12 +1,12 @@
-import { BASE_API_URL } from "./const";
-
+// import { BASE_API_URL } from "./const";
+import { BASE_API_AUTH_URL } from "./const";
 export async function postSignup(
   nickname: string,
   username: string,
   password1: string,
   password2: string,
 ) {
-  return fetch(`${BASE_API_URL}/auth/register/`, {
+  return fetch(`${BASE_API_AUTH_URL}/auth/register/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +16,7 @@ export async function postSignup(
 }
 
 export async function postLogin(username: string, password: string) {
-  return fetch(`${BASE_API_URL}/auth/token/`, {
+  return fetch(`${BASE_API_AUTH_URL}/auth/token/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export async function postLogin(username: string, password: string) {
 }
 
 export async function getMyUserData(accessToken: string) {
-  return fetch(`${BASE_API_URL}/users/mypage/`, {
+  return fetch(`${BASE_API_AUTH_URL}/users/mypage/`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -40,26 +40,26 @@ export async function getMyUserData(accessToken: string) {
 
 // 리프레시 토큰 및 엑세스 토큰을 갱신. 자동로그인을 위해 사용
 export async function postNewToken() {
-  return fetch(`${BASE_API_URL}/auth/token/refresh/new/`, {
+  return fetch(`${BASE_API_AUTH_URL}/auth/token/refresh/new/`, {
     method: "POST",
     credentials: "include",
   });
 }
 
 export async function postLogout() {
-  return fetch(`${BASE_API_URL}/auth/token/logout/`, {
+  return fetch(`${BASE_API_AUTH_URL}/auth/token/logout/`, {
     method: "POST",
     credentials: "include",
   });
 }
 
 export async function getKakaoAutoCallback(code: string | null) {
-  return fetch(`${BASE_API_URL}/auth/kakao/login?code=${code}`);
+  return fetch(`${BASE_API_AUTH_URL}/auth/kakao/login?code=${code}`);
 }
 
 // 카카오 회원탈퇴 기능이 구현되어 있는 엔드포인트이나, 기본 탈퇴 기능도 구현되어 있어서 이 api만 사용
 export async function deleteWithDrawalUser(accessToken: string) {
-  return fetch(`${BASE_API_URL}/users/mypage/delete/kakao_unlink/`, {
+  return fetch(`${BASE_API_AUTH_URL}/users/mypage/delete/kakao_unlink/`, {
     method: "DELETE",
     credentials: "include",
     headers: {

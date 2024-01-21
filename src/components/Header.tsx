@@ -24,7 +24,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
   const query = searchParams.get("query");
   const location = useLocation();
 
-  const { isLogined, myUserData } = useAuthContext();
+  const { isLogined, myUserData, accessToken } = useAuthContext();
 
   const [searchInput, setSearchInput] = useState("");
   const inContentPage = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
@@ -100,7 +100,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
             </li>
             <button
               onClick={() => {
-                console.log(myUserData);
+                console.log(myUserData, accessToken);
               }}
             >
               my user data (콘솔로 확인)

@@ -8,11 +8,11 @@ import { useEffect, useState } from "react";
 import { getUserDetail } from "../../apis/user";
 import { defaultResponseHandler } from "../../apis/custom";
 import { UserDataType } from "../../type";
-
+import { postAddFollow } from "../../apis/user";
 export default function User() {
   const { setCurrentModal } = useOutletContext<OutletContextType>();
   const { myUserData } = useAuthContext();
-
+  const { accessToken } = useAuthContext();
   const [pageMode, setPageMode] = useState<
     "myPage" | "otherPage" | "notLoggedIn" | null
   >(null);
@@ -76,6 +76,31 @@ export default function User() {
               }}
             />
           </div>
+          <button
+            onClick={() => {
+              accessToken &&
+                postAddFollow(accessToken, 5)
+                  .then((res) => {
+                    console.log(res);
+                    res.json();
+                  })
+                  .then((data) => {
+                    console.log("data :", data);
+                  })
+                  .catch((e) => {
+                    console.log("error :", e);
+                  });
+            }}
+          >
+            모두 팔로우
+          </button>
+          <button
+            onClick={() => {
+              console.log(pageUserData);
+            }}
+          >
+            paeuserdata
+          </button>
           <div className={styles.profileInfoBox}>
             <div className={styles.profilePhoto}></div>
             <h1>{nickname}</h1>
