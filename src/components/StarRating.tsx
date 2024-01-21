@@ -1,5 +1,13 @@
 import { useState } from "react";
 import styles from "./StarRating.module.scss";
+import { RateType } from "../type";
+import {
+  createRatingRequest,
+  deleteRatingRequest,
+  updateRatingRequest,
+} from "../apis/content";
+import { defaultHandleResponse } from "../apis/custom";
+import { useAuthContext } from "../contexts/authContext";
 
 type StarProps = {
   fill: "full" | "half" | "empty";
@@ -19,9 +27,9 @@ function Star(props: StarProps) {
     <div className={styles.starBox}>
       <div
         className={`${styles.star} ${styles.starLeft} ${colorLeft}`}
-        onMouseOver={() => onMouseEnterStar(rating + 1)}
+        onMouseOver={() => onMouseEnterStar(rating + 0.5)}
         onMouseLeave={onMouseLeaveStar}
-        onClick={() => onClickStar(rating + 1)}
+        onClick={() => onClickStar(rating + 0.5)}
       >
         <svg viewBox="0 0 44 44" width="44" xmlns="http://www.w3.org/2000/svg">
           <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
@@ -29,9 +37,9 @@ function Star(props: StarProps) {
       </div>
       <div
         className={`${styles.star} ${styles.starRight} ${colorRight}`}
-        onMouseOver={() => onMouseEnterStar(rating + 2)}
+        onMouseOver={() => onMouseEnterStar(rating + 1)}
         onMouseLeave={onMouseLeaveStar}
-        onClick={() => onClickStar(rating + 2)}
+        onClick={() => onClickStar(rating + 1)}
       >
         <svg viewBox="0 0 44 44" width="44" xmlns="http://www.w3.org/2000/svg">
           <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
@@ -42,42 +50,57 @@ function Star(props: StarProps) {
 }
 
 type StarRatingProps = {
-  rating: number;
-  setRating: (rating: number) => void;
+  rating: RateType | null;
+  movieCD: string;
 };
 
 export default function StarRating({
-  rating: reviewedRating,
-  setRating,
+  rating: myRate,
+  movieCD,
 }: StarRatingProps) {
-  const [selectedStars, setSelectedStars] = useState(reviewedRating);
+  const [savedRating, setSavedRating] = useState(myRate ? myRate.myRate : 0);
+  const [selectedRating, setSelectedRating] = useState(savedRating);
+  const { isLogined, accessToken } = useAuthContext();
 
-  const onMouseEnterStar = (seletedRating: number) => {
-    setSelectedStars(seletedRating);
+  const onMouseEnterStar = (rating: number) => {
+    setSelectedRating(rating);
   };
   const onMouseLeaveStar = () => {
-    setSelectedStars(reviewedRating);
+    setSelectedRating(savedRating);
   };
-  const onClickStar = (seletedRating: number) => {
-    //
-    console.log(`${seletedRating / 2}점 평가하기`);
-    setRating(seletedRating);
+  const onClickStar = (rating: number) => {
+    if (!isLogined) {
+      // loginModal;
+    } else {
+      (myRate
+        ? rating === myRate.myRate
+          ? deleteRatingRequest(myRate.id, accessToken ?? "")
+          : updateRatingRequest(myRate.id, rating, accessToken ?? "")
+        : createRatingRequest(movieCD, rating, accessToken ?? "")
+      )
+        .then(defaultHandleResponse)
+        .then(() =>
+          setSavedRating(myRate && rating === myRate.myRate ? 0 : rating)
+        )
+        .catch(() => alert("잘못된 요청입니다!"));
+    }
   };
 
   const stars: ("full" | "half" | "empty")[] = [
-    selectedStars >= 2 ? "full" : selectedStars === 1 ? "half" : "empty",
-    selectedStars >= 4 ? "full" : selectedStars === 3 ? "half" : "empty",
-    selectedStars >= 6 ? "full" : selectedStars === 5 ? "half" : "empty",
-    selectedStars >= 8 ? "full" : selectedStars === 7 ? "half" : "empty",
-    selectedStars >= 10 ? "full" : selectedStars === 9 ? "half" : "empty",
+    selectedRating >= 1 ? "full" : selectedRating === 0.5 ? "half" : "empty",
+    selectedRating >= 2 ? "full" : selectedRating === 1.5 ? "half" : "empty",
+    selectedRating >= 3 ? "full" : selectedRating === 2.5 ? "half" : "empty",
+    selectedRating >= 4 ? "full" : selectedRating === 3.5 ? "half" : "empty",
+    selectedRating >= 5 ? "full" : selectedRating === 4.5 ? "half" : "empty",
   ];
 
   return (
     <div className={styles.ratingCon}>
       {stars.map((star, idx) => (
         <Star
+          key={idx}
           fill={star}
-          rating={idx * 2}
+          rating={idx}
           onMouseEnterStar={onMouseEnterStar}
           onMouseLeaveStar={onMouseLeaveStar}
           onClickStar={onClickStar}
