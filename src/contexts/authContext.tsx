@@ -1,24 +1,13 @@
 import { createContext, useContext, useState } from "react";
-
+import { UserDataType } from "../type";
 type AuthContextType = {
-  myUserData: MyUserType | null;
-  setMyUserData: (authData: MyUserType) => void;
+  myUserData: UserDataType | null;
+  setMyUserData: (authData: UserDataType) => void;
   accessToken: string | null;
   setAccessToken: (accessToken: string | null) => void;
   isLogined: boolean;
   autoLoginConfirmed: boolean;
   setAutoLoginConfirmed: (autoLoginConfirmed: boolean) => void;
-};
-
-type MyUserType = {
-  id: number;
-  username: string;
-  nickname: "string";
-  bio: string;
-  profile_photo: string | null;
-  background_photo: string | null;
-  followers_count: number;
-  following_count: number;
 };
 
 export const AuthContext = createContext<AuthContextType>(
@@ -34,7 +23,7 @@ export function AuthContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [myUserData, setMyUserData] = useState<MyUserType | null>(null);
+  const [myUserData, setMyUserData] = useState<UserDataType | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [autoLoginConfirmed, setAutoLoginConfirmed] = useState(false); // 맨 처음 자동 로그인 로직이 끝난 이후에 true
   const isLogined = !!accessToken;
