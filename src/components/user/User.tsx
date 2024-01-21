@@ -25,11 +25,11 @@ export default function User() {
   const [loading, setLoading] = useState(true);
 
   const {
-    id,
+    // id,
     username,
     nickname,
-    bio,
-    profile_photo,
+    // bio,
+    // profile_photo,
     followers_count,
     following_count,
   } = pageUserData;
