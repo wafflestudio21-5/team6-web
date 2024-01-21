@@ -5,3 +5,9 @@ export function defaultResponseHandler(res: Response) {
   }
   return res.json();
 }
+export function errorInBodyResponseHandler(res: Response) {
+  if (!res.ok) {
+    console.log(res); // res.json()에 에러 메시지가 담겨 있음
+  }
+  return res.json();
+}
