@@ -144,38 +144,38 @@ function ContentCast({ content }: { content: ContentType }) {
   );
 }
 
-function ContentComments() {
-  const comment = {
-    user: {
-      img: profileDefault,
-      name: "이동진",
-    },
-    reviewRating: 4.5,
-    text: `줄리어스 로버트 오펜하이머..
-줄리어스 로버트 오펜하이머..
-자기 이야기가 영화로 만들어진다니.
-로버트는 얼마나 좋았을까.
-    `,
-    likeCount: 200,
-    subcommentCount: 1000,
-  };
-  const comments = [];
+function ContentComments({ content }: { content: ContentType }) {
+  const [comments, setComments] = useState<CommentType[]>([]);
 
-  for (let i = 0; i < 8; i++) {
-    comments.push(comment);
-  }
+  useEffect(() => {
+    getCommentListRequest(content.movieCD)
+      .then(defaultHandleResponse)
+      .then((data) => {
+        const commentsResponse = convertKeysToCamelCase(
+          data
+        ) as CommentsResType;
+        setComments(commentsResponse.results);
+      })
+      .catch(() => alert("잘못된 요청입니다"));
+  }, [content.movieCD]);
+
   return (
     <section className={styles.commentsCon}>
       <header>
         <h2>
           코멘트 <span className={styles.commentCount}>10000+</span>
         </h2>
-        <a className={styles.moreComments}>더보기</a>
+        <Link
+          to={`/contents/${content.movieCD}/comments`}
+          className={styles.moreComments}
+        >
+          더보기
+        </Link>
       </header>
       <div className={styles.commentGridCon}>
         <ul className={styles.commentsGrid}>
           {comments.map((comment) => (
-            <CommentCard comment={comment} />
+            <CommentCard key={comment.id} comment={comment} />
           ))}
         </ul>
       </div>
