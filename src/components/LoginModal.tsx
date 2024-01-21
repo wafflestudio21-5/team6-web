@@ -1,11 +1,10 @@
 import { useState } from "react";
 import Logo from "../assets/logo.svg";
-import styles from "./AuthModalStyle.module.scss";
+import styles from "./LoginModal.module.scss";
 import { CurrentModalType } from "../pages/Layout";
-import { loginRequest } from "../apis/auth";
-import { KAKAO_AUTH_URL } from "../apis/const";
+import { postLogin } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
-import { defaultHandleResponse } from "../apis/custom";
+import { defaultResponseHandler } from "../apis/custom";
 
 type LoginModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -32,8 +31,8 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
     return (
       isAllInputsValid &&
       !authErrorMessage &&
-      loginRequest(idInput, passwordInput)
-        .then(defaultHandleResponse)
+      postLogin(idInput, passwordInput)
+        .then(defaultResponseHandler)
         .then((data) => {
           setAccessToken(data.access);
           setCurrentModal(null);
@@ -191,7 +190,11 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
               <button
                 className={styles.kakaoLoginButton}
                 onClick={() => {
-                  window.location.href = KAKAO_AUTH_URL;
+                  window.open(
+                    "/auth/toKakao",
+                    "_blank",
+                    "width=350,height=600",
+                  );
                 }}
               >
                 <img
@@ -200,23 +203,6 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
                 />
               </button>
             </li>
-            {/* <li>
-              <button className={styles.googleLoginButton} onClick={() => {}}>
-                <img
-                  src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjAuNjQgMTIuMjA0MkMyMC42NCAxMS41NjYgMjAuNTgyNyAxMC45NTI0IDIwLjQ3NjQgMTAuMzYzM0gxMlYxMy44NDQ2SDE2Ljg0MzZDMTYuNjM1IDE0Ljk2OTYgMTYuMDAwOSAxNS45MjI4IDE1LjA0NzcgMTYuNTYxVjE4LjgxOTJIMTcuOTU2NEMxOS42NTgyIDE3LjI1MjQgMjAuNjQgMTQuOTQ1MSAyMC42NCAxMi4yMDQyVjEyLjIwNDJaIiBmaWxsPSIjNDI4NUY0Ii8+CiAgICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTExLjk5OTggMjFDMTQuNDI5OCAyMSAxNi40NjcgMjAuMTk0MSAxNy45NTYxIDE4LjgxOTVMMTUuMDQ3NSAxNi41NjEzQzE0LjI0MTYgMTcuMTAxMyAxMy4yMTA3IDE3LjQyMDQgMTEuOTk5OCAxNy40MjA0QzkuNjU1NjcgMTcuNDIwNCA3LjY3MTU4IDE1LjgzNzIgNi45NjM4NSAxMy43MUgzLjk1NzAzVjE2LjA0MThDNS40Mzc5NCAxOC45ODMxIDguNDgxNTggMjEgMTEuOTk5OCAyMVYyMVoiIGZpbGw9IiMzNEE4NTMiLz4KICAgIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNi45NjQwOSAxMy43MDk4QzYuNzg0MDkgMTMuMTY5OCA2LjY4MTgyIDEyLjU5MyA2LjY4MTgyIDExLjk5OThDNi42ODE4MiAxMS40MDY2IDYuNzg0MDkgMTAuODI5OCA2Ljk2NDA5IDEwLjI4OThWNy45NTgwMUgzLjk1NzI3QzMuMzQ3NzMgOS4xNzMwMSAzIDEwLjU0NzYgMyAxMS45OTk4QzMgMTMuNDUyMSAzLjM0NzczIDE0LjgyNjYgMy45NTcyNyAxNi4wNDE2TDYuOTY0MDkgMTMuNzA5OFYxMy43MDk4WiIgZmlsbD0iI0ZCQkMwNSIvPgogICAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMi4wNDI3IDYuNTc5NTVDMTMuMzY0MSA2LjU3OTU1IDE0LjU1MDUgNy4wMzM2NCAxNS40ODMyIDcuOTI1NDVMMTguMDY0NSA1LjM0NDA5QzE2LjUwNTkgMy44OTE4MiAxNC40Njg2IDMgMTIuMDQyNyAzQzguNTI0NTUgMyA1LjQ4MDkxIDUuMDE2ODIgNCA3Ljk1ODE4TDcuMDA2ODIgMTAuMjlDNy43MTQ1NSA4LjE2MjczIDkuNjk4NjQgNi41Nzk1NSAxMi4wNDI3IDYuNTc5NTVWNi41Nzk1NVoiIGZpbGw9IiNFQTQzMzUiLz4KPC9zdmc+Cg=="
-                  alt="googleLoginButton"
-                />
-              </button>
-            </li>
-            <li>
-              <button
-                className={styles.naverLoginButton}
-                onClick={() => {
-                  naverLoginRequest();
-                  // window.location.href = BASE_API_URL + "/auth/naver/login/";
-                }}
-              ></button>
-              </li>*/}
           </ul>
         </section>
       </div>

@@ -1,0 +1,88 @@
+.fixedTab {
+  position: fixed;
+  top: 62px;
+  width: 100%;
+  z-index: 30;
+  background-color: white;
+}
+
+.backButtonContainer {
+  padding: 0 16px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  button {
+    padding: 0px;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background-color: inherit;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9IiNGRjJGNkUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTYuNzU1IDExLjk4OGw0Ljk1OCA0Ljk1OGEuOTguOTggMCAxIDEtMS4zODcgMS4zODdMNCAxMi4wMDdsLjAwNS0uMDA1TDQgMTEuOTk3bDYuMzQzLTYuMzQzYS45Ny45NyAwIDEgMSAxLjM3MyAxLjM3M2wtNC45NjEgNC45NnoiLz4KICAgICAgICA8cGF0aCBkPSJNNiAxMWgxM2ExIDEgMCAwIDEgMCAySDZ2LTJ6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=");
+  }
+}
+.titleContainer {
+  padding: 0 16px;
+  height: 44px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.storageSection {
+  padding-top: 190px;
+  padding-bottom: 40px;
+  margin: 0;
+  border-radius: 0 0 6px 6px;
+
+  .outLinkTab {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    padding: 0 15px;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    border-bottom: 1px solid rgb(227, 227, 227);
+    &:active {
+      color: inherit;
+    }
+    .count {
+      color: rgb(116, 116, 123);
+      font-size: 16px;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+  }
+  .movieRatingsTab {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    margin-bottom: 10px;
+    padding: 0 15px;
+    font-size: 17px;
+    text-decoration: none;
+    color: black;
+    .ratingCount {
+      display: inline-block;
+      color: rgb(160, 160, 160);
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      line-height: 20px;
+      margin: 12px 0px 12px 6px;
+    }
+    .moreMoviesButtonBox {
+      margin-left: auto;
+      margin-right: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      a {
+        color: rgb(255, 47, 110);
+        text-decoration: none;
+      }
+    }
+  }
+}

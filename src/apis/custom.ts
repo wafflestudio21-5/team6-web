@@ -1,4 +1,4 @@
-export function defaultHandleResponse(res: Response) {
+export function defaultResponseHandler(res: Response) {
   if (!res.ok) {
     console.log(res);
     throw new Error(res.status.toString());

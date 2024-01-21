@@ -13,8 +13,6 @@ import {
 import { useState, useEffect } from "react";
 // import { myUserDataRequest } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
-import { logoutRequest } from "../apis/auth";
-import { defaultHandleResponse } from "../apis/custom";
 
 type HeaderProps = {
   setCurrentModal: (modal: CurrentModalType) => void;
@@ -57,11 +55,11 @@ export default function Header({ setCurrentModal }: HeaderProps) {
     }
   };
 
-  const jsonData = {
+  /* const jsonData = {
     username: "frontTestId2",
     password: "frontpass123",
     password2: "frontpass123",
-  };
+  };*/
 
   return (
     <header
@@ -134,28 +132,12 @@ export default function Header({ setCurrentModal }: HeaderProps) {
                 console.log(myUserData);
               }}
             >
-              내 유저 데이터 확인
+              my user data (콘솔로 확인)
             </button>
-            <button
-              onClick={() => {
-                logoutRequest()
-                  .then(defaultHandleResponse)
-                  .then((data) => {
-                    alert("로그아웃 성공");
-                    console.log(data);
-                    //     window.location.reload();
-                  })
-                  .catch(() => {
-                    console.log("로그아웃 실패");
-                  });
-              }}
-            >
-              {" "}
-              로그아웃
-            </button>
+
             {isLogined ? (
               <li className={styles.myProfileLi}>
-                <Link to={`/users/${myUserData.id}`}>
+                <Link to={`/users/${myUserData?.id}`}>
                   <div>
                     <img src={UserImage} />
                   </div>
