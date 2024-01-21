@@ -33,7 +33,28 @@ export type RateType = {
   myRate: number;
 };
 
+export type CommentType = {
+  id: number;
+  createdBy: {
+    id: number;
+    nickname: string;
+    profilePhoto: string | null;
+  };
+  rating: number | null;
+  likeCount: number;
+  content: string;
+  hasSpoiler: false;
+  createdAt: string; // date
+  updatedAt: string; // date
+  movie: string;
 };
+
+export type CommentsResType = {
+  results: CommentType[];
+  next: string | null;
+  previous: string | null;
+};
+
 export type TestType = {
   message: string;
 };
