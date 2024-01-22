@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { CommentsResType, CommentType } from "../type";
 import { useParams } from "react-router-dom";
 import { getCommentListRequest } from "../apis/comment";
-import { defaultHandleResponse } from "../apis/custom";
-import { convertKeysToCamelCase } from "../utils/snackToCamel";
+import { defaultResponseHandler } from "../apis/custom";
+// import { convertKeysToCamelCase } from "../utils/snackToCamel";
 
 export default function CommentListPage() {
   const { id: movieCD } = useParams();
@@ -15,11 +15,11 @@ export default function CommentListPage() {
   useEffect(() => {
     movieCD &&
       getCommentListRequest(movieCD)
-        .then(defaultHandleResponse)
+        .then(defaultResponseHandler)
         .then((data) => {
-          const commentsResponse = convertKeysToCamelCase(
-            data
-          ) as CommentsResType;
+          console.log("commentlist :", data);
+          const commentsResponse = data;
+
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);
         })
@@ -38,10 +38,16 @@ export default function CommentListPage() {
               "Content-Type": "application/json",
             },
           })
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error("잘못된 요청입니다");
+              }
+              return res.json();
+            })
             .then((data) => {
-              const commentsResponse = convertKeysToCamelCase(
-                data
-              ) as CommentsResType;
+              console.log(data);
+              const commentsResponse = data;
+
               setComments(commentsResponse.results);
               setNextCommentsUrl(commentsResponse.next);
             })

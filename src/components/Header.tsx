@@ -68,35 +68,6 @@ export default function Header({ setCurrentModal }: HeaderProps) {
         (inContentPage && isScrollTop ? " " + styles.transparent : "")
       }
     >
-      <button
-        onClick={() => {
-          fetch("https://wafflepedia.xyz/auth/token/", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(jsonData),
-            credentials: "include",
-          })
-            .then((response) => {
-              if (!response.ok) {
-                console.log(response.status);
-                // throw new Error(
-                //   `Network response was not ok: ${response.status}`,
-                // );
-              }
-              return response.json(); // JSON 형식으로 파싱
-            })
-            .then((data) => {
-              console.log("Response body:", data);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }}
-      >
-        api연결
-      </button>
       <div>
         <div className={styles.headerDiv}>
           <ul>

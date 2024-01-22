@@ -4,7 +4,7 @@ import profileDefault from "../assets/user_default.jpg";
 import { Link } from "react-router-dom";
 import { CommentType } from "../type";
 import { deleteCommentRequest } from "../apis/comment";
-import { defaultHandleResponse } from "../apis/custom";
+import { defaultResponseHandler } from "../apis/custom";
 
 export default function MyCommentBox({
   openModal,
@@ -40,7 +40,7 @@ export default function MyCommentBox({
                 <button
                   onClick={() => {
                     deleteCommentRequest(comment.id, accessToken ?? "")
-                      .then(defaultHandleResponse)
+                      .then(defaultResponseHandler)
                       .then(); // 내 코멘트 api가 생기면 리렌더링 로직 추가
                   }}
                 >
@@ -54,12 +54,14 @@ export default function MyCommentBox({
           <div className={styles.commentCon}>
             <div className={styles.commentBox}>
               <div className={styles.commentText}>
-                대단한 작품이군요! {myUserData.nickname} 님의 감동을 글로
+                대단한 작품이군요! {myUserData?.nickname} 님의 감동을 글로
                 남겨보세요
               </div>
               <button
                 className={styles.commentCreateBtn}
-                onClick={() => openModal("createComment")}
+                onClick={() => {
+                  accessToken && openModal("createComment");
+                }}
               >
                 코멘트 남기기
               </button>

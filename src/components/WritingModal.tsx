@@ -1,16 +1,18 @@
 import Modal from "./Modal";
 import styles from "./WritingModal.module.scss";
+import { useState } from "react";
 
 type WritingModalProps = {
   type: "comment" | "reply";
   title: string;
-  content: string;
-  onSubmit: () => void;
+  comment: string;
+  onSubmit: (writtenComment: string, hasSpoiler: boolean) => void;
   onClose: () => void;
 };
 
 export default function WritingModal(props: WritingModalProps) {
-  const { type, title, content, onSubmit, onClose } = props;
+  const { type, title, comment, onSubmit, onClose } = props;
+  const [writtenComment, setWrittenComment] = useState(comment); //comment는 기존에 썼던 코멘트가 있을 경우에만 존재
 
   return (
     <Modal onClose={onClose}>
@@ -27,9 +29,13 @@ export default function WritingModal(props: WritingModalProps) {
               onSubmit();
             }}
           >
-            <textarea placeholder="이 작품을 대한 생각을 자유롭게 표현해주세요.">
-              {content}
-            </textarea>
+            <textarea
+              placeholder="이 작품을 대한 생각을 자유롭게 표현해주세요."
+              value={writtenComment}
+              onChange={(e) => {
+                setWrittenComment(e.target.value);
+              }}
+            />
             <nav>
               {type === "comment" && (
                 <button type="button" className={styles.spoilerButton}>

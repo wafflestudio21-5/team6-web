@@ -25,15 +25,16 @@ export type ContentType = {
   cumulativeAudience: number | null;
   screening: boolean;
   averageRate: number;
-  myRate: RateType | null;
+  my_rate: RateType | null;
 };
 
 export type RateType = {
   id: number;
-  myRate: number;
+  my_rate: number;
 };
 
-export type CommentType = {
+/**
+ *export type CommentType = {
   id: number;
   createdBy: {
     id: number;
@@ -47,6 +48,49 @@ export type CommentType = {
   createdAt: string; // date
   updatedAt: string; // date
   movie: string;
+};
+
+ * 
+ * 
+ */
+
+export type CommentType = {
+  id: number;
+  created_by: {
+    id: number;
+    nickname: string;
+    profile_photo: string | null;
+  };
+  rating: null | string;
+  like_count: number;
+  content: string;
+  has_spoiler: boolean;
+  created_at: string;
+  updated_at: string;
+  movie: string;
+};
+
+export type CommentInUserPageType = {
+  id: number;
+  created_by: {
+    id: number;
+    username: string;
+    nickname: string;
+    profile_photo: null | string;
+    background_photo: null | string;
+  };
+  movie: {
+    movieCD: string;
+    title_ko: string;
+    poster: string;
+    release_date: string;
+  };
+  content: string;
+  rating: null | string;
+  created_at: string;
+  updated_at: string;
+  likes_count: number;
+  reply_count: number;
 };
 
 export type CommentsResType = {

@@ -5,12 +5,13 @@ import profileDefault from "../assets/user_default.jpg";
 import StarRating from "./StarRating";
 import CommentCard from "./CommentCard";
 import { CommentsResType, CommentType, ContentType } from "../type";
-import { convertKeysToCamelCase } from "../utils/snackToCamel";
+// import { convertKeysToCamelCase } from "../utils/snackToCamel";
 import { Link } from "react-router-dom";
-import { defaultHandleResponse } from "../apis/custom";
-import { getCommentListRequest } from "../apis/comment";
+import { defaultResponseHandler } from "../apis/custom";
+import { createCommentRequest, getCommentListRequest } from "../apis/comment";
 import MyCommentBox from "./MyCommentBox";
 import WritingModal from "./WritingModal";
+import { useAuthContext } from "../contexts/authContext";
 
 function ContentHeader({ content }: { content: ContentType }) {
   const backGroundStyle = {
@@ -45,7 +46,9 @@ function ContentPanel({ content }: { content: ContentType }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
   >(null);
+  console.log("contentpanel : ", content);
 
+  const { accessToken } = useAuthContext();
   return (
     <section className={styles.panelBackground}>
       <div className={styles.panelCon}>
@@ -57,13 +60,17 @@ function ContentPanel({ content }: { content: ContentType }) {
           <nav className={styles.reviewNav}>
             <div className={styles.userRatingCon}>
               <div className={styles.starRatingBox}>
-                <StarRating rating={content.myRate} movieCD={content.movieCD} />
+                <StarRating
+                  my_rate={content.my_rate}
+                  movieCD={content.movieCD}
+                />
               </div>
               <div className={styles.userRatingTextBox}>평가하기</div>
             </div>
             <div className={styles.avgRatingCon}>
               <div className={styles.avgRatingDigit}>
-                {content.averageRate.toFixed(1)}
+                {content.averageRate}
+                {/*.toFixed(1)*/}
               </div>
               평균 평점(평점 총 개수)
             </div>
@@ -76,9 +83,11 @@ function ContentPanel({ content }: { content: ContentType }) {
                 </div>
                 보고싶어요
               </li>
-              <li onClick={() => setCurrentModal("createComment")}>
-                {" "}
-                {/* 내 코멘트 api추가시 로직 추가*/}
+              <li
+                onClick={() => {
+                  setCurrentModal("createComment");
+                }}
+              >
                 <div className={styles.reviewMenuIconBox}>
                   <svg aria-hidden="true" viewBox="0 0 24 24">
                     <path d="M3 17.253v3.75h3.75l11.06-11.06-3.75-3.75L3 17.253Zm17.71-10.21a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"></path>
@@ -101,12 +110,19 @@ function ContentPanel({ content }: { content: ContentType }) {
           <div className={styles.overviewBox}>{content.plot}</div>
         </main>
       </div>
-      {currentModal && (
+      {currentModal && accessToken && (
         <WritingModal
           type="comment"
           title={content.titleKo}
-          content=""
-          onSubmit={() => {}} // 생성, 수정에 맞게 api 호출
+          comment=""
+          onSubmit={(writtenContent: string, hasSpoiler: boolean) => {
+            createCommentRequest(
+              content.movieCD,
+              accessToken,
+              writtenContent,
+              hasSpoiler
+            );
+          }} // 생성, 수정에 맞게 api 호출
           onClose={() => setCurrentModal(null)}
         />
       )}
@@ -149,12 +165,15 @@ function ContentComments({ content }: { content: ContentType }) {
 
   useEffect(() => {
     getCommentListRequest(content.movieCD)
-      .then(defaultHandleResponse)
-      .then((data) => {
-        const commentsResponse = convertKeysToCamelCase(
-          data
-        ) as CommentsResType;
-        setComments(commentsResponse.results);
+      .then(defaultResponseHandler)
+      .then((data: CommentsResType) => {
+        const commentsResponse = data;
+        const comments = commentsResponse.results;
+
+        const repComment =
+          comments.length <= 4 ? comments : comments.slice(0, 4);
+        console.log(repComment);
+        setComments(repComment);
       })
       .catch(() => alert("잘못된 요청입니다"));
   }, [content.movieCD]);
@@ -174,9 +193,10 @@ function ContentComments({ content }: { content: ContentType }) {
       </header>
       <div className={styles.commentGridCon}>
         <ul className={styles.commentsGrid}>
-          {comments.map((comment) => (
-            <CommentCard key={comment.id} comment={comment} />
-          ))}
+          {comments.map((comment) => {
+            console.log(comment);
+            return <CommentCard key={comment.id} comment={comment} />;
+          })}
         </ul>
       </div>
     </section>

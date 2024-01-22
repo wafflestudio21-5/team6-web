@@ -12,13 +12,19 @@ export async function getContentListRequest(order: string) {
   });
 }
 
-export async function getContentRequest(movieCD: string) {
+export async function getContentRequest(movieCD: string, accessToken?: string) {
+  const headers: HeadersInit = accessToken
+    ? {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      }
+    : {
+        "Content-Type": "application/json",
+      };
   return fetch(`${BASE_API_URL}/contents/${movieCD}`, {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
+    headers,
+    //  credentials: "include",
   });
 }
 
