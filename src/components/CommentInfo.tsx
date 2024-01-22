@@ -4,6 +4,7 @@ import styles from "./CommentInfo.module.scss";
 import { MovieType } from "./ContentList";
 import ReplyList from "./ReplyList";
 import elapsedTime from "../utils/elapsedTime";
+import { CommentType } from "../type";
 
 export type ReplyType = {
   userName: string;
@@ -11,18 +12,6 @@ export type ReplyType = {
   content: string;
   likes: number;
   liked: boolean;
-};
-
-type CommentType = {
-  userName: string;
-  movie: MovieType;
-  rating: number;
-  content: string;
-  date: Date;
-  likes: number;
-  liked: boolean;
-  replyNumber: number;
-  replies: ReplyType[];
 };
 
 function CommentHeader({
@@ -158,19 +147,35 @@ function LikeReplyBar({ liked }: { liked: boolean }) {
   );
 }
 
+/*
+{
+    id: number;
+    created_by: {
+        id: number;
+        nickname: string;
+        profile_photo: string | null;
+    };
+    rating: null | string;
+    like_count: number;
+    content: string;
+    has_spoiler: boolean;
+    created_at: string;
+    updated_at: string;
+*/
 export default function CommentInfo({ comment }: { comment: CommentType }) {
   return (
     <section className={styles.commentInfo}>
-      <CommentHeader
-        userName={comment.userName}
+      {/* <CommentHeader
+        nickname={comment.created_by.nickname}
         movie={comment.movie}
         rating={comment.rating}
-        date={comment.date}
+        data={comment.created_at}
       />
-      <CommentBody content={comment.content} />
-      <CommentLikeReply likes={comment.likes} replies={comment.replyNumber} />
-      <LikeReplyBar liked={comment.liked} />
-      <ReplyList replyNumber={comment.replyNumber} replies={comment.replies} />
+      <CommentBody content={comment.content} />{" "}
+      
+      <CommentLikeReply likes={comment.like_count} replies={3} />
+      <LikeReplyBar liked={comment.like_count} />
+  <ReplyList replyNumber={3} replies={comment.replies} />*/}
     </section>
   );
 }

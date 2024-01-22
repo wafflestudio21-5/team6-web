@@ -1,35 +1,21 @@
 import CommentCard from "../../components/CommentCard";
 import styles from "./UserWrittenCommentListPage.module.scss";
-import profileDefault from "../../assets/user_default.jpg";
+// import profileDefault from "../../assets/user_default.jpg";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getUserWrittenComments } from "../../apis/user";
-
-type CommentType = {
-  id: number;
-  created_by: {};
-  movie: {
-    movieCD: string;
-    title_ko: string;
-    poster: string;
-    release_date: string;
-  };
-  content: string; // 실제 코멘트
-  rating: null | number;
-  created_at: string;
-  updated_at: string;
-  likes_count: number;
-  reply_count: number;
-};
+import { useState } from "react";
+import { defaultResponseHandler } from "../../apis/custom";
+import { CommentInUserPageType } from "../../type";
 
 export default function UserWrittenCommentListPage() {
   const navigate = useNavigate();
-  const [pageCommentList, setPageCommentList] = useState<CommentType[] | null>(
-    null,
-  );
-  const [pageCommentListLoading, setPageCommentListLoading] = useState(true);
-
   const { id } = useParams();
+  const [query, setQuery] = useState<string>();
+  const [userCommentsData, setUserCommentsData] = useState<
+    CommentInUserPageType[] | null
+  >(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
@@ -38,24 +24,21 @@ export default function UserWrittenCommentListPage() {
     };
     scrollToTop();
   });
-  useEffect(() => {
-    if (!id) return;
-    getUserWrittenComments(parseInt(id))
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log("coments : ", data);
-        setPageCommentList(data);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setPageCommentListLoading(false);
-      });
-  }, []);
 
+  useEffect(() => {
+    id &&
+      getUserWrittenComments(parseInt(id))
+        .then(defaultResponseHandler)
+        .then((data) => {
+          setUserCommentsData(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+  }, [query]);
   return (
     <div className={styles.pageCon}>
       <header>
@@ -75,13 +58,13 @@ export default function UserWrittenCommentListPage() {
         </nav>
       </header>
       <main className={styles.commentListCon}>
-        {!pageCommentListLoading && pageCommentList && (
-          <ul>
-            {/*  {pageCommentList.map((comment) => (
+        <ul>
+          {!loading &&
+            userCommentsData &&
+            userCommentsData.map((comment) => (
               <CommentCard comment={comment} />
-            ))}*/}
-          </ul>
-        )}
+            ))}
+        </ul>
       </main>
     </div>
   );

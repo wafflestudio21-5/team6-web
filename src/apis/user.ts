@@ -1,25 +1,25 @@
 // 모두가 접근 가능한 유저페이지에 대한 api
 import { BASE_API_URL } from "./const";
 
-export async function getUserDetail(id: number) {
-  return fetch(`${BASE_API_URL}/users/${id}/`);
+export async function getUserDetail(userId: number) {
+  return fetch(`${BASE_API_URL}/users/${userId}/`);
 }
 
-export async function getFollowingList(id: number) {
-  return fetch(`${BASE_API_URL}/users/${id}/followings/`);
+export async function getFollowingList(userId: number) {
+  return fetch(`${BASE_API_URL}/users/${userId}/followings/`);
 }
-export async function getFollowerList(id: number) {
-  return fetch(`${BASE_API_URL}/users/${id}/followers/`);
+export async function getFollowerList(userId: number) {
+  return fetch(`${BASE_API_URL}/users/${userId}/followers/`);
 }
 
-export async function postAddFollow(accessToken: string, id: number) {
+export async function postAddFollow(accessToken: string, userId: number) {
   return fetch(`${BASE_API_URL}/users/add/follow/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify({ user_id: id }),
+    body: JSON.stringify({ user_id: userId }),
   });
 }
 
@@ -41,24 +41,29 @@ export async function getUserLikesComments(id: number) {
 }
 
 export async function getUserWrittenComments(
+<<<<<<< HEAD
   id: number,
   query?: "like" | "created" | "high-rating" | "low-rating",
+=======
+  userId: number,
+  query?: "like" | "created" | "high-rating" | "low-rating"
+>>>>>>> main
 ) {
   if (query === undefined) {
-    return fetch(`${BASE_API_URL}/users/${id}/comments/`);
+    return fetch(`${BASE_API_URL}/users/${userId}/comments/`);
   }
 
-  return fetch(`${BASE_API_URL}/users/${id}/comments/?order=${query}`);
+  return fetch(`${BASE_API_URL}/users/${userId}/comments/?order=${query}`);
 }
 
-export async function getUserRatings(id: number) {
-  return fetch(`${BASE_API_URL}/users/${id}/ratings/`);
+export async function getUserRatings(userId: number) {
+  return fetch(`${BASE_API_URL}/users/${userId}/ratings/`);
 }
-export async function getUserDoings(id: number) {
-  return fetch(`${BASE_API_URL}/users/${id}/movies/watching/`);
+export async function getUserDoings(userId: number) {
+  return fetch(`${BASE_API_URL}/users/${userId}/movies/watching/`);
 }
-export async function getUserWishes(id: number) {
-  return fetch(`${BASE_API_URL}/users/${id}/movies/want_to_watch/`);
+export async function getUserWishes(userId: number) {
+  return fetch(`${BASE_API_URL}/users/${userId}/movies/want_to_watch/`);
 }
 
 /*
