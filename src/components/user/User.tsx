@@ -25,7 +25,7 @@ export default function User() {
   const [loading, setLoading] = useState(true);
 
   const {
-    // id,
+    id,
     username,
     nickname,
     // bio,
@@ -76,35 +76,11 @@ export default function User() {
               }}
             />
           </div>
-          <button
-            onClick={() => {
-              accessToken &&
-                postAddFollow(accessToken, 5)
-                  .then((res) => {
-                    console.log(res);
-                    res.json();
-                  })
-                  .then((data) => {
-                    console.log("data :", data);
-                  })
-                  .catch((e) => {
-                    console.log("error :", e);
-                  });
-            }}
-          >
-            모두 팔로우
-          </button>
-          <button
-            onClick={() => {
-              console.log(pageUserData);
-            }}
-          >
-            paeuserdata
-          </button>
           <div className={styles.profileInfoBox}>
             <div className={styles.profilePhoto}></div>
-            <h1>{nickname}</h1>
-            <p>{username}</p>
+            <h1>닉네임 {nickname}</h1>
+            <p>유저네임(아이디) {username}</p>
+            <p>식별자(pk) {id}</p>
             <div className={styles.connection}>
               <Link to="followers">
                 팔로워 <span>{followers_count}</span>
@@ -129,12 +105,16 @@ export default function User() {
           </div>
           <div className={styles.userTabBox}>
             <Link to="ratings" className={styles.ratings}>
-              <span className={styles.count}>매긴 별점 갯수</span>
+              <span className={styles.count}>
+                매긴 별점 갯수(유저 데이터에 없음)
+              </span>
               <span className={styles.underLetter}>평가</span>
             </Link>
             <div className={styles.verticalLine} />
             <Link to="comments" className={styles.comments}>
-              <span className={styles.count}>쓴 코멘트 갯수</span>
+              <span className={styles.count}>
+                쓴 코멘트 갯수(유저 데이터에 없음)
+              </span>
               <span className={styles.underLetter}>코멘트</span>
             </Link>
           </div>
@@ -175,7 +155,7 @@ export default function User() {
             <Link to="likes" className={styles.commentLikeTab}>
               <span>좋아한 코멘트</span>
               <span className={styles.likeCommentCount}>
-                좋아요한코멘트갯수
+                좋아요한코멘트갯수(유저 데이터에 없음)
               </span>
               <img
                 alt="link"

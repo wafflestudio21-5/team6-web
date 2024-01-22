@@ -1,5 +1,6 @@
 // import { BASE_API_URL } from "./const";
 import { BASE_API_AUTH_URL } from "./const";
+
 export async function postSignup(
   nickname: string,
   username: string,
