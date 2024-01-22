@@ -1,4 +1,8 @@
 // import { useEffect } from "react";
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b4e7515e4f24bb0973b204301f268631cb2742a
 import { useAuthContext } from "../../contexts/authContext";
 import styles from "./User.module.scss";
 import { Link, useParams } from "react-router-dom";
@@ -58,6 +62,10 @@ export default function User() {
 
   // const checkFollowing = myData?.followingId.includes(id as string); // assertion은 나중에 없앨테니 무시하셔도 됩니다.
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b4e7515e4f24bb0973b204301f268631cb2742a
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
   // isLoggedIn : 팔로우 버튼 보여준다(무조건 팔로우) / 좋아요 섹션 보여주지 않는다.
@@ -165,5 +173,9 @@ export default function User() {
         )}
       </div>
     )
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b4e7515e4f24bb0973b204301f268631cb2742a
   );
 }
