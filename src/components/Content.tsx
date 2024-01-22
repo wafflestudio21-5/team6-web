@@ -47,13 +47,18 @@ function ContentHeader({ content }: { content: ContentType }) {
   );
 }
 
-function ContentPanel({ content: fetchedContent }: { content: ContentType }) {
+function ContentPanel({
+  content,
+  setContent,
+}: {
+  content: ContentType;
+  setContent: (content: ContentType) => void;
+}) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
   >(null);
 
   const { accessToken } = useAuthContext();
-  const [content, setContent] = useState<ContentType>(fetchedContent);
 
   return (
     <section className={styles.panelBackground}>

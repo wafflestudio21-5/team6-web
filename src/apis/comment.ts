@@ -31,8 +31,8 @@ export async function createCommentRequest(
 }
 
 //특정 코멘트 아이디의 코멘트를 알 수 있다.
-export async function getCommentRequest(id: number) {
-  return fetch(`${BASE_API_URL}/comments/${id}`, {
+export async function getCommentRequest(commentId: number) {
+  return fetch(`${BASE_API_URL}/comments/${commentId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -42,12 +42,12 @@ export async function getCommentRequest(id: number) {
 }
 
 export async function updateCommentRequest(
-  id: number,
+  commentId: number,
   accessToken: string,
   content: string,
   hasSpoiler: boolean
 ) {
-  return fetch(`${BASE_API_URL}/comments/${id}`, {
+  return fetch(`${BASE_API_URL}/comments/${commentId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -67,6 +67,16 @@ export async function deleteCommentRequest(id: number, accessToken: string) {
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + accessToken,
+    },
+    credentials: "include",
+  });
+}
+
+export async function getCommentReplies(commentId: number) {
+  return fetch(`${BASE_API_URL}/comments/${commentId}/replies`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
     },
     credentials: "include",
   });

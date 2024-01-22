@@ -29,7 +29,7 @@ export default function ContentPage() {
       {content && (
         <>
           <Content.Header content={content} />
-          <Content.Panel content={content} />
+          <Content.Panel content={content} setContent={setContent} />
           <Content.Cast content={content} />
           <Content.Comments content={content} />
         </>

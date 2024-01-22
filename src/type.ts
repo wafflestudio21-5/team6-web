@@ -26,12 +26,18 @@ export type ContentType = {
   screening: boolean;
   averageRate: number;
   my_rate: RateType | null;
-  my_comment: MyCommentType;
+  my_comment: MyCommentType | null;
 };
 
 export type RateType = {
   id: number;
   my_rate: number;
+};
+
+export type ContentResTypeInRatingsPage = {
+  id: number;
+  movie: ContentType;
+  rate: number;
 };
 
 /**
@@ -104,10 +110,6 @@ export type CommentsResType = {
   results: CommentType[];
   next: string | null;
   previous: string | null;
-};
-
-export type TestType = {
-  message: string;
 };
 
 export type UserDataType = {
