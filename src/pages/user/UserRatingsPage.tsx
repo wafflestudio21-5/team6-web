@@ -1,11 +1,28 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./UserRatingsPage.module.scss";
 import { useEffect, useState } from "react";
 import DefaultMovieList from "../../components/user/DefaultMovieList";
 import RatingsOrderMovieListContainer from "../../components/user/RatingsOrderMovieListContainer";
+import { getUserRatings } from "../../apis/user";
+import { defaultResponseHandler } from "../../apis/custom";
+import { ContentType, ContentsResType } from "../../type";
 export default function UserRatingsPage() {
   const navigate = useNavigate();
   const [navMode, setNavMode] = useState<"default" | "ratingsOrder">("default");
+  const { id } = useParams();
+  const [userRatingMoviesData, setUserRatingMoviesData] =
+    useState<ContentType[]>();
+  useEffect(() => {
+    id &&
+      getUserRatings(parseInt(id))
+        .then(defaultResponseHandler)
+        .then((data) => {
+          console.log("moviesData : ", data);
+
+          setUserRatingMoviesData(data);
+        })
+        .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const scrollToTop = () => {
@@ -53,7 +70,9 @@ export default function UserRatingsPage() {
       <div className={styles.ratingsPage}>
         <section className={styles.movieListSection}>
           {navMode === "default" ? (
-            <DefaultMovieList />
+            userRatingMoviesData && (
+              <DefaultMovieList userRatingMoviesData={userRatingMoviesData} />
+            )
           ) : (
             <RatingsOrderMovieListContainer />
           )}
