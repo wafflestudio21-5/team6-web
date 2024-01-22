@@ -2,32 +2,36 @@ import { useAuthContext } from "../contexts/authContext";
 import styles from "./MyCommentBox.module.scss";
 import profileDefault from "../assets/user_default.jpg";
 import { Link } from "react-router-dom";
-import { CommentType } from "../type";
+import { ContentType, MyCommentType } from "../type";
 import { deleteCommentRequest } from "../apis/comment";
 import { defaultResponseHandler } from "../apis/custom";
 
 export default function MyCommentBox({
   openModal,
-  comment,
+  content,
+  setContent,
+  closeModal,
 }: {
   openModal: (type: "updateComment" | "createComment") => void;
-  comment: CommentType | null;
+  closeModal: () => void;
+  content: ContentType;
+  setContent: (content: ContentType) => void;
 }) {
   const { isLogined, myUserData, accessToken } = useAuthContext();
-
+  const my_comment = content.my_comment;
   return (
     isLogined && (
       <>
-        {comment ? (
+        {my_comment ? (
           <div className={styles.commentCon}>
             <h3>내가 쓴 코멘트</h3>
             <div className={styles.commentBox}>
               <img className={styles.userImage} src={profileDefault} alt="" />
               <Link
-                to={`/comments/${comment.id}`}
+                to={`/comments/${my_comment.id}`}
                 className={styles.commentText}
               >
-                {comment.content}
+                {my_comment.my_comment}
               </Link>
               <div className={styles.commentBtnBox}>
                 <button onClick={() => openModal("updateComment")}>
@@ -39,9 +43,15 @@ export default function MyCommentBox({
                 </div>
                 <button
                   onClick={() => {
-                    deleteCommentRequest(comment.id, accessToken ?? "")
-                      .then(defaultResponseHandler)
-                      .then(); // 내 코멘트 api가 생기면 리렌더링 로직 추가
+                    deleteCommentRequest(my_comment.id, accessToken ?? "")
+                      .then(() => {
+                        setContent({ ...content, my_comment: null }); // 성공 여부를 보고 반영
+                        alert("코멘트가 삭제되었습니다.");
+                        closeModal();
+                      })
+                      .catch(() => {
+                        alert("코멘트 삭제에 실패했습니다.");
+                      });
                   }}
                 >
                   <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbD0iI0EwQTBBMCIgZD0iTTIuMTggMTUuMzlsLjcwMy0zLjk4IDMuNzEzIDMuNzEyLTMuOTgxLjcwMmEuMzc0LjM3NCAwIDAgMS0uNDM0LS40MzR6bTEuNDk4LTQuNzc2bDYuMzY0LTYuMzY0IDMuNzEzIDMuNzEyLTYuMzY0IDYuMzY0LTMuNzEzLTMuNzEyek0xNS42MDcgNS4wNGEuNzUuNzUgMCAwIDEgMCAxLjA2bC0xLjA2IDEuMDYxLTMuNzEzLTMuNzEyIDEuMDYtMS4wNmEuNzUuNzUgMCAwIDEgMS4wNiAwbDIuNjUzIDIuNjUxeiIvPgogICAgPC9nPgo8L3N2Zz4K" />

@@ -8,7 +8,12 @@ import { CommentsResType, CommentType, ContentType } from "../type";
 // import { convertKeysToCamelCase } from "../utils/snackToCamel";
 import { Link } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
-import { createCommentRequest, getCommentListRequest } from "../apis/comment";
+import {
+  createCommentRequest,
+  getCommentListRequest,
+  getCommentRequest,
+  updateCommentRequest,
+} from "../apis/comment";
 import MyCommentBox from "./MyCommentBox";
 import WritingModal from "./WritingModal";
 import { useAuthContext } from "../contexts/authContext";
@@ -42,13 +47,14 @@ function ContentHeader({ content }: { content: ContentType }) {
   );
 }
 
-function ContentPanel({ content }: { content: ContentType }) {
+function ContentPanel({ content: fetchedContent }: { content: ContentType }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
   >(null);
-  console.log("contentpanel : ", content);
 
   const { accessToken } = useAuthContext();
+  const [content, setContent] = useState<ContentType>(fetchedContent);
+
   return (
     <section className={styles.panelBackground}>
       <div className={styles.panelCon}>
@@ -85,6 +91,8 @@ function ContentPanel({ content }: { content: ContentType }) {
               </li>
               <li
                 onClick={() => {
+                  // mycommentapi가 있어야함
+
                   setCurrentModal("createComment");
                 }}
               >
@@ -105,7 +113,14 @@ function ContentPanel({ content }: { content: ContentType }) {
               </li>
             </ul>
           </nav>
-          <MyCommentBox openModal={setCurrentModal} comment={null} />
+          <MyCommentBox
+            closeModal={() => {
+              setCurrentModal(null);
+            }}
+            openModal={setCurrentModal}
+            content={content}
+            setContent={setContent}
+          />
           {/* 아직 코멘트 받아오는 api가 없음 */}
           <div className={styles.overviewBox}>{content.plot}</div>
         </main>
@@ -114,16 +129,10 @@ function ContentPanel({ content }: { content: ContentType }) {
         <WritingModal
           type="comment"
           title={content.titleKo}
-          comment=""
-          onSubmit={(writtenContent: string, hasSpoiler: boolean) => {
-            createCommentRequest(
-              content.movieCD,
-              accessToken,
-              writtenContent,
-              hasSpoiler
-            );
-          }} // 생성, 수정에 맞게 api 호출
-          onClose={() => setCurrentModal(null)}
+          content={content}
+          currentModal={currentModal}
+          setCurrentModal={setCurrentModal}
+          setContent={setContent}
         />
       )}
     </section>

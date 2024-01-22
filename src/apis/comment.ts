@@ -15,9 +15,9 @@ export async function createCommentRequest(
   movieCD: string,
   accessToken: string,
   content: string,
-  hasSpoiler: boolean
+  has_spoiler: boolean
 ) {
-  return fetch(`${BASE_API_URL}/contents/${movieCD}/comments`, {
+  return fetch(`${BASE_API_URL}/contents/${movieCD}/comments/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,11 +25,12 @@ export async function createCommentRequest(
     },
     body: JSON.stringify({
       content,
-      has_spoiler: hasSpoiler,
+      has_spoiler: has_spoiler,
     }),
   });
 }
 
+//특정 코멘트 아이디의 코멘트를 알 수 있다.
 export async function getCommentRequest(id: number) {
   return fetch(`${BASE_API_URL}/comments/${id}`, {
     method: "GET",

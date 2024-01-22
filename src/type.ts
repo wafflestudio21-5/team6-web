@@ -26,6 +26,7 @@ export type ContentType = {
   screening: boolean;
   averageRate: number;
   my_rate: RateType | null;
+  my_comment: MyCommentType;
 };
 
 export type RateType = {
@@ -53,6 +54,12 @@ export type RateType = {
  * 
  * 
  */
+
+export type MyCommentType = {
+  id: number;
+  my_comment: string;
+  has_spoiler: boolean; // 바꿔야 할 수 있음
+};
 
 export type CommentType = {
   id: number;
