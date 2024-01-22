@@ -1,5 +1,8 @@
 // import { useEffect } from "react";
+<<<<<<< HEAD
+=======
 
+>>>>>>> 7b4e7515e4f24bb0973b204301f268631cb2742a
 import { useAuthContext } from "../../contexts/authContext";
 import styles from "./User.module.scss";
 import { Link, useParams } from "react-router-dom";
@@ -9,7 +12,6 @@ import { useEffect, useState } from "react";
 import { getUserDetail } from "../../apis/user";
 import { defaultResponseHandler } from "../../apis/custom";
 import { UserDataType } from "../../type";
-import { postAddFollow } from "../../apis/user";
 export default function User() {
   const { setCurrentModal } = useOutletContext<OutletContextType>();
   const { myUserData } = useAuthContext();
@@ -26,7 +28,7 @@ export default function User() {
   const [loading, setLoading] = useState(true);
 
   const {
-    // id,
+    id,
     username,
     nickname,
     // bio,
@@ -60,7 +62,10 @@ export default function User() {
 
   // const checkFollowing = myData?.followingId.includes(id as string); // assertion은 나중에 없앨테니 무시하셔도 됩니다.
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 7b4e7515e4f24bb0973b204301f268631cb2742a
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
   // isLoggedIn : 팔로우 버튼 보여준다(무조건 팔로우) / 좋아요 섹션 보여주지 않는다.
@@ -78,35 +83,11 @@ export default function User() {
               }}
             />
           </div>
-          <button
-            onClick={() => {
-              accessToken &&
-                postAddFollow(accessToken, 5)
-                  .then((res) => {
-                    console.log(res);
-                    res.json();
-                  })
-                  .then((data) => {
-                    console.log("data :", data);
-                  })
-                  .catch((e) => {
-                    console.log("error :", e);
-                  });
-            }}
-          >
-            모두 팔로우
-          </button>
-          <button
-            onClick={() => {
-              console.log(pageUserData);
-            }}
-          >
-            paeuserdata
-          </button>
           <div className={styles.profileInfoBox}>
             <div className={styles.profilePhoto}></div>
-            <h1>{nickname}</h1>
-            <p>{username}</p>
+            <h1>닉네임 {nickname}</h1>
+            <p>유저네임(아이디) {username}</p>
+            <p>식별자(pk) {id}</p>
             <div className={styles.connection}>
               <Link to="followers">
                 팔로워 <span>{followers_count}</span>
@@ -131,12 +112,16 @@ export default function User() {
           </div>
           <div className={styles.userTabBox}>
             <Link to="ratings" className={styles.ratings}>
-              <span className={styles.count}>매긴 별점 갯수</span>
+              <span className={styles.count}>
+                매긴 별점 갯수(유저 데이터에 없음)
+              </span>
               <span className={styles.underLetter}>평가</span>
             </Link>
             <div className={styles.verticalLine} />
             <Link to="comments" className={styles.comments}>
-              <span className={styles.count}>쓴 코멘트 갯수</span>
+              <span className={styles.count}>
+                쓴 코멘트 갯수(유저 데이터에 없음)
+              </span>
               <span className={styles.underLetter}>코멘트</span>
             </Link>
           </div>
@@ -177,7 +162,7 @@ export default function User() {
             <Link to="likes" className={styles.commentLikeTab}>
               <span>좋아한 코멘트</span>
               <span className={styles.likeCommentCount}>
-                좋아요한코멘트갯수
+                좋아요한코멘트갯수(유저 데이터에 없음)
               </span>
               <img
                 alt="link"
@@ -188,6 +173,9 @@ export default function User() {
         )}
       </div>
     )
+<<<<<<< HEAD
+=======
 
+>>>>>>> 7b4e7515e4f24bb0973b204301f268631cb2742a
   );
 }

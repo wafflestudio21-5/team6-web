@@ -23,7 +23,8 @@ export default function UserWrittenCommentListPage() {
       });
     };
     scrollToTop();
-  }, []);
+  });
+
   useEffect(() => {
     id &&
       getUserWrittenComments(parseInt(id))

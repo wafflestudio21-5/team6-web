@@ -37,8 +37,6 @@ export default function Layout() {
       })
       .catch(() => {
         console.log("토큰 받아오기 실패");
-      })
-      .finally(() => {
         setAutoLoginConfirmed(true);
       });
   }, []);
@@ -53,6 +51,9 @@ export default function Layout() {
         })
         .catch(() => {
           console.log("유저 데이터 받아오기 실패");
+        })
+        .finally(() => {
+          setAutoLoginConfirmed(true);
         });
   }, [accessToken]);
 

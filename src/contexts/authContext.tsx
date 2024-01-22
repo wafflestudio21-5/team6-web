@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { UserDataType } from "../type";
 type AuthContextType = {
-
   myUserData: UserDataType | null;
   setMyUserData: (authData: UserDataType) => void;
 
@@ -13,7 +12,7 @@ type AuthContextType = {
 };
 
 export const AuthContext = createContext<AuthContextType>(
-  {} as AuthContextType,
+  {} as AuthContextType
 );
 
 export function useAuthContext() {
@@ -25,7 +24,6 @@ export function AuthContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-
   const [myUserData, setMyUserData] = useState<UserDataType | null>(null);
 
   const [accessToken, setAccessToken] = useState<string | null>(null);
