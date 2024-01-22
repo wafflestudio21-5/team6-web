@@ -3,6 +3,7 @@ import styles from "./UserRatingsPage.module.scss";
 import { useEffect, useState } from "react";
 import DefaultMovieList from "../../components/user/DefaultMovieList";
 import RatingsOrderMovieListContainer from "../../components/user/RatingsOrderMovieListContainer";
+import { getUserRatings } from "../../apis/user";
 export default function UserRatingsPage() {
   const navigate = useNavigate();
   const [navMode, setNavMode] = useState<"default" | "ratingsOrder">("default");

@@ -1,39 +1,35 @@
 import CommentCard from "../../components/CommentCard";
 import styles from "./UserWrittenCommentListPage.module.scss";
 import profileDefault from "../../assets/user_default.jpg";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getUserWrittenComments } from "../../apis/user";
 
-type Comment = {
-  user: {
-    img: string;
-    name: string;
+type CommentType = {
+  id: number;
+  created_by: {};
+  movie: {
+    movieCD: string;
+    title_ko: string;
+    poster: string;
+    release_date: string;
   };
-  reviewRating: number;
-  text: string;
-  likeCount: number;
-  subcommentCount: number;
+  content: string; // 실제 코멘트
+  rating: null | number;
+  created_at: string;
+  updated_at: string;
+  likes_count: number;
+  reply_count: number;
 };
-
-const tmpComment: Comment = {
-  user: {
-    img: profileDefault,
-    name: "오수현",
-  },
-  reviewRating: 3,
-  text: `여기에는 해당 유저가 작성한 코멘트가 들어갑니다. 
-  `,
-  likeCount: 200,
-  subcommentCount: 1000,
-};
-const tmpComments = [] as Comment[];
-
-for (let i = 0; i < 8; i++) {
-  tmpComments.push(tmpComment);
-}
 
 export default function UserWrittenCommentListPage() {
   const navigate = useNavigate();
+  const [pageCommentList, setPageCommentList] = useState<CommentType[] | null>(
+    null,
+  );
+  const [pageCommentListLoading, setPageCommentListLoading] = useState(true);
+
+  const { id } = useParams();
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
@@ -41,7 +37,25 @@ export default function UserWrittenCommentListPage() {
       });
     };
     scrollToTop();
+  });
+  useEffect(() => {
+    if (!id) return;
+    getUserWrittenComments(parseInt(id))
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log("coments : ", data);
+        setPageCommentList(data);
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        setPageCommentListLoading(false);
+      });
   }, []);
+
   return (
     <div className={styles.pageCon}>
       <header>
@@ -61,11 +75,13 @@ export default function UserWrittenCommentListPage() {
         </nav>
       </header>
       <main className={styles.commentListCon}>
-        <ul>
-          {tmpComments.map((comment) => (
-            <CommentCard comment={comment} />
-          ))}
-        </ul>
+        {!pageCommentListLoading && pageCommentList && (
+          <ul>
+            {/*  {pageCommentList.map((comment) => (
+              <CommentCard comment={comment} />
+            ))}*/}
+          </ul>
+        )}
       </main>
     </div>
   );

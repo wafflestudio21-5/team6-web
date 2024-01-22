@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { getUserDetail } from "../../apis/user";
 import { defaultResponseHandler } from "../../apis/custom";
 import { UserDataType } from "../../type";
-import { postAddFollow } from "../../apis/user";
 export default function User() {
   const { setCurrentModal } = useOutletContext<OutletContextType>();
   const { myUserData } = useAuthContext();
