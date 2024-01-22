@@ -4,17 +4,14 @@ import { useEffect, useState } from "react";
 import DefaultMovieList from "../../components/user/DefaultMovieList";
 import RatingsOrderMovieListContainer from "../../components/user/RatingsOrderMovieListContainer";
 import { getUserRatings } from "../../apis/user";
-<<<<<<< HEAD
-=======
 import { defaultResponseHandler } from "../../apis/custom";
-import { ContentType, ContentsResType } from "../../type";
->>>>>>> main
+import { ContentType, ContentResTypeInRatingsPage } from "../../type";
 export default function UserRatingsPage() {
   const navigate = useNavigate();
   const [navMode, setNavMode] = useState<"default" | "ratingsOrder">("default");
   const { id } = useParams();
   const [userRatingMoviesData, setUserRatingMoviesData] =
-    useState<ContentType[]>();
+    useState<ContentResTypeInRatingsPage[]>();
   useEffect(() => {
     id &&
       getUserRatings(parseInt(id))

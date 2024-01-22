@@ -41,13 +41,8 @@ export async function getUserLikesComments(id: number) {
 }
 
 export async function getUserWrittenComments(
-<<<<<<< HEAD
-  id: number,
-  query?: "like" | "created" | "high-rating" | "low-rating",
-=======
   userId: number,
   query?: "like" | "created" | "high-rating" | "low-rating"
->>>>>>> main
 ) {
   if (query === undefined) {
     return fetch(`${BASE_API_URL}/users/${userId}/comments/`);
