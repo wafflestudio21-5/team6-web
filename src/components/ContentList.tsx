@@ -18,7 +18,7 @@ export type ContentListProps = {
 function ContentCell(content: MovieType, rank: number) {
   return (
     <li key={rank}>
-      <Link to="/contents/idididid">
+      <Link to="/contents/20183782">
         <div className={styles.movieImage}>
           <img src={content.posterUrl} />
           <div className={styles.rank}>{rank}</div>
