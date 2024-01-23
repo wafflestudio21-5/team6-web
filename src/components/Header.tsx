@@ -5,11 +5,7 @@ import UserImage from "../assets/user_default.jpg";
 import styles from "./Header.module.scss";
 import SearchBar from "./SearchBar";
 // import { newTokenRequest } from "../apis/auth";
-import {
-  Link,
-  useSearchParams,
-  useLocation,
-} from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../contexts/authContext";
 

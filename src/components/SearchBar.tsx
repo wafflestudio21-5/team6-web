@@ -3,6 +3,8 @@ import searchSmall from "../assets/searchSmall.svg";
 import searchBig from "../assets/searchBig.svg";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import { getKeywordSearch } from "../apis/search";
+import { defaultResponseHandler } from "../apis/custom";
 
 export default function SearchBar({
   transparent,
@@ -44,13 +46,16 @@ export default function SearchBar({
   };
 
   const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const str = e.target.value;
-    setRelated(
-      Array(10)
-        .fill(0)
-        .map((_, id) => str + id),
-    );
-    setSearchInput(str);
+    const query = e.target.value;
+    setSearchInput(query);
+    getKeywordSearch(query)
+      .then(defaultResponseHandler)
+      .then((data) => {
+        setRelated(data.map((obj: { title_ko: string }) => obj.title_ko));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -87,40 +92,56 @@ export default function SearchBar({
         </div>
       </div>
       {showRecommend &&
-        (searchInput ? (
-          <div className={styles.recommend}>
-            <section>
-              <div className={styles.relatedHeader}>
-                <h2>연관 검색어</h2>
+        (searchInput
+          ? related.length > 0 && (
+              <div className={styles.recommend}>
+                <section>
+                  <div className={styles.relatedHeader}>
+                    <h2>연관 검색어</h2>
+                  </div>
+                  <ul className={styles.recommendList}>
+                    {related.map((str, id) => (
+                      <li
+                        onMouseDown={(e) => {
+                          if (e.button === 0) searchConfirm(str);
+                        }}
+                        key={id}
+                      >
+                        {str}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               </div>
-              <ul className={styles.recommendList}>
-                {related.map((str, id) => (
-                  <li onClick={() => searchConfirm(str)} key={id}>
-                    {str}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </div>
-        ) : (
-          history.length > 0 && (
-            <div className={styles.recommend}>
-              <section>
-                <div className={styles.recentHeader}>
-                  <h2>최근 검색어</h2>
-                  <button onClick={() => setHistory([])}>모두 삭제</button>
-                </div>
-                <ul className={styles.recommendList}>
-                  {history.map((str, id) => (
-                    <li onClick={() => searchConfirm(str)} key={id}>
-                      {str}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            </div>
-          )
-        ))}
+            )
+          : history.length > 0 && (
+              <div className={styles.recommend}>
+                <section>
+                  <div className={styles.recentHeader}>
+                    <h2>최근 검색어</h2>
+                    <button
+                      onMouseDown={(e) => {
+                        if (e.button === 0) setHistory([]);
+                      }}
+                    >
+                      모두 삭제
+                    </button>
+                  </div>
+                  <ul className={styles.recommendList}>
+                    {history.map((str, id) => (
+                      <li
+                        onMouseDown={(e) => {
+                          if (e.button === 0) searchConfirm(str);
+                        }}
+                        key={id}
+                      >
+                        {str}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </div>
+            ))}
     </li>
   );
 }
