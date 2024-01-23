@@ -1,10 +1,12 @@
 import styles from "./SearchBar.module.scss";
 import searchSmall from "../assets/searchSmall.svg";
 import searchBig from "../assets/searchBig.svg";
+import searchClear from "../assets/searchClear.svg";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import { getKeywordSearch } from "../apis/search";
 import { defaultResponseHandler } from "../apis/custom";
+import { useSearchParams } from "react-router-dom";
 
 export default function SearchBar({
   transparent,
@@ -28,6 +30,8 @@ export default function SearchBar({
 
   const [showRecommend, setShowRecommend] = useState(false);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const searchConfirm = (query: string) => {
     const exHistory = history.filter((str) => str != query);
     console.log(query, exHistory);
@@ -36,7 +40,8 @@ export default function SearchBar({
     } else {
       setHistory([query, ...exHistory]);
     }
-    navigate("/search?query=" + query);
+    navigate("/search");
+    setSearchParams({ ...Object.fromEntries(searchParams.entries()), query });
   };
 
   const searchKeyDown = (e: React.KeyboardEvent) => {
@@ -45,17 +50,25 @@ export default function SearchBar({
     }
   };
 
-  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
+  const handleSearchUpdate = (query: string) => {
     setSearchInput(query);
     getKeywordSearch(query)
       .then(defaultResponseHandler)
       .then((data) => {
-        setRelated(data.map((obj: { title_ko: string }) => obj.title_ko));
+        const newData: string[] = [];
+        for (let i = 0; i < data.length && i < 10; i += 1) {
+          newData.push(data[i].title_ko);
+        }
+        setRelated(newData);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    handleSearchUpdate(query);
   };
 
   useEffect(() => {
@@ -79,7 +92,7 @@ export default function SearchBar({
               src={transparent ? searchBig : searchSmall}
             />
             <input
-              onBlur={() => setTimeout(() => setShowRecommend(false), 200)}
+              onBlur={() => setShowRecommend(false)}
               onFocus={() => setShowRecommend(true)}
               autoComplete="off"
               placeholder="콘텐츠, 인물, 유저를 검색해보세요."
@@ -88,6 +101,13 @@ export default function SearchBar({
               onChange={onSearchChange}
               onKeyDown={searchKeyDown}
             />
+            {searchInput && (
+              <img
+                onClick={() => handleSearchUpdate("")}
+                className={styles.searchClear}
+                src={searchClear}
+              />
+            )}
           </label>
         </div>
       </div>
