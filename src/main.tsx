@@ -11,7 +11,7 @@ import SearchPage from "./pages/SearchPage.tsx";
 import UserStoragePage from "./pages/user/UserStoragePage.tsx";
 import UserLikesPage from "./pages/user/UserLikesCommentListPage.tsx";
 import UserRatingsPage from "./pages/user/UserRatingsPage.tsx";
-import UserRatingsOrderPage from "./pages/user/UserRatingsOrderPage.tsx";
+import UserMovieListByRatingValuePage from "./pages/user/UserMovieListByRatingValuePage.tsx";
 import UserWrittenCommentListPage from "./pages/user/UserWrittenCommentListPage.tsx";
 import UserFollowingPage from "./pages/user/UserFollowingPage.tsx";
 import AuthCallBackKakaoPage from "./pages/AuthCallBackKakaoPage.tsx";
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
       },
       {
         path: "users/:id/ratings/:ratingNumber", // 유저가 남긴 평가 모음 페이지
-        element: <UserRatingsOrderPage />,
+        element: <UserMovieListByRatingValuePage />,
       },
       {
         path: "users/:id/comments", // 유저가 남긴 코멘트 모음 페이지
@@ -95,5 +95,5 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <AuthContextProvider>
     <RouterProvider router={router} />
-  </AuthContextProvider>,
+  </AuthContextProvider>
 );

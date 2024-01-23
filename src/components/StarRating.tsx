@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./StarRating.module.scss";
-import { RateType } from "../type";
+import { MyRateType } from "../type";
 import {
   createRatingRequest,
   deleteRatingRequest,
@@ -50,7 +50,7 @@ function Star(props: StarProps) {
 }
 
 type StarRatingProps = {
-  my_rate: RateType | null;
+  my_rate: MyRateType | null;
   movieCD: string;
 };
 

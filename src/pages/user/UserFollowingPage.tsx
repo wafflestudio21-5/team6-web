@@ -4,7 +4,7 @@ import styles from "./UserFollowingPage.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { FollowerListType, FollowerType } from "../../type";
+import { FollowListType, FollowType } from "../../type";
 import { defaultResponseHandler } from "../../apis/custom";
 import { getFollowingList } from "../../apis/user";
 import { useAuthContext } from "../../contexts/authContext";
@@ -13,10 +13,10 @@ export default function UserFollowingPage() {
 
   const { id: pageUserId } = useParams();
   const [pageFollowingListData, setPageFollowingListData] =
-    useState<FollowerListType>([] as FollowerListType);
+    useState<FollowListType>([] as FollowListType);
   const [pageFollowingLoading, setPageFollowingLoading] = useState(true);
   const [myFollowingListData, setMyFollowingListData] =
-    useState<FollowerListType>([] as FollowerListType);
+    useState<FollowListType>([] as FollowListType);
   const [myFollowingLoading, setMyFollowingLoading] = useState(true);
 
   const { myUserData } = useAuthContext();
@@ -36,7 +36,7 @@ export default function UserFollowingPage() {
     }
     getFollowingList(myUserData.id)
       .then(defaultResponseHandler)
-      .then((data: FollowerListType) => {
+      .then((data: FollowListType) => {
         setMyFollowingListData(data);
       })
       .catch((e) => {
@@ -50,7 +50,7 @@ export default function UserFollowingPage() {
   useEffect(() => {
     getFollowingList(parseInt(pageUserId ? pageUserId : ""))
       .then(defaultResponseHandler)
-      .then((data: FollowerListType) => {
+      .then((data: FollowListType) => {
         setPageFollowingListData(data);
       })
       .catch((e) => {
@@ -91,7 +91,7 @@ export default function UserFollowingPage() {
         {!pageFollowingLoading && !myFollowingLoading && (
           <div className={styles.followListContainer}>
             <ul className={styles.followList}>
-              {pageFollowingListData.map((follower: FollowerType) => {
+              {pageFollowingListData.map((follower: FollowType) => {
                 const myFollowingIdList = myFollowingListData.map(
                   (follower) => follower.id
                 );

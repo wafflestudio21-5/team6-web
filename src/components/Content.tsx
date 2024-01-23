@@ -4,7 +4,7 @@ import { Carousel } from "./Carousel";
 import profileDefault from "../assets/user_default.jpg";
 import StarRating from "./StarRating";
 import CommentCard from "./CommentCard";
-import { CommentsResType, CommentType, ContentType } from "../type";
+import { CommentsResType, CommentType, MovieType } from "../type";
 // import { convertKeysToCamelCase } from "../utils/snackToCamel";
 import { Link } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
@@ -18,7 +18,7 @@ import MyCommentBox from "./MyCommentBox";
 import WritingModal from "./WritingModal";
 import { useAuthContext } from "../contexts/authContext";
 
-function ContentHeader({ content }: { content: ContentType }) {
+function ContentHeader({ content }: { content: MovieType }) {
   const backGroundStyle = {
     backgroundImage: `url(https://an2-ast.amz.wtchn.net/ayg/images/asContentFallbackVideo1.207fd38cdebff49ccde8.jpg)`,
     backgroundSize: "cover",
@@ -51,8 +51,8 @@ function ContentPanel({
   content,
   setContent,
 }: {
-  content: ContentType;
-  setContent: (content: ContentType) => void;
+  content: MovieType;
+  setContent: (content: MovieType) => void;
 }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
@@ -144,7 +144,7 @@ function ContentPanel({
   );
 }
 
-function ContentCast({ content }: { content: ContentType }) {
+function ContentCast({ content }: { content: MovieType }) {
   return (
     <section className={styles.castCon}>
       <h2>출연/제작</h2>
@@ -174,7 +174,7 @@ function ContentCast({ content }: { content: ContentType }) {
   );
 }
 
-function ContentComments({ content }: { content: ContentType }) {
+function ContentComments({ content }: { content: MovieType }) {
   const [comments, setComments] = useState<CommentType[]>([]);
 
   useEffect(() => {

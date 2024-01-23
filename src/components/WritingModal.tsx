@@ -1,5 +1,5 @@
 import { createCommentRequest, updateCommentRequest } from "../apis/comment";
-import { CommentType, ContentType, MyCommentType } from "../type";
+import { CommentType, MovieType, MyCommentType } from "../type";
 import Modal from "./Modal";
 import styles from "./WritingModal.module.scss";
 import { useState } from "react";
@@ -9,12 +9,12 @@ import { defaultResponseHandler } from "../apis/custom";
 type WritingModalProps = {
   type: "comment" | "reply";
   title: string;
-  content: ContentType;
+  content: MovieType;
   currentModal: "updateComment" | "createComment" | null;
   setCurrentModal: (
     currentModal: "updateComment" | "createComment" | null
   ) => void;
-  setContent: (content: ContentType) => void;
+  setContent: (content: MovieType) => void;
 };
 
 export default function WritingModal(props: WritingModalProps) {

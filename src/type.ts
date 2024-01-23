@@ -4,7 +4,10 @@ type PeopleType = {
   photo?: string;
 };
 
-export type ContentType = {
+// 각 페이지 별로 영화나 코멘트 데이터의 속성이 다르므로 각각 다르게 정의해야 합니다
+
+// 영화 개별 페이지에서 받아오는 MovieType
+export type MovieType = {
   movieCD: string;
   directors: PeopleType[];
   writers: PeopleType[];
@@ -20,51 +23,52 @@ export type ContentType = {
   runtime: number;
   prodCountry: string;
   poster: string;
-  releaseDate: string; // date
+  releaseDate: string;
   // option
   cumulativeAudience: number | null;
   screening: boolean;
   averageRate: number;
-  my_rate: RateType | null;
-  my_comment: MyCommentType | null;
-};
-
-export type RateType = {
-  id: number;
-  my_rate: number;
-};
-
-export type ContentResTypeInRatingsPage = {
-  id: number;
-  movie: ContentType;
-  rate: number;
-};
-
-/**
- *export type CommentType = {
-  id: number;
-  createdBy: {
+  my_rate: {
     id: number;
-    nickname: string;
-    profilePhoto: string | null;
-  };
-  rating: number | null;
-  likeCount: number;
-  content: string;
-  hasSpoiler: false;
-  createdAt: string; // date
-  updatedAt: string; // date
-  movie: string;
+    my_rate: number;
+  } | null;
+  my_comment: {
+    id: number;
+    my_comment: string;
+    has_spoiler: boolean; // 바꿔야 할 수도 있음
+  } | null;
 };
 
- * 
- * 
- */
-
-export type MyCommentType = {
+// 유저가 평가한 영화 리스트에 필요한 MovieType
+export type MovieByUserType = {
   id: number;
-  my_comment: string;
-  has_spoiler: boolean; // 바꿔야 할 수 있음
+  rate: number | null;
+  movie: {
+    cumulativeAudience: number | null;
+    screening: boolean;
+    movieCD: string;
+    plot: string;
+    runtime: number;
+    prodCountry: string;
+    poster: string;
+    titleKo: string;
+    titleOriginal: string;
+    releaseDate: string;
+  };
+};
+
+export type MoviesResType = {
+  results: MovieByUserType[];
+  next: string | null;
+  previous: string | null;
+  count: number;
+};
+
+export type CommentsResType = {
+  results: CommentType[] | CommentByUserType[];
+  next: string | null;
+  previous: string | null;
+  count: number;
 };
 
 export type CommentType = {
@@ -74,42 +78,24 @@ export type CommentType = {
     nickname: string;
     profile_photo: string | null;
   };
-  rating: null | string;
+  rating: null | { rate: number };
   like_count: number;
-  content: string;
+  liked_by_user: boolean;
+  content: string; // 코멘트 내용
   has_spoiler: boolean;
   created_at: string;
   updated_at: string;
   movie: string;
 };
 
-export type CommentInUserPageType = {
-  id: number;
-  created_by: {
-    id: number;
-    username: string;
-    nickname: string;
-    profile_photo: null | string;
-    background_photo: null | string;
-  };
+// 유저 하위페이지의 코멘트 리스트에 필요한 CommentType
+export type CommentByUserType = CommentType & {
   movie: {
     movieCD: string;
-    title_ko: string;
-    poster: string;
     release_date: string;
+    poster: string;
+    title_ko: string;
   };
-  content: string;
-  rating: null | string;
-  created_at: string;
-  updated_at: string;
-  likes_count: number;
-  reply_count: number;
-};
-
-export type CommentsResType = {
-  results: CommentType[];
-  next: string | null;
-  previous: string | null;
 };
 
 export type UserDataType = {
@@ -121,9 +107,12 @@ export type UserDataType = {
   background_photo: string | null;
   followers_count: number;
   following_count: number;
+  liked_comment_num: number;
+  comment_num: number;
+  rate_num: number;
 };
 
-export type FollowerType = {
+export type FollowType = {
   id: number;
   username: string;
   nickname: string;
@@ -131,4 +120,4 @@ export type FollowerType = {
   profile_photo: string | null;
   background_photo: string | null;
 };
-export type FollowerListType = FollowerType[];
+export type FollowListType = FollowType[];

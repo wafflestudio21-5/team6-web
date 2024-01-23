@@ -1,11 +1,25 @@
-import { useNavigate } from "react-router-dom";
-import styles from "./RatingsOrderMovieListContainer.module.scss";
+import { useNavigate, useParams } from "react-router-dom";
+import styles from "./MovieListByRatingValueContainer.module.scss";
 import { Link } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { getUserRatingMovies } from "../../apis/user";
+import { defaultResponseHandler } from "../../apis/custom";
+import { MovieByUserType, MoviesResType } from "../../type";
 
-export default function RatingsOrderMovieListContainer() {
+export default function MovieListByRatingValueContainer({
+  displayStyleHandler,
+}: {
+  displayStyleHandler: (sectionKey: "default" | "ratingsOrder") =>
+    | {
+        display: string;
+      }
+    | undefined;
+}) {
   return (
-    <section className={styles.ratingsOrderMovieListContainer}>
+    <section
+      className={styles.ratingsOrderMovieListContainer}
+      style={displayStyleHandler("ratingsOrder")}
+    >
       {Array(10)
         .fill(10)
         .map((_, index) => {
@@ -16,22 +30,46 @@ export default function RatingsOrderMovieListContainer() {
 }
 
 function MovieCaroucelBox({ ratingNumber }: { ratingNumber: number }) {
+  const { id: userId } = useParams();
+  const [moviesWithRatingNumber, setMoviesWithRatingNumber] =
+    useState<MovieByUserType[]>();
+  const [loading, setLoading] = useState(true);
+  const [movieCount, setmovieCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    userId &&
+      getUserRatingMovies(parseInt(userId), { rate: ratingNumber })
+        .then(defaultResponseHandler)
+        .then((data: MoviesResType) => {
+          setMoviesWithRatingNumber(data.results);
+          setmovieCount(data.count);
+        })
+        .catch(() => {
+          console.log("에러");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+  }, []);
+
   return (
     <>
       <div className={styles.headerByRatingNumber}>
         <h2 className={styles.titleByRatingNumber}>
-          {ratingNumber} 평가함 <span>44</span>
+          {ratingNumber} 평가함 <span>{movieCount}</span>
         </h2>
         <div className={styles.moreMoviesButtonBox}>
           <Link to={(ratingNumber * 2).toString()}>더보기</Link>
         </div>
       </div>
-      <MovieCarousel />
+      {!loading && moviesWithRatingNumber && (
+        <MovieCarousel movies={moviesWithRatingNumber} />
+      )}
     </>
   );
 }
 
-export function MovieCarousel() {
+export function MovieCarousel({ movies }: { movies: MovieByUserType[] }) {
   const [translateX, setTranslateX] = useState(0);
   const carouselContentRef = useRef<HTMLDivElement>(null);
   const carouselUlRef = useRef<HTMLUListElement>(null);
@@ -53,7 +91,7 @@ export function MovieCarousel() {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false,
+          : false
       );
     }
   }
@@ -69,7 +107,7 @@ export function MovieCarousel() {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false,
+          : false
       );
     }
   }
@@ -79,11 +117,10 @@ export function MovieCarousel() {
       <div className={styles.contentList}>
         <div className={styles.scrollBar} ref={carouselContentRef}>
           <ul ref={carouselUlRef}>
-            {Array(30)
-              .fill(0)
-              .map(() => (
-                <MovieCell />
-              ))}
+            {movies.map((movieContent) => {
+              const movie = movieContent.movie;
+              return <MovieCell key={movieContent.id} movie={movie} />;
+            })}
           </ul>
         </div>
         {isFirst || (
@@ -111,19 +148,31 @@ export function MovieCarousel() {
   );
 }
 
-function MovieCell() {
+function MovieCell({
+  movie,
+}: {
+  movie: {
+    cumulativeAudience: number | null;
+    screening: boolean;
+    movieCD: string;
+    plot: string;
+    runtime: number;
+    prodCountry: string;
+    poster: string;
+    titleKo: string;
+    titleOriginal: string;
+    releaseDate: string;
+  };
+}) {
   const navigate = useNavigate();
   return (
     <li
       onClick={() => {
-        navigate("/contents/1");
+        navigate(`/contents/${movie.movieCD}`);
       }}
     >
-      <img
-        src="https://an2-img.amz.wtchn.net/image/v2/WSwwV37ZZJtSYbI_jOi0Hg.jpg?jwt=ZXlKaGJHY2lPaUpJVXpJMU5pSjkuZXlKdmNIUnpJanBiSW1SZk5Ea3dlRGN3TUhFNE1DSmRMQ0p3SWpvaUwzWXlMM04wYjNKbEwybHRZV2RsTHpFMk16VTBNVEUwTXprME5ESXlNVFkyT0RJaWZRLmQtaFFQNUgyQk1kb3hmZk5CQ3ZWS2JiZ3ZfMDFXc0ZLdlJXUXZDOElQVFE"
-        alt="movieImage"
-      />
-      <p>노 베어스</p>
+      <img src={movie.poster} alt={movie.titleKo} />
+      <p>{movie.titleKo}</p>
     </li>
   );
 }

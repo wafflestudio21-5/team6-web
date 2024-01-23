@@ -2,7 +2,7 @@ import { useAuthContext } from "../contexts/authContext";
 import styles from "./MyCommentBox.module.scss";
 import profileDefault from "../assets/user_default.jpg";
 import { Link } from "react-router-dom";
-import { ContentType, MyCommentType } from "../type";
+import { MovieType, MyCommentType } from "../type";
 import { deleteCommentRequest } from "../apis/comment";
 import { defaultResponseHandler } from "../apis/custom";
 
@@ -14,8 +14,8 @@ export default function MyCommentBox({
 }: {
   openModal: (type: "updateComment" | "createComment") => void;
   closeModal: () => void;
-  content: ContentType;
-  setContent: (content: ContentType) => void;
+  content: MovieType;
+  setContent: (content: MovieType) => void;
 }) {
   const { isLogined, myUserData, accessToken } = useAuthContext();
   const my_comment = content.my_comment;
