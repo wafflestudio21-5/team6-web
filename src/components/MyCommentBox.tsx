@@ -2,9 +2,8 @@ import { useAuthContext } from "../contexts/authContext";
 import styles from "./MyCommentBox.module.scss";
 import profileDefault from "../assets/user_default.jpg";
 import { Link } from "react-router-dom";
-import { MovieType, MyCommentType } from "../type";
+import { MovieType } from "../type";
 import { deleteCommentRequest } from "../apis/comment";
-import { defaultResponseHandler } from "../apis/custom";
 
 export default function MyCommentBox({
   openModal,
@@ -31,7 +30,7 @@ export default function MyCommentBox({
                 to={`/comments/${my_comment.id}`}
                 className={styles.commentText}
               >
-                {my_comment.my_comment}
+                {my_comment.content}
               </Link>
               <div className={styles.commentBtnBox}>
                 <button onClick={() => openModal("updateComment")}>

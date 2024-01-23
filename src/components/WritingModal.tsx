@@ -1,5 +1,5 @@
 import { createCommentRequest, updateCommentRequest } from "../apis/comment";
-import { CommentType, MovieType, MyCommentType } from "../type";
+import { CommentType, MovieType } from "../type";
 import Modal from "./Modal";
 import styles from "./WritingModal.module.scss";
 import { useState } from "react";
@@ -24,11 +24,12 @@ export default function WritingModal(props: WritingModalProps) {
   const { my_comment, movieCD } = content;
 
   const [commentInput, setCommentInput] = useState(
-    my_comment === null ? "" : my_comment.my_comment
+    my_comment ? my_comment.content : ""
   ); //comment는 기존에 썼던 코멘트가 있을 경우에만 존재
   const [hasSpoiler, setHasSpoiler] = useState(
-    my_comment === null ? false : my_comment.has_spoiler
+    !!my_comment ? my_comment.has_spoiler : false
   );
+
   return (
     <Modal
       onClose={() => {
@@ -60,13 +61,11 @@ export default function WritingModal(props: WritingModalProps) {
                 )
                   .then(defaultResponseHandler)
                   .then((data: CommentType) => {
+                    console.log("data : ", data);
+                    console.log("content : ", data.content);
                     setContent({
                       ...content,
-                      my_comment: {
-                        my_comment: data.content,
-                        has_spoiler: data.has_spoiler,
-                        id: data.id,
-                      },
+                      my_comment: data,
                     });
                     setCurrentModal(null);
                   });
@@ -81,13 +80,11 @@ export default function WritingModal(props: WritingModalProps) {
                 )
                   .then(defaultResponseHandler)
                   .then((data: CommentType) => {
+                    console.log("data : ", data);
+                    console.log("content : ", data.content);
                     setContent({
                       ...content,
-                      my_comment: {
-                        my_comment: data.content,
-                        has_spoiler: data.has_spoiler,
-                        id: data.id,
-                      },
+                      my_comment: data,
                     });
                     setCurrentModal(null);
                   });
@@ -102,8 +99,15 @@ export default function WritingModal(props: WritingModalProps) {
             />
             <nav>
               {type === "comment" && (
-                <button type="button" className={styles.spoilerButton}>
+                <button
+                  type="button"
+                  className={styles.spoilerButton}
+                  onClick={() => {
+                    setHasSpoiler(!hasSpoiler);
+                  }}
+                >
                   <svg
+                    className={hasSpoiler ? styles.checked : ""}
                     fill="none"
                     height="30"
                     viewBox="0 0 24 24"

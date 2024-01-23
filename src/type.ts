@@ -32,11 +32,7 @@ export type MovieType = {
     id: number;
     my_rate: number;
   } | null;
-  my_comment: {
-    id: number;
-    my_comment: string;
-    has_spoiler: boolean; // 바꿔야 할 수도 있음
-  } | null;
+  my_comment: CommentType | null;
 };
 
 // 유저가 평가한 영화 리스트에 필요한 MovieType

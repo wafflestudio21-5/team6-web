@@ -190,7 +190,7 @@ function ContentComments({ content }: { content: MovieType }) {
         setComments(repComment);
       })
       .catch(() => alert("잘못된 요청입니다"));
-  }, [content.movieCD]);
+  }, [content.movieCD, content.my_comment]);
 
   return (
     <section className={styles.commentsCon}>
