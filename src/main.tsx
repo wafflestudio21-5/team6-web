@@ -16,8 +16,7 @@ import UserWrittenCommentListPage from "./pages/user/UserWrittenCommentListPage.
 import UserFollowingPage from "./pages/user/UserFollowingPage.tsx";
 import AuthCallBackKakaoPage from "./pages/AuthCallBackKakaoPage.tsx";
 import { AuthContextProvider } from "./contexts/authContext.tsx";
-import UserStorageDoingsPage from "./pages/user/UserStorageDoingsPage.tsx";
-import UserStorageWishesPage from "./pages/user/UserStorageWishesPage.tsx";
+import UserStorageSubPage from "./pages/user/UserStorageSubPage.tsx";
 import UserFollowerPage from "./pages/user/UserFollowerPage.tsx";
 import AuthToKaKao from "./pages/AuthToKakao.tsx";
 const router = createBrowserRouter([
@@ -71,12 +70,8 @@ const router = createBrowserRouter([
         element: <UserStoragePage />,
       },
       {
-        path: "users/:id/contents/wishes",
-        element: <UserStorageWishesPage />,
-      },
-      {
-        path: "users/:id/contents/doings",
-        element: <UserStorageDoingsPage />,
+        path: "users/:id/contents/:subpage",
+        element: <UserStorageSubPage />,
       },
       {
         path: "users/:id/likes", // user가 영화에 대해 좋아요 남겼을 때의 페이지

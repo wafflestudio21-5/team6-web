@@ -35,11 +35,6 @@ export async function postUnFollow(accessToken: string, userId: number) {
   });
 }
 
-// 노션에는 mypage로 되어있는데 확인하고 요청하기
-export async function getUserLikesComments(userId: number) {
-  return fetch(`${BASE_API_URL}/users/${userId}/likes/comments/`);
-}
-
 export async function getUserWrittenComments(
   userId: number,
   query?: "like" | "created" | "high-rating" | "low-rating"
@@ -66,10 +61,10 @@ export async function getUserRatingMovies(
 
   return fetch(`${BASE_API_URL}/users/${userId}/ratings?${result}`);
 }
-export async function getUserDoings(userId: number) {
+export async function getUserWatchings(userId: number) {
   return fetch(`${BASE_API_URL}/users/${userId}/movies/watching/`);
 }
-export async function getUserWishes(userId: number) {
+export async function getUserWantToWatch(userId: number) {
   return fetch(`${BASE_API_URL}/users/${userId}/movies/want_to_watch/`);
 }
 

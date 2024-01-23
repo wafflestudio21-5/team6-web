@@ -21,15 +21,17 @@ export default function User() {
   >(null);
 
   const [pageUser, setPageUser] = useState<UserDataType | null>(null); // PageUserType은 아래에 정의되어 있습니다.
-  const [loading, setLoading] = useState(true);
+  const [pageUserloading, setPageUserLoading] = useState(true);
   const [isMyFollowing, setIsMyFollowing] = useState<boolean>(false);
   const [isMyFollowingLoading, setIsMyFollowingLoading] = useState(true);
+  const loading = pageUserloading || isMyFollowingLoading;
 
   const followButtonClickHandler = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (!accessToken || !pageUser) return;
+    if (!pageUser) return;
+    if (!accessToken) return setCurrentModal("login");
     isMyFollowing
       ? postUnFollow(accessToken, pageUser.id)
           .then(defaultResponseHandler)
@@ -51,43 +53,32 @@ export default function User() {
           });
   };
 
+  // 페이지 유저 데이터 가져오기
   useEffect(() => {
-    getUserDetail(parseInt(pageUserId ? pageUserId : ""))
-      .then(defaultResponseHandler)
-      .then((data: UserDataType) => {
-        setPageUser(data);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    pageUserId &&
+      getUserDetail(parseInt(pageUserId))
+        .then(defaultResponseHandler)
+        .then((data: UserDataType) => {
+          setPageUser(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+        .finally(() => {
+          setPageUserLoading(false);
+        });
   }, [pageUserId]);
 
+  // 내 팔로잉 리스트를 추가로 가져와야 함
   useEffect(() => {
-    if (loginUserId === undefined) {
-      setPageMode("notLoggedIn");
-      return;
-    }
-    console.log("autoLoginConfirmed : ", myUserData, pageUserId, loginUserId);
-    setPageMode(pageUserId === loginUserId.toString() ? "myPage" : "otherPage");
-  }, [loginUserId]);
-
-  useEffect(() => {
-    if (!myUserData) {
-      setIsMyFollowingLoading(false);
-      return;
-    }
+    if (!myUserData) return setIsMyFollowingLoading(false);
 
     getFollowingList(myUserData.id)
       .then(defaultResponseHandler)
       .then((data: FollowListType) => {
         const myFollowingIdList = data.map((follower) => follower.id);
         const isMyFollowing =
-          pageUserId && myFollowingIdList.includes(parseInt(pageUserId))
-            ? true
-            : false;
+          !!pageUserId && myFollowingIdList.includes(parseInt(pageUserId));
         setIsMyFollowing(isMyFollowing);
       })
       .catch((e) => {
@@ -96,7 +87,12 @@ export default function User() {
       .finally(() => {
         setIsMyFollowingLoading(false);
       });
-  }, []);
+  }, [pageUserId]);
+
+  useEffect(() => {
+    if (!loginUserId) return setPageMode("notLoggedIn");
+    setPageMode(pageUserId === loginUserId.toString() ? "myPage" : "otherPage");
+  }, [loginUserId]);
 
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
@@ -104,7 +100,6 @@ export default function User() {
 
   return (
     !loading &&
-    !isMyFollowingLoading &&
     pageUser && (
       <div className={styles.userContainer}>
         {/* profile section. user 기본 정보와 평가&코멘트 탭을 포함하는 섹션 */}

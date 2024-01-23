@@ -57,6 +57,11 @@ export type MovieByUserType = {
   };
 };
 
+export type MovieByStorageSubType = MovieByUserType & {
+  user_state: "watching" | "want_to_watch" | "not_interested" | null;
+  user_state_display: "watching" | "want_to_watch" | "not_interested" | null;
+};
+
 export type MoviesResType = {
   results: MovieByUserType[];
   next: string | null;

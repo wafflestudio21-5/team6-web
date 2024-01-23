@@ -1,4 +1,4 @@
-// import { BASE_API_URL } from "./const";
+import { BASE_API_URL } from "./const";
 import { BASE_API_AUTH_URL } from "./const";
 
 export async function postSignup(
@@ -69,13 +69,20 @@ export async function deleteWithDrawalUser(accessToken: string) {
   });
 }
 
-/*
-export async function deleteWithDrawalUser(accessToken: string) {
-  return fetch(`${BASE_API_URL}/users/mypage/delete/`, {
-    method: "DELETE",
-    credentials: "include",
+export async function getMyLikesComments(accessToken: string) {
+  return fetch(`${BASE_API_URL}/users/mypage/likes/comments/`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-}*/
+}
+export async function getNextMyLikesComments(
+  accessToken: string,
+  nextUrl: string
+) {
+  return fetch(nextUrl, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+}
