@@ -1,0 +1,93 @@
+@import "../utils/common.module.scss";
+
+.writingCon {
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+  border-radius: 16px;
+  padding: 16px 20px;
+  line-height: 22px;
+  background-color: $white;
+
+  header {
+    display: flex;
+    width: 100%;
+    height: 33px;
+    margin-bottom: 15px;
+
+    h2 {
+      width: 100%;
+      font-size: 17px;
+      font-weight: 700;
+      color: $medium-black;
+    }
+
+    button {
+      width: 30px;
+      height: 30px;
+      border-style: none;
+      border-radius: 50%;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMC43MDY5NTYgMTMuNDM1QzEuMDk3NDggMTMuODI1NSAxLjczMDY1IDEzLjgyNTUgMi4xMjExNyAxMy40MzVMNy4wNzA5OCA4LjQ4NTE4TDEyLjAyMDggMTMuNDM1QzEyLjQxMTMgMTMuODI1NSAxMy4wNDQ1IDEzLjgyNTUgMTMuNDM1IDEzLjQzNUMxMy44MjU2IDEzLjA0NDUgMTMuODI1NiAxMi40MTEzIDEzLjQzNSAxMi4wMjA4TDguNDg1MiA3LjA3MDk3TDEzLjQzNDkgMi4xMjEyOUMxMy44MjU0IDEuNzMwNzcgMTMuODI1NCAxLjA5NzYgMTMuNDM0OSAwLjcwNzA3OEMxMy4wNDQ0IDAuMzE2NTUzIDEyLjQxMTIgMC4zMTY1NTQgMTIuMDIwNyAwLjcwNzA3OEw3LjA3MDk4IDUuNjU2NzZMMi4xMjEzMiAwLjcwNzA5NEMxLjczMDggMC4zMTY1NyAxLjA5NzYzIDAuMzE2NTcgMC43MDcxMDcgMC43MDcwOTRDMC4zMTY1ODIgMS4wOTc2MiAwLjMxNjU4MyAxLjczMDc4IDAuNzA3MTA3IDIuMTIxMzFMNS42NTY3NyA3LjA3MDk3TDAuNzA2OTU2IDEyLjAyMDhDMC4zMTY0MzEgMTIuNDExMyAwLjMxNjQzMSAxMy4wNDQ1IDAuNzA2OTU2IDEzLjQzNVoiIGZpbGw9IiMyOTJBMzIiLz4KPC9zdmc+Cg==");
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    height: 360px;
+    border-style: none;
+    font-size: 17px;
+    font-weight: 400;
+    resize: none;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 44px;
+    text-wrap: wrap;
+
+    .spoilerButton {
+      width: 30px;
+      height: 30px;
+      border-style: none;
+      background-color: inherit;
+      cursor: pointer;
+    }
+
+    .navSubCon {
+      display: flex;
+      align-items: center;
+
+      .textConut {
+        margin-right: 13px;
+        font-size: 13px;
+        font-weight: 400;
+        text-align: right;
+        color: $medium-gray;
+      }
+
+      .submitButton {
+        width: 120px;
+        height: 38px;
+        border-style: none;
+        border-radius: 7px;
+        padding: 0 40px;
+        background-color: $pink;
+        color: $white;
+        font-size: 15px;
+        font-weight: 400;
+        cursor: pointer;
+      }
+    }
+  }
+}

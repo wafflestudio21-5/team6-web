@@ -3,9 +3,15 @@ import Logo from "../assets/logo.svg";
 import WhiteLogo from "../assets/logo_white.svg";
 import UserImage from "../assets/user_default.jpg";
 import styles from "./Header.module.scss";
-import { Link, useSearchParams, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
+// import { newTokenRequest } from "../apis/auth";
+import {
+  Link,
+  useSearchParams,
+  useLocation,
+} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useAuthContext } from "../contexts/authContext";
 
 type HeaderProps = {
   setCurrentModal: (modal: CurrentModalType) => void;
@@ -16,9 +22,9 @@ export default function Header({ setCurrentModal }: HeaderProps) {
   const query = searchParams.get("query");
   const location = useLocation();
 
-  const [searchInput, setSearchInput] = useState("");
+  const { isLogined, myUserData, accessToken } = useAuthContext();
 
-  const logined = true; //for test
+  const [searchInput, setSearchInput] = useState("");
   const inContentPage = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
   const [isScrollTop, setIsScrollTop] = useState(true);
   const transparent = inContentPage && isScrollTop;
@@ -42,6 +48,12 @@ export default function Header({ setCurrentModal }: HeaderProps) {
     setSearchInput(query ? query : "");
   }, [query]);
 
+  /* const jsonData = {
+    username: "frontTestId2",
+    password: "frontpass123",
+    password2: "frontpass123",
+  };*/
+
   return (
     <header
       className={styles.header + (transparent ? " " + styles.transparent : "")}
@@ -63,9 +75,17 @@ export default function Header({ setCurrentModal }: HeaderProps) {
               searchInput={searchInput}
               setSearchInput={setSearchInput}
             />
-            {logined ? (
+            <button
+              onClick={() => {
+                console.log(myUserData, accessToken);
+              }}
+            >
+              my user data (콘솔로 확인)
+            </button>
+
+            {isLogined ? (
               <li className={styles.myProfileLi}>
-                <Link to="/users/idididid">
+                <Link to={`/users/${myUserData?.id}`}>
                   <div>
                     <img src={UserImage} />
                   </div>

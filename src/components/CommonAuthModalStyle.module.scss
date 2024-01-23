@@ -17,6 +17,7 @@
     display: flex;
     flex-direction: column;
     padding-top: 35px;
+    position: relative;
 
     .watchaPediaLogo {
       width: 70%;
@@ -152,7 +153,7 @@ form {
 
 .socialLoginButtonList {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   width: 100%;
   padding: 0;
   list-style-type: none;
@@ -188,5 +189,59 @@ form {
     background-image: url("./../assets/naverLoginIcon.png");
     background-repeat: no-repeat;
     background-size: cover;
+  }
+}
+
+.authErrorBoxContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.504);
+  border-radius: 10px;
+  z-index: 150;
+}
+.authErrorBox {
+  width: 280px;
+  height: 120px;
+  padding: 0 15px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  p {
+    width: 200px;
+    text-align: center;
+    color: black;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    white-space: pre-wrap;
+    padding: 0px 0px 10px;
+    border-bottom: 1px solid rgb(210, 210, 210);
+    margin: 20px 0px 0px;
+    word-break: break-all;
+  }
+  button {
+    margin: 11px 0px;
+    background: none;
+    padding: 0px;
+    border-width: initial;
+    border-style: none;
+    border-image: initial;
+    cursor: pointer;
+    color: rgb(255, 47, 110);
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.7px;
+    line-height: 22px;
+    border-color: rgb(210, 210, 210) !important;
   }
 }
