@@ -1,7 +1,12 @@
 import { useSearchParams } from "react-router-dom";
 import styles from "./SearchPage.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
+import SearchMovieList, {
+  SearchMovieType,
+} from "../components/SearchMovieList";
+import { defaultResponseHandler } from "../apis/custom";
+import { getSearch } from "../apis/search";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams_] = useSearchParams();
@@ -16,6 +21,26 @@ export default function SearchPage() {
     });
   };
   const [searchInput, setSearchInput] = useState("");
+
+  const [movies, setMovies] = useState<SearchMovieType[]>([]);
+  useEffect(() => {
+    if (!query) return;
+    if (category == "movie") {
+      getSearch(query, "movie")
+        .then(defaultResponseHandler)
+        .then((data) => {
+          console.log(data);
+          setMovies(
+            data.map((movie: SearchMovieType) => {
+              return {
+                ...movie,
+                poster: movie.poster.replace("http", "https"),
+              };
+            }),
+          );
+        });
+    }
+  }, [query, category]);
 
   if (query) {
     return (
@@ -39,6 +64,7 @@ export default function SearchPage() {
             </li>
           </ul>
         </div>
+        <SearchMovieList contents={movies} />
       </section>
     );
   } else {

@@ -8,3 +8,12 @@ export async function getKeywordSearch(query: string) {
     },
   });
 }
+
+export async function getSearch(query: string, category: string) {
+  return fetch(`${BASE_API_URL}/search?query=${query}&category=${category}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
