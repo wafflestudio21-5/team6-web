@@ -1,49 +1,77 @@
 import { Link } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./ContentList.module.scss";
+import { getContentListRequest } from "../apis/content";
+import { defaultResponseHandler } from "../apis/custom";
 
 export type MovieType = {
-  name: string;
-  releaseYear: string;
-  country: string;
-  posterUrl: string;
-  rating: number;
+  movieCD: number;
+  title_ko: string;
+  release_date: string;
+  prod_country: string;
+  poster: string;
+  average_rate: number;
+  my_rate: { my_rate: number };
 };
 
 export type ContentListProps = {
   title: string;
-  contents: MovieType[];
+  order: string;
 };
 
 function ContentCell(content: MovieType, rank: number) {
   return (
     <li key={rank}>
-      <Link to="/contents/20183782">
+      <Link to={`/contents/${content.movieCD}`}>
         <div className={styles.movieImage}>
-          <img src={content.posterUrl} />
+          <img src={content.poster} />
           <div className={styles.rank}>{rank}</div>
         </div>
         <div className={styles.movieInfo}>
-          <div className={styles.movieName}>{content.name}</div>
+          <div className={styles.movieName}>{content.title_ko}</div>
           <div className={styles.movieYearCountry}>
-            {content.releaseYear} · {content.country}
+            {content.release_date.substring(0, 4)} · {content.prod_country}
           </div>
-          <div className={styles.movieRating}>
-            평균 ★{content.rating.toFixed(1)}
-          </div>
+          {content.my_rate ? (
+            <div className={styles.movieRatingMy}>
+              평가함 ★{content.my_rate.my_rate.toFixed(1)}
+            </div>
+          ) : (
+            content.average_rate && (
+              <div
+                className={
+                  content.average_rate
+                    ? styles.movieRating
+                    : styles.movieRatingNone
+                }
+              >
+                평균 ★{content.average_rate.toFixed(1)}
+              </div>
+            )
+          )}
         </div>
       </Link>
     </li>
   );
 }
 
-export default function ContentList({ title, contents }: ContentListProps) {
+export default function ContentList({ title, order }: ContentListProps) {
   const [translateX, setTranslateX] = useState(0);
   const carouselContentRef = useRef<HTMLDivElement>(null);
   const carouselUlRef = useRef<HTMLUListElement>(null);
 
   const [isLast, setIsLast] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
+
+  const [contents, setContents] = useState<MovieType[]>([]);
+
+  useEffect(() => {
+    getContentListRequest(order)
+      .then(defaultResponseHandler)
+      .then((data) => {
+        setContents(data);
+      });
+  }, [order]);
 
   function handleRightClick() {
     const scrollWidth = carouselUlRef.current?.scrollWidth;

@@ -37,7 +37,7 @@ export async function postUnFollow(accessToken: string, userId: number) {
 
 export async function getUserWrittenComments(
   userId: number,
-  query?: "like" | "created" | "high-rating" | "low-rating"
+  query?: "like" | "created" | "high-rating" | "low-rating",
 ) {
   if (query === undefined) {
     return fetch(`${BASE_API_URL}/users/${userId}/comments/`);

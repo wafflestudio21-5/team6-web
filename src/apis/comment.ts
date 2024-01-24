@@ -13,7 +13,7 @@ export async function createCommentRequest(
   movieCD: string,
   accessToken: string,
   content: string,
-  has_spoiler: boolean
+  has_spoiler: boolean,
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/comments/`, {
     method: "POST",
@@ -46,7 +46,7 @@ export async function updateCommentRequest(
   commentId: number,
   accessToken: string,
   content: string,
-  hasSpoiler: boolean
+  hasSpoiler: boolean,
 ) {
   return fetch(`${BASE_API_URL}/comments/${commentId}`, {
     method: "PUT",

@@ -18,4 +18,3 @@ export default function Modal({ onClose, children }: ModalProps) {
     </div>
   );
 }
- 

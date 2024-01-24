@@ -24,10 +24,10 @@ export default function WritingModal(props: WritingModalProps) {
   const { my_comment, movieCD } = content;
 
   const [commentInput, setCommentInput] = useState(
-    my_comment ? my_comment.content : ""
+    my_comment === null ? "" : my_comment.content
   ); //comment는 기존에 썼던 코멘트가 있을 경우에만 존재
   const [hasSpoiler, setHasSpoiler] = useState(
-    !!my_comment ? my_comment.has_spoiler : false
+    my_comment === null ? false : my_comment.has_spoiler
   );
 
   return (

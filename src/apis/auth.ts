@@ -5,7 +5,7 @@ export async function postSignup(
   nickname: string,
   username: string,
   password1: string,
-  password2: string
+  password2: string,
 ) {
   return fetch(`${BASE_API_AUTH_URL}/auth/token/register/`, {
     method: "POST",

@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./UserCard.module.scss";
 import { Link } from "react-router-dom";
 import { FollowType } from "../../type";
 import { postUnFollow, postAddFollow } from "../../apis/user";
 import { useAuthContext } from "../../contexts/authContext";
-import { getUserDetail } from "../../apis/user";
+
 import { defaultResponseHandler } from "../../apis/custom";
 
 export default function UserCard({
