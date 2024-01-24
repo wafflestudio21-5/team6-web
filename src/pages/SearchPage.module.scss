@@ -81,6 +81,38 @@
       }
     }
   }
+
+  .showMore {
+    margin: 30px 0 20px;
+
+    button {
+      cursor: pointer;
+      border-radius: 6px;
+      box-sizing: border-box;
+      min-width: 72px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgb(255, 255, 255);
+      color: rgb(0, 0, 0);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: -0.3px;
+      line-height: 18px;
+      text-align: center;
+      width: calc(100% - 30px);
+      max-width: 172px;
+      height: 34px;
+      padding: 0px 0px 0px 8px;
+      border: 1px solid rgb(227, 227, 227);
+      margin: 0px auto !important;
+    }
+
+    button.invisible {
+      opacity: 0;
+      cursor: default;
+    }
+  }
 }
 
 .searchBarContainer {

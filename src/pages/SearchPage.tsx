@@ -25,14 +25,51 @@ export default function SearchPage() {
 
   const [movies, setMovies] = useState<SearchMovieType[]>([]);
   const [users, setUsers] = useState<SearchUserType[]>([]);
-  useEffect(() => {
+  const [page, setPage] = useState(1);
+
+  const [nextAvailable, setNextAvailable] = useState(false);
+
+  const nextPage = () => {
     if (!query) return;
+    setPage(page + 1);
+    setNextAvailable(false);
     if (category == "movie") {
-      getSearch(query, "movie")
+      getSearch(query, "movie", page + 1)
         .then(defaultResponseHandler)
         .then((data) => {
+          if (data.next) setNextAvailable(true);
+          setMovies([
+            ...movies,
+            ...data.results.map((movie: SearchMovieType) => {
+              return {
+                ...movie,
+                poster: movie.poster.replace("http", "https"),
+              };
+            }),
+          ]);
+        });
+    } else if (category == "users") {
+      getSearch(query, "users", page + 1)
+        .then(defaultResponseHandler)
+        .then((data) => {
+          if (data.next) setNextAvailable(true);
+          setUsers([...users, ...data.results]);
+        });
+    }
+  };
+
+  useEffect(() => {
+    setMovies([]);
+    setUsers([]);
+    if (!query) return;
+    setNextAvailable(false);
+    if (category == "movie") {
+      getSearch(query, "movie", 1)
+        .then(defaultResponseHandler)
+        .then((data) => {
+          if (data.next) setNextAvailable(true);
           setMovies(
-            data.map((movie: SearchMovieType) => {
+            data.results.map((movie: SearchMovieType) => {
               return {
                 ...movie,
                 poster: movie.poster.replace("http", "https"),
@@ -41,10 +78,11 @@ export default function SearchPage() {
           );
         });
     } else if (category == "users") {
-      getSearch(query, "users")
+      getSearch(query, "users", 1)
         .then(defaultResponseHandler)
         .then((data) => {
-          setUsers(data);
+          if (data.next) setNextAvailable(true);
+          setUsers(data.results);
         });
     }
   }, [query, category]);
@@ -76,6 +114,15 @@ export default function SearchPage() {
         ) : (
           <SearchUserList contents={users} />
         )}
+        <div className={styles.showMore}>
+          <button
+            className={nextAvailable ? "" : styles.invisible}
+            onClick={nextAvailable ? nextPage : () => {}}
+          >
+            더보기{" "}
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuNSA5LjEwMDFMMTIgMTQuNjAwMUwxNy41IDkuMTAwMSIgc3Ryb2tlPSIjNzg3OTgyIiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8L3N2Zz4K" />
+          </button>
+        </div>
       </section>
     );
   } else {
