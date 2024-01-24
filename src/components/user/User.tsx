@@ -1,4 +1,5 @@
 // import { useEffect } from "react";
+
 import { useAuthContext } from "../../contexts/authContext";
 import styles from "./User.module.scss";
 import { Link, useParams } from "react-router-dom";

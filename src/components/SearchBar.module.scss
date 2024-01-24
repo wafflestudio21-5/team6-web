@@ -1,0 +1,162 @@
+.searchBar {
+  display: flex;
+  height: 62px;
+  margin: 0 0 0 auto;
+  align-items: center;
+  flex-shrink: 1;
+
+  div {
+    position: relative;
+    width: 300px;
+
+    div {
+      margin: 12px 0;
+
+      label {
+        display: flex;
+        align-items: center;
+        background: rgb(245, 245, 247);
+        width: 100%;
+        height: 38px;
+        padding: 7px 10px 8px 14px;
+        border-radius: 2px;
+
+        .searchSmall {
+          margin-right: 5px;
+          width: 16px;
+          height: 16px;
+        }
+
+        .searchBig {
+          margin-right: 5px;
+          opacity: 1;
+          width: 22px;
+          height: 22px;
+        }
+
+        input {
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 23px;
+          letter-spacing: -0.3px;
+          width: 100%;
+          border: 0px;
+          background: transparent;
+          overflow: hidden;
+          padding: 0px 0px 1px;
+          text-overflow: ellipsis;
+          caret-color: rgb(53, 53, 53);
+        }
+
+        input:focus {
+          outline: none;
+        }
+
+        .searchClear {
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .recommend {
+    position: absolute;
+    top: calc(100% - 6px);
+    left: auto;
+    z-index: 1;
+    background-color: rgb(255, 255, 255);
+    width: 300px;
+    border-radius: 2px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 4px 0px;
+
+    section {
+      padding: 5px 0px;
+      margin: 0;
+
+      h2 {
+        float: left;
+        color: rgb(255, 5, 88);
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: -0.2px;
+        line-height: 19px;
+        margin: 5px 0px 6px;
+      }
+
+      .recentHeader {
+        width: 278px;
+        margin: 0px 11px;
+        display: flex;
+        justify-content: space-between;
+        button {
+          background: none;
+          padding: 0px;
+          border: none;
+          cursor: pointer;
+          color: rgb(126, 126, 126);
+          font-size: 12px;
+          font-weight: 400;
+          letter-spacing: -0.26px;
+          margin: 5px 0px 7px;
+        }
+
+        button:hover {
+          opacity: 0.8;
+        }
+      }
+
+      .relatedHeader {
+        width: 278px;
+        margin: 0px 11px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .recommendList {
+        display: block;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          cursor: pointer;
+          overflow: hidden;
+          text-align: left;
+          height: 32px;
+          width: 278px;
+          padding: 0 11px;
+          color: rgb(41, 42, 50);
+          font-size: 14px;
+          letter-spacing: -0.3px;
+          line-height: 32px;
+          white-space: nowrap;
+        }
+
+        li:hover {
+          background-color: rgb(247, 247, 247);
+        }
+      }
+    }
+  }
+}
+
+.searchBar.transparent {
+  label {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    input {
+      color: rgb(255, 255, 255);
+      caret-color: rgba(255, 255, 255, 0.7);
+    }
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    input::-webkit-input-placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    input:-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}

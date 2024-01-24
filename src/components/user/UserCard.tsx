@@ -56,7 +56,9 @@ export default function UserCard({
         </div>
         <div className={styles.userBox}>
           <div className={styles.infoWrapper}>
-            <p>{follower.id}</p>
+
+            <p>{follower.nickname}</p>
+
             <div>{follower.bio}</div>
           </div>
           <div className={styles.followButtonWrapper}>
