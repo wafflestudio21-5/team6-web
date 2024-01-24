@@ -152,7 +152,7 @@ export default function CommentPageWriteModal({
                         hasSpoiler
                       )
                         .then(defaultResponseHandler)
-                        .then((data: CommentType) => {
+                        .then(() => {
                           refetchComment();
                           setCurrentModal(null);
                         })

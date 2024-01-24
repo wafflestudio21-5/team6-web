@@ -6,7 +6,6 @@ import styles from "./Header.module.scss";
 import SearchBar from "./SearchBar";
 import searchSmall from "../assets/searchSmall.svg";
 import searchBig from "../assets/searchBig.svg";
-// import { newTokenRequest } from "../apis/auth";
 import {
   Link,
   useSearchParams,
@@ -43,7 +42,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { isLogined, myUserData, accessToken } = useAuthContext();
+  const { isLogined, myUserData } = useAuthContext();
 
   const [searchInput, setSearchInput] = useState("");
   const inContentPage = /^\/contents\/\d+$/.test(location.pathname);

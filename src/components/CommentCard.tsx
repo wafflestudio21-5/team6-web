@@ -2,10 +2,11 @@ import { CommentType } from "../type";
 
 import styles from "./CommentCard.module.scss";
 import profileDefault from "../assets/user_default.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CommentCard({ comment }: { comment: CommentType }) {
   // user 하위 페이지에서 코멘트를 불러오는 경우, movie의 정보를 이용해야 한다.
+  const naviagete = useNavigate();
   return (
     <li className={styles.cardCon}>
       <div className={styles.commentHead}>
@@ -27,10 +28,13 @@ export default function CommentCard({ comment }: { comment: CommentType }) {
         )}
       </div>
       <div className={styles.commentContentContainer}>
-        <div className={styles.commentTextBox}>
-          <Link to={`/comments/${comment.id}`} className={styles.commentText}>
-            {comment.content}
-          </Link>
+        <div
+          className={styles.commentTextBox}
+          onClick={() => {
+            naviagete(`/comments/${comment.id}`);
+          }}
+        >
+          <div className={styles.commentText}>{comment.content}</div>
         </div>
       </div>
 

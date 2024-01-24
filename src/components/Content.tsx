@@ -8,12 +8,7 @@ import { CommentsResType, CommentType, MovieType } from "../type";
 import { MyStateType } from "../type";
 import { Link } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
-import {
-  createCommentRequest,
-  getCommentListRequest,
-  getCommentRequest,
-  updateCommentRequest,
-} from "../apis/comment";
+import { getCommentListRequest } from "../apis/comment";
 import MyCommentBox from "./MyCommentBox";
 import WritingModal from "./WritingModal";
 import { useAuthContext } from "../contexts/authContext";
@@ -176,7 +171,6 @@ function ContentPanel({
             content={content}
             setContent={setContent}
           />
-          {/* 아직 코멘트 받아오는 api가 없음 */}
           <div className={styles.overviewBox}>{content.plot}</div>
         </main>
       </div>
@@ -226,14 +220,14 @@ function ContentCast({ content }: { content: MovieType }) {
 
 function ContentComments({ content }: { content: MovieType }) {
   const [comments, setComments] = useState<CommentType[]>([]);
-
+  const [commentsLength, setCommentsLength] = useState<number | null>(null);
   useEffect(() => {
     getCommentListRequest(content.movieCD)
       .then(defaultResponseHandler)
       .then((data: CommentsResType) => {
         const commentsResponse = data;
         const comments = commentsResponse.results;
-
+        setCommentsLength(comments.length);
         const repComment =
           comments.length <= 4 ? comments : comments.slice(0, 4);
         console.log(repComment);
@@ -246,7 +240,7 @@ function ContentComments({ content }: { content: MovieType }) {
     <section className={styles.commentsCon}>
       <header>
         <h2>
-          코멘트 <span className={styles.commentCount}>10000+</span>
+          코멘트 <span className={styles.commentCount}>{commentsLength}+</span>
         </h2>
         <Link
           to={`/contents/${content.movieCD}/comments`}
