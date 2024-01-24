@@ -24,20 +24,15 @@ export async function postAddFollow(accessToken: string, userId: number) {
 }
 
 // url 노션에서 형식 확인하고 추후 변경
-export async function deleteFollow(accessToken: string, id: number) {
-  return fetch(`${BASE_API_URL}/users/delete/follow/`, {
-    method: "DELETE",
+export async function postUnFollow(accessToken: string, userId: number) {
+  return fetch(`${BASE_API_URL}/users/unfollow/`, {
+    method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user_id: id }),
+    body: JSON.stringify({ user_id: userId }),
   });
-}
-
-// 노션에는 mypage로 되어있는데 확인하고 요청하기
-export async function getUserLikesComments(id: number) {
-  return fetch(`${BASE_API_URL}/users/${id}/likes/comments/`);
 }
 
 export async function getUserWrittenComments(
@@ -51,14 +46,60 @@ export async function getUserWrittenComments(
   return fetch(`${BASE_API_URL}/users/${userId}/comments/?order=${query}`);
 }
 
-export async function getUserRatings(userId: number) {
-  return fetch(`${BASE_API_URL}/users/${userId}/ratings/`);
+export async function getUserRatingMovies(
+  userId: number,
+  query: {
+    order?: "high-rating" | "low-rating" | "created";
+    rate?: number;
+  }
+) {
+  const result = Object.entries(query)
+    .map(([key, value]) => `${key}=${value}`)
+    .join("&");
+
+  console.log(`${BASE_API_URL}/users/${userId}/ratings?${result}`);
+
+  return fetch(`${BASE_API_URL}/users/${userId}/ratings?${result}`);
 }
-export async function getUserDoings(userId: number) {
+export async function getUserWatchings(userId: number) {
   return fetch(`${BASE_API_URL}/users/${userId}/movies/watching/`);
 }
-export async function getUserWishes(userId: number) {
+export async function getUserWantToWatch(userId: number) {
   return fetch(`${BASE_API_URL}/users/${userId}/movies/want_to_watch/`);
+}
+
+export async function postCreateWatchingState(
+  movieCD: string,
+  accessToken: string,
+  user_state: "watching" | "want_to_watch" | "not_interested" | null
+) {
+  return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      user_state,
+    }),
+  });
+}
+
+export async function putUpdateWatchingState(
+  movieCD: string,
+  accessToken: string,
+  user_state: "watching" | "want_to_watch" | "not_interested" | null
+) {
+  return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      user_state,
+    }),
+  });
 }
 
 /*

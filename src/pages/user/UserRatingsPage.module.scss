@@ -32,6 +32,15 @@
   height: 44px;
   font-size: 22px;
   font-weight: 700;
+  span {
+    display: inline-block;
+    color: rgb(160, 160, 160);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 20px;
+    margin: 12px 0px 12px 6px;
+  }
 }
 .navContainer {
   padding: 0 16px;
@@ -73,4 +82,50 @@
   padding: 0px 10px 20px 10px;
   width: 100%;
   margin: 0;
+}
+
+.defaultMovieList {
+  list-style: none;
+  padding-top: 44px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 32px 16px;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      aspect-ratio: 2/3;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    p {
+      color: rgb(41, 42, 50);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      line-height: 22px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 4px 0;
+    }
+    span {
+      color: rgb(255, 161, 54);
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: -0.2px;
+      line-height: 18px;
+      white-space: nowrap;
+      height: 18px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }

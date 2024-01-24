@@ -1,20 +1,61 @@
 import CommentCard from "../../components/CommentCard";
-import styles from "./UserLikesCommentListPage.module.scss";
-// import profileDefault from "../../assets/user_default.jpg";
-import { tmpCommentListInUserPage } from "../../tmp";
-import { useNavigate } from "react-router-dom";
+import styles from "./UserWrittenCommentListPage.module.scss";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { useState } from "react";
+import { defaultResponseHandler } from "../../apis/custom";
+import { CommentType } from "../../type";
+import { getMyLikesComments } from "../../apis/auth";
+import { useAuthContext } from "../../contexts/authContext";
 
-export default function UserLikesPage() {
+export default function UserLikesCommentListPage() {
   const navigate = useNavigate();
+  const { id: userId } = useParams();
+  const { accessToken } = useAuthContext();
+  const [comments, setComments] = useState<CommentType[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
+
   useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
+    if (!accessToken) return;
+    if (!userId) return;
+
+    getMyLikesComments(accessToken)
+      .then(defaultResponseHandler)
+      .then((data) => {
+        console.log("user likes comment list page : ", data);
+        const commentsResponse = data;
+        setComments(commentsResponse.results);
+        setNextCommentsUrl(commentsResponse.next);
+      })
+      .catch(() => alert("잘못된 요청입니다"))
+      .finally(() => {
+        setLoading(false);
       });
-    };
-    scrollToTop();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight } = document.documentElement;
+
+      if (window.innerHeight + scrollTop + 150 >= scrollHeight) {
+        nextCommentsUrl &&
+          comments &&
+          fetch(nextCommentsUrl)
+            .then(defaultResponseHandler)
+            .then((data) => {
+              console.log("scroll success  :", data);
+              const commentsResponse = data;
+              setComments(comments.concat(commentsResponse.results));
+              setNextCommentsUrl(commentsResponse.next);
+            })
+            .catch(() => alert("잘못된 요청입니다"));
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [comments]);
 
   return (
     <div className={styles.pageCon}>
@@ -25,7 +66,7 @@ export default function UserLikesPage() {
               navigate(-1);
             }}
           />
-          <h2>내가 좋아요한 코멘트</h2>
+          <h2>내가 좋아요 한 코멘트</h2>
         </div>
         <nav>
           <button>
@@ -36,9 +77,11 @@ export default function UserLikesPage() {
       </header>
       <main className={styles.commentListCon}>
         <ul>
-          {tmpCommentListInUserPage.map((comment) => (
-            <CommentCard comment={comment} />
-          ))}
+          {!loading &&
+            comments &&
+            comments.map((comment, index) => (
+              <CommentCard key={index} comment={comment} />
+            ))}
         </ul>
       </main>
     </div>

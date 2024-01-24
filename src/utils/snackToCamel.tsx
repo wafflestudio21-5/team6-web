@@ -1,8 +1,8 @@
-function snakeToCamel(str: string) {
+/*function snakeToCamel(str: string) {
   return str.replace(/_([a-z])/g, (_match, letter) => letter.toUpperCase());
 }
 
-/*
+
 export function convertKeysToCamelCase(obj) {
   if (obj && typeof obj === "object" && !Array.isArray(obj)) {
     const newObj = {};

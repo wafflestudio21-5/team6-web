@@ -6,39 +6,53 @@ import { useEffect } from "react";
 import { getUserWrittenComments } from "../../apis/user";
 import { useState } from "react";
 import { defaultResponseHandler } from "../../apis/custom";
-import { CommentInUserPageType } from "../../type";
+import { CommentType } from "../../type";
 
 export default function UserWrittenCommentListPage() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const [query, setQuery] = useState<string>();
-  const [userCommentsData, setUserCommentsData] = useState<
-    CommentInUserPageType[] | null
-  >(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-      });
-    };
-    scrollToTop();
-  });
+  const { id: userId } = useParams();
+  const [comments, setComments] = useState<CommentType[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    id &&
-      getUserWrittenComments(parseInt(id))
+    userId &&
+      getUserWrittenComments(parseInt(userId))
         .then(defaultResponseHandler)
         .then((data) => {
-          setUserCommentsData(data);
+          const commentsResponse = data;
+          setComments(commentsResponse.results);
+          setNextCommentsUrl(commentsResponse.next);
         })
-        .catch((e) => {
-          console.log(e);
-        })
+        .catch(() => alert("잘못된 요청입니다"))
         .finally(() => {
           setLoading(false);
         });
-  }, [query]);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight } = document.documentElement;
+
+      if (window.innerHeight + scrollTop + 150 >= scrollHeight) {
+        nextCommentsUrl &&
+          comments &&
+          fetch(nextCommentsUrl)
+            .then(defaultResponseHandler)
+            .then((data) => {
+              console.log("scroll success  :", data);
+              const commentsResponse = data;
+              setComments(comments.concat(commentsResponse.results));
+              setNextCommentsUrl(commentsResponse.next);
+            })
+            .catch(() => alert("잘못된 요청입니다"));
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [comments]);
+
   return (
     <div className={styles.pageCon}>
       <header>
@@ -60,9 +74,9 @@ export default function UserWrittenCommentListPage() {
       <main className={styles.commentListCon}>
         <ul>
           {!loading &&
-            userCommentsData &&
-            userCommentsData.map((comment) => (
-              <CommentCard comment={comment} />
+            comments &&
+            comments.map((comment, index) => (
+              <CommentCard key={index} comment={comment} />
             ))}
         </ul>
       </main>

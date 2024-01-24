@@ -1,12 +1,11 @@
 import { useState } from "react";
 import styles from "./StarRating.module.scss";
-import { RateType } from "../type";
+// import { MyRateType } from "../type";
 import {
   createRatingRequest,
   deleteRatingRequest,
   updateRatingRequest,
 } from "../apis/content";
-import { defaultResponseHandler } from "../apis/custom";
 import { useAuthContext } from "../contexts/authContext";
 
 type StarProps = {
@@ -50,7 +49,10 @@ function Star(props: StarProps) {
 }
 
 type StarRatingProps = {
-  my_rate: RateType | null;
+  my_rate: {
+    id: number;
+    my_rate: number;
+  } | null;
   movieCD: string;
 };
 
@@ -80,7 +82,7 @@ export default function StarRating({ my_rate, movieCD }: StarRatingProps) {
       )
         .then(() => {
           return setSavedRating(
-            my_rate && rating === my_rate.my_rate ? 0 : rating,
+            my_rate && rating === my_rate.my_rate ? 0 : rating
           );
         })
         .catch((e) => console.log(e));

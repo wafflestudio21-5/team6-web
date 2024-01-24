@@ -1,7 +1,7 @@
 import styles from "./CommentListPage.module.scss";
 import CommentCard from "../components/CommentCard";
 import { useEffect, useState } from "react";
-import { CommentsResType, CommentType } from "../type";
+import { CommentType } from "../type";
 import { useParams } from "react-router-dom";
 import { getCommentListRequest } from "../apis/comment";
 import { defaultResponseHandler } from "../apis/custom";
@@ -17,9 +17,7 @@ export default function CommentListPage() {
       getCommentListRequest(movieCD)
         .then(defaultResponseHandler)
         .then((data) => {
-          console.log("commentlist :", data);
           const commentsResponse = data;
-
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);
         })
@@ -29,26 +27,15 @@ export default function CommentListPage() {
   useEffect(() => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight } = document.documentElement;
-      console.log(window.innerHeight + scrollTop >= scrollHeight);
-      if (window.innerHeight + scrollTop >= scrollHeight) {
-        nextCommentsUrl &&
-          fetch(nextCommentsUrl, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((res) => {
-              if (!res.ok) {
-                throw new Error("잘못된 요청입니다");
-              }
-              return res.json();
-            })
-            .then((data) => {
-              console.log(data);
-              const commentsResponse = data;
 
-              setComments(commentsResponse.results);
+      if (window.innerHeight + scrollTop + 150 >= scrollHeight) {
+        nextCommentsUrl &&
+          fetch(nextCommentsUrl)
+            .then(defaultResponseHandler)
+            .then((data) => {
+              console.log("scroll success  :", data);
+              const commentsResponse = data;
+              setComments(comments.concat(commentsResponse.results));
               setNextCommentsUrl(commentsResponse.next);
             })
             .catch(() => alert("잘못된 요청입니다"));
@@ -74,8 +61,8 @@ export default function CommentListPage() {
       </header>
       <main className={styles.commentListCon}>
         <ul>
-          {comments.map((comment) => (
-            <CommentCard key={comment.id} comment={comment} />
+          {comments.map((comment, index) => (
+            <CommentCard key={index} comment={comment} /> // commentId가 같은 것이 있어서 index 임시
           ))}
         </ul>
       </main>
