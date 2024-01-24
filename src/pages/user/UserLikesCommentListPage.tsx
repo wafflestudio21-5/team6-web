@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import { defaultResponseHandler } from "../../apis/custom";
-import { CommentByUserType } from "../../type";
+import { CommentType } from "../../type";
 import { getMyLikesComments } from "../../apis/auth";
 import { useAuthContext } from "../../contexts/authContext";
 
@@ -12,7 +12,7 @@ export default function UserLikesCommentListPage() {
   const navigate = useNavigate();
   const { id: userId } = useParams();
   const { accessToken } = useAuthContext();
-  const [comments, setComments] = useState<CommentByUserType[] | null>(null);
+  const [comments, setComments] = useState<CommentType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
 
@@ -23,6 +23,7 @@ export default function UserLikesCommentListPage() {
     getMyLikesComments(accessToken)
       .then(defaultResponseHandler)
       .then((data) => {
+        console.log("user likes comment list page : ", data);
         const commentsResponse = data;
         setComments(commentsResponse.results);
         setNextCommentsUrl(commentsResponse.next);

@@ -68,6 +68,40 @@ export async function getUserWantToWatch(userId: number) {
   return fetch(`${BASE_API_URL}/users/${userId}/movies/want_to_watch/`);
 }
 
+export async function postCreateWatchingState(
+  movieCD: string,
+  accessToken: string,
+  user_state: "watching" | "want_to_watch" | "not_interested" | null
+) {
+  return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      user_state,
+    }),
+  });
+}
+
+export async function putUpdateWatchingState(
+  movieCD: string,
+  accessToken: string,
+  user_state: "watching" | "want_to_watch" | "not_interested" | null
+) {
+  return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      user_state,
+    }),
+  });
+}
+
 /*
 credentials: "include",
     headers: {

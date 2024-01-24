@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { getUserRatingMovies } from "../../apis/user";
 import { defaultResponseHandler } from "../../apis/custom";
-import { MovieByUserType, MoviesResType } from "../../type";
+import { MovieByUserType, MovieResByUserType, MoviesResType } from "../../type";
 
 export default function MovieListByRatingValueContainer({
   displayStyleHandler,
@@ -31,8 +31,9 @@ export default function MovieListByRatingValueContainer({
 
 function MovieCaroucelBox({ ratingNumber }: { ratingNumber: number }) {
   const { id: userId } = useParams();
-  const [moviesWithRatingNumber, setMoviesWithRatingNumber] =
-    useState<MovieByUserType[]>();
+  const [moviesWithRatingNumber, setMoviesWithRatingNumber] = useState<
+    MovieResByUserType[] | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const [movieCount, setmovieCount] = useState<number | null>(null);
 
@@ -62,14 +63,22 @@ function MovieCaroucelBox({ ratingNumber }: { ratingNumber: number }) {
           <Link to={(ratingNumber * 2).toString()}>더보기</Link>
         </div>
       </div>
-      {!loading && moviesWithRatingNumber && (
-        <MovieCarousel movies={moviesWithRatingNumber} />
+      {!loading &&
+        moviesWithRatingNumber &&
+        !!moviesWithRatingNumber.length && (
+          <MovieCarousel movies={moviesWithRatingNumber} />
+        )}
+      {!loading && moviesWithRatingNumber && !moviesWithRatingNumber.length && (
+        <div className={styles.notFoundBox}>
+          <div className={styles.notFound}></div>
+          <span>결과가 없어요</span>
+        </div>
       )}
     </>
   );
 }
 
-export function MovieCarousel({ movies }: { movies: MovieByUserType[] }) {
+export function MovieCarousel({ movies }: { movies: MovieResByUserType[] }) {
   const [translateX, setTranslateX] = useState(0);
   const carouselContentRef = useRef<HTMLDivElement>(null);
   const carouselUlRef = useRef<HTMLUListElement>(null);
@@ -148,22 +157,7 @@ export function MovieCarousel({ movies }: { movies: MovieByUserType[] }) {
   );
 }
 
-function MovieCell({
-  movie,
-}: {
-  movie: {
-    cumulativeAudience: number | null;
-    screening: boolean;
-    movieCD: string;
-    plot: string;
-    runtime: number;
-    prodCountry: string;
-    poster: string;
-    titleKo: string;
-    titleOriginal: string;
-    releaseDate: string;
-  };
-}) {
+function MovieCell({ movie }: { movie: MovieByUserType }) {
   const navigate = useNavigate();
   return (
     <li
@@ -171,8 +165,8 @@ function MovieCell({
         navigate(`/contents/${movie.movieCD}`);
       }}
     >
-      <img src={movie.poster} alt={movie.titleKo} />
-      <p>{movie.titleKo}</p>
+      <img src={movie.poster} alt={movie.title_ko} />
+      <p>{movie.title_ko}</p>
     </li>
   );
 }

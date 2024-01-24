@@ -169,6 +169,9 @@
               padding: 0;
               transition: transform 0.3s ease;
             }
+            .checked {
+              fill: $pink;
+            }
           }
 
           &:hover {
@@ -285,6 +288,7 @@
   }
   .commentGridCon {
     overflow: hidden;
+    margin-bottom: 80px;
   }
   .commentsGrid {
     display: grid;

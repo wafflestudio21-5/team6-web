@@ -74,8 +74,8 @@ export default function UserStorageSubPage() {
                       navigate(`/contents/${movie.movieCD}`);
                     }}
                   >
-                    <img src={movie.poster} alt={movie.titleKo} />
-                    <p>{movie.titleKo}</p>
+                    <img src={movie.poster} alt={movie.title_ko} />
+                    <p>{movie.title_ko}</p>
                   </li>
                 );
               })}

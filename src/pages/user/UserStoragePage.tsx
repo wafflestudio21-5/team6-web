@@ -5,12 +5,12 @@ import { useEffect } from "react";
 import { defaultResponseHandler } from "../../apis/custom";
 import { useState } from "react";
 import { getUserRatingMovies } from "../../apis/user";
-import { MovieByUserType } from "../../type";
+import { MovieResByUserType } from "../../type";
 
 export default function UserStoragePage() {
   const navigate = useNavigate();
   const { id: userId } = useParams();
-  const [movies, setMovies] = useState<MovieByUserType[] | null>(null);
+  const [movies, setMovies] = useState<MovieResByUserType[] | null>(null);
   const [movieCount, setmovieCount] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 

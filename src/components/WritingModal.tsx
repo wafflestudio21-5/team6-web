@@ -122,7 +122,9 @@ export default function WritingModal(props: WritingModalProps) {
                 </button>
               )}
               <div className={styles.navSubCon}>
-                <div className={styles.textConut}>0/10000</div>
+                <div className={styles.textConut}>
+                  {commentInput.length}/10000
+                </div>
                 <button type="submit" className={styles.submitButton}>
                   {currentModal == "createComment" ? "등록" : "수정"}
                 </button>

@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import MovieListByRatingValueContainer from "../../components/user/MovieListByRatingValueContainer";
 import { getUserRatingMovies } from "../../apis/user";
 import { defaultResponseHandler } from "../../apis/custom";
-import { MovieByUserType } from "../../type";
+import { MovieResByUserType } from "../../type";
 export default function UserRatingsPage() {
   const navigate = useNavigate();
   const [navMode, setNavMode] = useState<"default" | "ratingsOrder">("default");
   const { id: userId } = useParams();
-  const [movies, setMovies] = useState<MovieByUserType[] | null>(null);
+  const [movies, setMovies] = useState<MovieResByUserType[] | null>(null);
   const [movieCount, setmovieCount] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [nextmoviesUrl, setNextMoviesUrl] = useState<string | null>(null);
@@ -123,7 +123,7 @@ function DefaultMovieList({
   movies,
   displayStyleHandler,
 }: {
-  movies: MovieByUserType[];
+  movies: MovieResByUserType[];
   displayStyleHandler: (sectionKey: "default" | "ratingsOrder") =>
     | {
         display: string;
@@ -137,18 +137,19 @@ function DefaultMovieList({
       className={styles.defaultMovieList}
       style={displayStyleHandler("default")}
     >
-      {movies.map((movieData: MovieByUserType) => {
+      {movies.map((movieData: MovieResByUserType) => {
         const movie = movieData.movie;
         return (
           <li
+            className={styles.movieCard}
             key={movieData.movie.movieCD}
             onClick={() => {
               navigate(`/contents/${movie.movieCD}`);
             }}
           >
-            <img src={movie.poster} alt={movie.titleKo} />
-            <p>{movie.titleKo}</p>
-            <span>{movieData.rate}</span>
+            <img src={movie.poster} alt={movie.title_ko} />
+            <p>{movie.title_ko}</p>
+            <span>평가함 {movieData.rate}</span>
           </li>
         );
       })}

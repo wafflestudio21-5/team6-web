@@ -6,12 +6,12 @@ import { useEffect } from "react";
 import { getUserWrittenComments } from "../../apis/user";
 import { useState } from "react";
 import { defaultResponseHandler } from "../../apis/custom";
-import { CommentByUserType, CommentsResType } from "../../type";
+import { CommentType } from "../../type";
 
 export default function UserWrittenCommentListPage() {
   const navigate = useNavigate();
   const { id: userId } = useParams();
-  const [comments, setComments] = useState<CommentByUserType[] | null>(null);
+  const [comments, setComments] = useState<CommentType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
 

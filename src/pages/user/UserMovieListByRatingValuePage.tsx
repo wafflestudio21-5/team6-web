@@ -3,13 +3,13 @@ import styles from "./UserMovieListByRatingValuePage.module.scss";
 import { useState, useEffect } from "react";
 import { defaultResponseHandler } from "../../apis/custom";
 import { getUserRatingMovies } from "../../apis/user";
-import { MovieByUserType } from "../../type";
+import { MovieResByUserType } from "../../type";
 export default function UserMovieListByRatingValuePage() {
   const { ratingNumber, id: userId } = useParams();
   const number = !!ratingNumber ? parseInt(ratingNumber) : undefined;
   const navigate = useNavigate();
 
-  const [movies, setMovies] = useState<MovieByUserType[] | null>(null);
+  const [movies, setMovies] = useState<MovieResByUserType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [nextmoviesUrl, setNextMoviesUrl] = useState<string | null>(null);
   const [movieCount, setmovieCount] = useState<number | null>(null);
@@ -87,8 +87,8 @@ export default function UserMovieListByRatingValuePage() {
                       navigate(`/contents/${movie.movieCD}`);
                     }}
                   >
-                    <img src={movie.poster} alt={movie.titleKo} />
-                    <p>{movie.titleKo}</p>
+                    <img src={movie.poster} alt={movie.title_ko} />
+                    <p>{movie.title_ko}</p>
                   </li>
                 );
               })}
