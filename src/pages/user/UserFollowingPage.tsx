@@ -24,7 +24,7 @@ export default function UserFollowingPage() {
     pageFollowingListData,
     myFollowingListData,
     pageFollowingLoading,
-    myFollowingLoading
+    myFollowingLoading,
   );
   const { autoLoginConfirmed } = useAuthContext();
 
@@ -93,7 +93,7 @@ export default function UserFollowingPage() {
             <ul className={styles.followList}>
               {pageFollowingListData.map((follower: FollowerType) => {
                 const myFollowingIdList = myFollowingListData.map(
-                  (follower) => follower.id
+                  (follower) => follower.id,
                 );
                 const isMyFollowing = myFollowingIdList.includes(follower.id)
                   ? true
