@@ -7,7 +7,7 @@ import { getFollowerList } from "../../apis/user";
 import { defaultResponseHandler } from "../../apis/custom";
 import { FollowListType, FollowType } from "../../type";
 import { getFollowingList } from "../../apis/user";
-import { AuthContext, useAuthContext } from "../../contexts/authContext";
+import { useAuthContext } from "../../contexts/authContext";
 
 export default function UserFollowerPage() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ export default function UserFollowerPage() {
   const [myFollowingListData, setMyFollowingListData] =
     useState<FollowListType>([] as FollowListType);
   const [myFollowingLoading, setMyFollowingLoading] = useState(true);
-  const { myUserData, autoLoginConfirmed } = useAuthContext();
+  const { myUserData } = useAuthContext();
   console.log(pageFollowerListData);
 
   useEffect(() => {

@@ -78,7 +78,8 @@ export default function UserMovieListByRatingValuePage() {
       <div className={styles.ratingsPage}>
         <section className={styles.movieListSection}>
           <ul className={styles.movieList}>
-            {movies &&
+            {!loading &&
+              movies &&
               movies.map((movieContent) => {
                 const movie = movieContent.movie;
                 return (

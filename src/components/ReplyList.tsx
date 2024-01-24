@@ -5,19 +5,12 @@ import elapsedTime from "../utils/elapsedTime";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { CommentType } from "../type";
-import {
-  deleteReply,
-  getCommentReplies,
-  getNextCommentReplies,
-  postToggleReplyLike,
-} from "../apis/comment";
-import { defaultResponseHandler } from "../apis/custom";
+import { getNextCommentReplies, postToggleReplyLike } from "../apis/comment";
+
 import { ReplyType } from "../type";
 import { useAuthContext } from "../contexts/authContext";
-import { getMyLikesComments } from "../apis/auth";
 
 function Reply({
   reply,

@@ -1,7 +1,7 @@
 import styles from "./CommentPage.module.scss";
 import CommentInfo from "../components/CommentInfo";
 import { useEffect, useState } from "react";
-import { getCommentReplies, getCommentRequest } from "../apis/comment";
+import { getCommentRequest } from "../apis/comment";
 import { useParams } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
 import { CommentType } from "../type";

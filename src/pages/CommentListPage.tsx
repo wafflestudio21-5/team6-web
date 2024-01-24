@@ -1,7 +1,7 @@
 import styles from "./CommentListPage.module.scss";
 import CommentCard from "../components/CommentCard";
 import { useEffect, useState } from "react";
-import { CommentsResType, CommentType } from "../type";
+import { CommentType } from "../type";
 import { useParams } from "react-router-dom";
 import { getCommentListRequest } from "../apis/comment";
 import { defaultResponseHandler } from "../apis/custom";

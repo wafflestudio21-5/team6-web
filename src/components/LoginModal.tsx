@@ -3,7 +3,6 @@ import Logo from "../assets/logo.svg";
 import styles from "./LoginModal.module.scss";
 import { CurrentModalType } from "../pages/Layout";
 import { postLogin } from "../apis/auth";
-import { useAuthContext } from "../contexts/authContext";
 import { defaultResponseHandler } from "../apis/custom";
 
 type LoginModalProps = {
@@ -11,7 +10,6 @@ type LoginModalProps = {
 };
 
 export default function LoginModal({ setCurrentModal }: LoginModalProps) {
-  const { setAccessToken } = useAuthContext();
   const [idInput, setIdInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [authErrorMessage, setAuthErrorMessage] = useState<string | null>(null);

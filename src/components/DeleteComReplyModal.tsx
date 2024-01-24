@@ -2,7 +2,6 @@ import Modal from "./Modal";
 import styles from "./DeleteComReplyModal.module.scss";
 import { CommentType, ReplyType } from "../type";
 import { deleteCommentRequest, deleteReply } from "../apis/comment";
-import { defaultResponseHandler } from "../apis/custom";
 import { useAuthContext } from "../contexts/authContext";
 
 type DeleteComReplyModalProps = {
