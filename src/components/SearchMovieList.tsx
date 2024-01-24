@@ -32,7 +32,7 @@ export default function SearchMovieList({
               <div className={styles.movieInfo}>
                 <div className={styles.title}>{movie.title_ko}</div>
                 <div className={styles.yearCountry}>
-                  {movie.release_date.substring(0, 4)} · {movie.prod_country}
+                  {movie.release_date.substring(0, 4)} • {movie.prod_country}
                 </div>
                 <div className={styles.director}>
                   {movie.directors.map(

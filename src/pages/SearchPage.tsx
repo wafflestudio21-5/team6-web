@@ -7,6 +7,7 @@ import SearchMovieList, {
 } from "../components/SearchMovieList";
 import { defaultResponseHandler } from "../apis/custom";
 import { getSearch } from "../apis/search";
+import SearchUserList, { SearchUserType } from "../components/SearchUserList";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams_] = useSearchParams();
@@ -23,13 +24,13 @@ export default function SearchPage() {
   const [searchInput, setSearchInput] = useState("");
 
   const [movies, setMovies] = useState<SearchMovieType[]>([]);
+  const [users, setUsers] = useState<SearchUserType[]>([]);
   useEffect(() => {
     if (!query) return;
     if (category == "movie") {
       getSearch(query, "movie")
         .then(defaultResponseHandler)
         .then((data) => {
-          console.log(data);
           setMovies(
             data.map((movie: SearchMovieType) => {
               return {
@@ -38,6 +39,12 @@ export default function SearchPage() {
               };
             }),
           );
+        });
+    } else if (category == "users") {
+      getSearch(query, "users")
+        .then(defaultResponseHandler)
+        .then((data) => {
+          setUsers(data);
         });
     }
   }, [query, category]);
@@ -64,7 +71,11 @@ export default function SearchPage() {
             </li>
           </ul>
         </div>
-        <SearchMovieList contents={movies} />
+        {category == "movie" ? (
+          <SearchMovieList contents={movies} />
+        ) : (
+          <SearchUserList contents={users} />
+        )}
       </section>
     );
   } else {
