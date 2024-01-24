@@ -13,7 +13,6 @@ export default function SearchPage() {
       category: newCategory,
     });
   };
-
   return (
     <section className={styles.searchPage}>
       <div className={styles.searchHeader}>

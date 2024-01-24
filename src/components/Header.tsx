@@ -4,24 +4,49 @@ import WhiteLogo from "../assets/logo_white.svg";
 import UserImage from "../assets/user_default.jpg";
 import styles from "./Header.module.scss";
 import SearchBar from "./SearchBar";
+import searchSmall from "../assets/searchSmall.svg";
+import searchBig from "../assets/searchBig.svg";
 // import { newTokenRequest } from "../apis/auth";
-import { Link, useSearchParams, useLocation } from "react-router-dom";
+import {
+  Link,
+  useSearchParams,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../contexts/authContext";
+import { useMediaQuery } from "react-responsive";
 
 type HeaderProps = {
   setCurrentModal: (modal: CurrentModalType) => void;
 };
 
+function WidthBig({ children }: { children: React.ReactNode }) {
+  const isBig = useMediaQuery({
+    query: "(min-width:751px)",
+  });
+
+  return <>{isBig && children}</>;
+}
+
+function WidthSmall({ children }: { children: React.ReactNode }) {
+  const isSmall = useMediaQuery({
+    query: "(max-width:750px)",
+  });
+
+  return <>{isSmall && children}</>;
+}
+
 export default function Header({ setCurrentModal }: HeaderProps) {
-  const searchParams = useSearchParams()[0];
+  const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query");
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { isLogined, myUserData, accessToken } = useAuthContext();
 
   const [searchInput, setSearchInput] = useState("");
-  const inContentPage = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
+  const inContentPage = /^\/contents\/\d+$/.test(location.pathname);
   const [isScrollTop, setIsScrollTop] = useState(true);
   const transparent = inContentPage && isScrollTop;
 
@@ -31,6 +56,11 @@ export default function Header({ setCurrentModal }: HeaderProps) {
     } else {
       setIsScrollTop(true);
     }
+  };
+
+  const gotoSearch = () => {
+    setSearchParams({});
+    navigate("/search");
   };
 
   useEffect(() => {
@@ -66,11 +96,20 @@ export default function Header({ setCurrentModal }: HeaderProps) {
                 />
               </Link>
             </li>
-            <SearchBar
-              transparent={transparent}
-              searchInput={searchInput}
-              setSearchInput={setSearchInput}
-            />
+            <WidthBig>
+              <SearchBar
+                transparent={transparent}
+                searchInput={searchInput}
+                setSearchInput={setSearchInput}
+              />
+            </WidthBig>
+            <WidthSmall>
+              <li className={styles.searchButton} onClick={gotoSearch}>
+                <div>
+                  <img src={transparent ? searchBig : searchSmall} />
+                </div>
+              </li>
+            </WidthSmall>
             <button
               onClick={() => {
                 console.log(myUserData, accessToken);
