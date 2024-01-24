@@ -3,32 +3,52 @@ import Logo from "../assets/logo.svg";
 import WhiteLogo from "../assets/logo_white.svg";
 import UserImage from "../assets/user_default.jpg";
 import styles from "./Header.module.scss";
+import SearchBar from "./SearchBar";
+import searchSmall from "../assets/searchSmall.svg";
+import searchBig from "../assets/searchBig.svg";
 // import { newTokenRequest } from "../apis/auth";
 import {
   Link,
-  useNavigate,
   useSearchParams,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { useState, useEffect } from "react";
-// import { myUserDataRequest } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
+import { useMediaQuery } from "react-responsive";
 
 type HeaderProps = {
   setCurrentModal: (modal: CurrentModalType) => void;
 };
 
+function WidthBig({ children }: { children: React.ReactNode }) {
+  const isBig = useMediaQuery({
+    query: "(min-width:751px)",
+  });
+
+  return <>{isBig && children}</>;
+}
+
+function WidthSmall({ children }: { children: React.ReactNode }) {
+  const isSmall = useMediaQuery({
+    query: "(max-width:750px)",
+  });
+
+  return <>{isSmall && children}</>;
+}
+
 export default function Header({ setCurrentModal }: HeaderProps) {
-  const navigate = useNavigate();
-  const searchParams = useSearchParams()[0];
+  const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query");
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { isLogined, myUserData, accessToken } = useAuthContext();
 
   const [searchInput, setSearchInput] = useState("");
-  const inContentPage = /^\/contents\/[a-zA-Z]+$/.test(location.pathname);
+  const inContentPage = /^\/contents\/\d+$/.test(location.pathname);
   const [isScrollTop, setIsScrollTop] = useState(true);
+  const transparent = inContentPage && isScrollTop;
 
   const handleScroll = () => {
     if (window.scrollY) {
@@ -36,6 +56,11 @@ export default function Header({ setCurrentModal }: HeaderProps) {
     } else {
       setIsScrollTop(true);
     }
+  };
+
+  const gotoSearch = () => {
+    setSearchParams({});
+    navigate("/search");
   };
 
   useEffect(() => {
@@ -49,12 +74,6 @@ export default function Header({ setCurrentModal }: HeaderProps) {
     setSearchInput(query ? query : "");
   }, [query]);
 
-  const searchKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && searchInput) {
-      navigate("/search?query=" + searchInput);
-    }
-  };
-
   /* const jsonData = {
     username: "frontTestId2",
     password: "frontpass123",
@@ -63,10 +82,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
 
   return (
     <header
-      className={
-        styles.header +
-        (inContentPage && isScrollTop ? " " + styles.transparent : "")
-      }
+      className={styles.header + (transparent ? " " + styles.transparent : "")}
     >
       <button
         onClick={() => {
@@ -109,24 +125,20 @@ export default function Header({ setCurrentModal }: HeaderProps) {
                 />
               </Link>
             </li>
-            <li className={styles.searchLi}>
-              <div>
+            <WidthBig>
+              <SearchBar
+                transparent={transparent}
+                searchInput={searchInput}
+                setSearchInput={setSearchInput}
+              />
+            </WidthBig>
+            <WidthSmall>
+              <li className={styles.searchButton} onClick={gotoSearch}>
                 <div>
-                  <label>
-                    <input
-                      autoComplete="off"
-                      placeholder="콘텐츠, 인물, 유저를 검색해보세요."
-                      type="text"
-                      value={searchInput}
-                      onChange={(e) => {
-                        setSearchInput(e.target.value);
-                      }}
-                      onKeyDown={searchKeyDown}
-                    />
-                  </label>
+                  <img src={transparent ? searchBig : searchSmall} />
                 </div>
-              </div>
-            </li>
+              </li>
+            </WidthSmall>
             <button
               onClick={() => {
                 console.log(myUserData, accessToken);

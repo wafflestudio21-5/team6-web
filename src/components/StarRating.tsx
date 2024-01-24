@@ -80,7 +80,7 @@ export default function StarRating({ my_rate, movieCD }: StarRatingProps) {
       )
         .then(() => {
           return setSavedRating(
-            my_rate && rating === my_rate.my_rate ? 0 : rating
+            my_rate && rating === my_rate.my_rate ? 0 : rating,
           );
         })
         .catch((e) => console.log(e));
