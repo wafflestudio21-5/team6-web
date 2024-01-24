@@ -82,3 +82,16 @@
     }
   }
 }
+
+.searchBarContainer {
+  margin-top: 62px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  .searchBarWrapper {
+    width: fit-content;
+    height: 62px;
+    position: relative;
+  }
+}
