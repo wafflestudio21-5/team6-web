@@ -1,14 +1,32 @@
 import styles from "./Footer.module.scss";
 import reactLogo from "../assets/reactLogo.svg";
 import djangoLogo from "../assets/djangoLogo.svg";
+import { useEffect, useState } from "react";
+import { getRatesCount } from "../apis/content";
+import { defaultResponseHandler } from "../apis/custom";
 
 export default function Footer() {
-  const comments = 999999999;
+  const [rates, setRates] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("GET RATES");
+      getRatesCount()
+        .then(defaultResponseHandler)
+        .then((data) => {
+          setRates(data);
+        });
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [setRates]);
+
   return (
     <footer>
       <section className={styles.commentNumber}>
         <span>
-          지금까지 <em>★{comments.toLocaleString("ko-KR")} 개의</em> 평가가
+          지금까지 <em>★{rates.toLocaleString("ko-KR")} 개의</em> 평가가
           쌓였어요.
         </span>
       </section>

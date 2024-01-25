@@ -74,3 +74,12 @@ export async function deleteRatingRequest(rateId: number, accessToken: string) {
     credentials: "include",
   });
 }
+
+export async function getRatesCount() {
+  return fetch(`${BASE_API_URL}/contents/rates/count`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}

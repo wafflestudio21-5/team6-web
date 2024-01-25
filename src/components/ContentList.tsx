@@ -69,7 +69,11 @@ export default function ContentList({ title, order }: ContentListProps) {
     getContentListRequest(order)
       .then(defaultResponseHandler)
       .then((data) => {
-        setContents(data);
+        setContents(
+          data.map((movie: MovieType) => {
+            return { ...movie, poster: movie.poster.replace("http", "https") };
+          }),
+        );
       });
   }, [order]);
 
