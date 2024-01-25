@@ -41,7 +41,7 @@ export async function createRatingRequest(
     },
     credentials: "include",
     body: JSON.stringify({
-      rate,
+      rate: rate.toFixed(1),
     }),
   });
 }
@@ -59,7 +59,7 @@ export async function updateRatingRequest(
     },
     credentials: "include",
     body: JSON.stringify({
-      rate,
+      rate: rate.toFixed(1),
     }),
   });
 }

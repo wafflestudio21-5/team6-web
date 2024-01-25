@@ -54,6 +54,8 @@ function ContentPanel({
     "updateComment" | "createComment" | null
   >(null);
 
+  const [myRate, setMyRate] = useState(content.my_rate);
+
   const { accessToken } = useAuthContext();
   const [myState, setMyState] = useState<MyStateType | null>(
     content.my_state ? content.my_state.my_state : null,
@@ -95,7 +97,8 @@ function ContentPanel({
             <div className={styles.userRatingCon}>
               <div className={styles.starRatingBox}>
                 <StarRating
-                  my_rate={content.my_rate}
+                  myRate={myRate}
+                  setMyRate={setMyRate}
                   movieCD={content.movieCD}
                 />
               </div>
@@ -103,7 +106,7 @@ function ContentPanel({
             </div>
             <div className={styles.avgRatingCon}>
               <div className={styles.avgRatingDigit}>
-                {content.average_rate}
+                {content.average_rate.toFixed(1)}
                 {/*.toFixed(1)*/}
               </div>
               평균 평점(평점 총 개수)

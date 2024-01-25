@@ -7,6 +7,7 @@ import {
   updateRatingRequest,
 } from "../apis/content";
 import { useAuthContext } from "../contexts/authContext";
+import { defaultResponseHandler } from "../apis/custom";
 
 type StarProps = {
   fill: "full" | "half" | "empty";
@@ -49,16 +50,25 @@ function Star(props: StarProps) {
 }
 
 type StarRatingProps = {
-  my_rate: {
+  myRate: {
     id: number;
     my_rate: number;
   } | null;
+  setMyRate: (
+    newRate: {
+      id: number;
+      my_rate: number;
+    } | null,
+  ) => void;
   movieCD: string;
 };
 
-export default function StarRating({ my_rate, movieCD }: StarRatingProps) {
-  console.log("my_Rate :", my_rate);
-  const [savedRating, setSavedRating] = useState(my_rate ? my_rate.my_rate : 0);
+export default function StarRating({
+  myRate,
+  setMyRate,
+  movieCD,
+}: StarRatingProps) {
+  const savedRating = myRate ? myRate.my_rate : 0;
   const [selectedRating, setSelectedRating] = useState(savedRating);
   const { isLogined, accessToken } = useAuthContext();
 
@@ -74,18 +84,34 @@ export default function StarRating({ my_rate, movieCD }: StarRatingProps) {
     } else {
       console.log("clicked rating: ", rating);
       console.log("accessToken", accessToken);
-      (my_rate
-        ? rating === my_rate.my_rate
-          ? deleteRatingRequest(my_rate.id, accessToken ?? "")
-          : updateRatingRequest(my_rate.id, rating, accessToken ?? "")
-        : createRatingRequest(movieCD, rating, accessToken ?? "")
-      )
-        .then(() => {
-          return setSavedRating(
-            my_rate && rating === my_rate.my_rate ? 0 : rating,
-          );
-        })
-        .catch((e) => console.log(e));
+      if (myRate) {
+        if (rating === savedRating) {
+          deleteRatingRequest(myRate.id, accessToken ?? "")
+            .then(() => {
+              setMyRate(null);
+              setSelectedRating(0);
+            })
+            .catch((e) => console.log(e));
+        } else {
+          updateRatingRequest(myRate.id, rating, accessToken ?? "")
+            .then(defaultResponseHandler)
+            .then((data) => {
+              console.log(data);
+              setMyRate({ ...data, my_rate: data.rate });
+              setSelectedRating(data.rate);
+            })
+            .catch((e) => console.log(e));
+        }
+      } else {
+        createRatingRequest(movieCD, rating, accessToken ?? "")
+          .then(defaultResponseHandler)
+          .then((data) => {
+            console.log(data);
+            setMyRate({ ...data, my_rate: data.rate });
+            setSelectedRating(data.rate);
+          })
+          .catch((e) => console.log(e));
+      }
     }
   };
 

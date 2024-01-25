@@ -10,7 +10,7 @@ export default function Footer() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("GET RATES");
+      return;
       getRatesCount()
         .then(defaultResponseHandler)
         .then((data) => {
