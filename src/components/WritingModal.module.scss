@@ -63,6 +63,11 @@
       background-color: inherit;
       cursor: pointer;
     }
+    .checked {
+      path {
+        fill: rgb(255, 47, 110);
+      }
+    }
 
     .navSubCon {
       display: flex;

@@ -2,36 +2,35 @@ import { BASE_API_URL } from "./const";
 
 // 아직 영화리스트가 없어서 받아보기 어려움
 // type은 추후에 enum으로 수정
-export async function getContentListRequest(order: string) {
+
+// 나중에 바꾸기
+export async function getContentListRequest(
+  order: string,
+  accessToken?: string
+) {
+  if (!accessToken) return fetch(`${BASE_API_URL}/contents?order=${order}`);
   return fetch(`${BASE_API_URL}/contents?order=${order}`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
+      Authorization: "Bearer " + accessToken,
     },
-    credentials: "include",
   });
 }
 
 export async function getContentRequest(movieCD: string, accessToken?: string) {
-  const headers: HeadersInit = accessToken
-    ? {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      }
-    : {
-        "Content-Type": "application/json",
-      };
+  if (!accessToken) return fetch(`${BASE_API_URL}/contents/${movieCD}`);
   return fetch(`${BASE_API_URL}/contents/${movieCD}`, {
     method: "GET",
-    headers,
-    //  credentials: "include",
+    headers: {
+      Authorization: "Bearer " + accessToken,
+    },
   });
 }
 
 export async function createRatingRequest(
   movieCD: string,
   rate: number,
-  accessToken: string,
+  accessToken: string
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/rate`, {
     method: "POST",
@@ -39,9 +38,8 @@ export async function createRatingRequest(
       "Content-Type": "application/json",
       Authorization: "Bearer " + accessToken,
     },
-    credentials: "include",
     body: JSON.stringify({
-      rate,
+      rate: rate.toFixed(1),
     }),
   });
 }
@@ -49,7 +47,7 @@ export async function createRatingRequest(
 export async function updateRatingRequest(
   rateId: number,
   rate: number,
-  accessToken: string,
+  accessToken: string
 ) {
   return fetch(`${BASE_API_URL}/contents/rates/${rateId}`, {
     method: "PUT",
@@ -59,7 +57,7 @@ export async function updateRatingRequest(
     },
     credentials: "include",
     body: JSON.stringify({
-      rate,
+      rate: rate.toFixed(1),
     }),
   });
 }

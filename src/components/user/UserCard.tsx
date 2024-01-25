@@ -1,41 +1,40 @@
 import { useState } from "react";
 import styles from "./UserCard.module.scss";
 import { Link } from "react-router-dom";
-import { FollowerType } from "../../type";
-import { deleteFollow, postAddFollow } from "../../apis/user";
+import { FollowType } from "../../type";
+import { postUnFollow, postAddFollow } from "../../apis/user";
 import { useAuthContext } from "../../contexts/authContext";
+
+import { defaultResponseHandler } from "../../apis/custom";
 
 export default function UserCard({
   follower,
   isMyFollowing,
 }: {
-  follower: FollowerType;
+  follower: FollowType;
   isMyFollowing: boolean;
 }) {
   const [isFollowing, setIsFollowing] = useState(isMyFollowing); // 나중에는 내 유저 데이터의 팔로우 목록과 비교하여 팔로우 중인지 아닌지를 판단해야 함
-  const { accessToken } = useAuthContext();
-
+  const { accessToken, myUserData } = useAuthContext();
+  const myId = myUserData?.id;
+  const isMyUserCard = follower.id === myId;
   const buttonClickHandler = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     if (!accessToken) return;
     isFollowing
-      ? deleteFollow(accessToken, follower.id)
-          .then((res) => {
-            return res.json();
-          })
+      ? postUnFollow(accessToken, follower.id)
+          .then(defaultResponseHandler)
           .then((data) => {
             console.log(data);
-            setIsFollowing(false);
+            setIsFollowing(false); // 고쳐야 함!!!!!
           })
           .catch(() => {
             console.log("팔로우 취소 실패");
           })
       : postAddFollow(accessToken, follower.id)
-          .then((res) => {
-            return res.json();
-          })
+          .then(defaultResponseHandler)
           .then((data) => {
             console.log(data);
             setIsFollowing(true);
@@ -56,20 +55,22 @@ export default function UserCard({
         </div>
         <div className={styles.userBox}>
           <div className={styles.infoWrapper}>
-
             <p>{follower.nickname}</p>
-
             <div>{follower.bio}</div>
           </div>
           <div className={styles.followButtonWrapper}>
-            <button
-              className={
-                isFollowing ? styles.isFollowing : styles.isNotFollowing
-              }
-              onClick={buttonClickHandler}
-            >
-              {isFollowing ? "팔로워" : "팔로잉"}
-            </button>
+            {!isMyUserCard && (
+              <button
+                className={
+                  isFollowing ? styles.isFollowing : styles.isNotFollowing
+                }
+                onClick={buttonClickHandler}
+              >
+
+                {isFollowing ? "팔로잉" : "팔로우"}
+
+              </button>
+            )}
           </div>
         </div>
       </Link>

@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./ContentList.module.scss";
 import { getContentListRequest } from "../apis/content";
 import { defaultResponseHandler } from "../apis/custom";
+import { useAuthContext } from "../contexts/authContext";
 
 export type MovieType = {
   movieCD: number;
@@ -65,8 +66,9 @@ export default function ContentList({ title, order }: ContentListProps) {
 
   const [contents, setContents] = useState<MovieType[]>([]);
 
+  const { accessToken } = useAuthContext();
   useEffect(() => {
-    getContentListRequest(order)
+    getContentListRequest(order, accessToken ? accessToken : undefined)
       .then(defaultResponseHandler)
       .then((data) => {
         setContents(data);
@@ -87,7 +89,7 @@ export default function ContentList({ title, order }: ContentListProps) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false,
+          : false
       );
     }
   }
@@ -103,7 +105,7 @@ export default function ContentList({ title, order }: ContentListProps) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false,
+          : false
       );
     }
   }
@@ -115,7 +117,7 @@ export default function ContentList({ title, order }: ContentListProps) {
         <div className={styles.scrollBar} ref={carouselContentRef}>
           <ul ref={carouselUlRef}>
             {contents.map((content: MovieType, index: number) =>
-              ContentCell(content, index + 1),
+              ContentCell(content, index + 1)
             )}
           </ul>
         </div>

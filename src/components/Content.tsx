@@ -4,21 +4,24 @@ import { Carousel } from "./Carousel";
 import profileDefault from "../assets/user_default.jpg";
 import StarRating from "./StarRating";
 import CommentCard from "./CommentCard";
-import { CommentsResType, CommentType, ContentType } from "../type";
-// import { convertKeysToCamelCase } from "../utils/snackToCamel";
+
+import {
+  CommentsResType,
+  CommentType,
+  MovieType,
+  MyStateResType,
+} from "../type";
+
+import { MyStateType } from "../type";
 import { Link } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
-import {
-  createCommentRequest,
-  getCommentListRequest,
-  getCommentRequest,
-  updateCommentRequest,
-} from "../apis/comment";
+import { getCommentListRequest } from "../apis/comment";
 import MyCommentBox from "./MyCommentBox";
 import WritingModal from "./WritingModal";
 import { useAuthContext } from "../contexts/authContext";
+import { postCreateWatchingState, putUpdateWatchingState } from "../apis/user";
 
-function ContentHeader({ content }: { content: ContentType }) {
+function ContentHeader({ content }: { content: MovieType }) {
   const backGroundStyle = {
     backgroundImage: `url(https://an2-ast.amz.wtchn.net/ayg/images/asContentFallbackVideo1.207fd38cdebff49ccde8.jpg)`,
     backgroundSize: "cover",
@@ -35,11 +38,11 @@ function ContentHeader({ content }: { content: ContentType }) {
     <section className={styles.headerBackground} style={backGroundStyle}>
       {content && (
         <div className={styles.headerCon}>
-          <h2>{content.titleKo}</h2>
-          <div className={styles.headerText}>{content.titleOriginal}</div>
+          <h2>{content.title_ko}</h2>
+          <div className={styles.headerText}>{content.title_original}</div>
           <div
             className={styles.headerText}
-          >{`${content.releaseDate} · ${genres} · ${content.prodCountry}`}</div>
+          >{`${content.release_date} · ${genres} · ${content.prod_country}`}</div>
           <div className={styles.headerText}>{runtime}</div>
         </div>
       )}
@@ -50,9 +53,13 @@ function ContentHeader({ content }: { content: ContentType }) {
 function ContentPanel({
   content,
   setContent,
+  refetch,
 }: {
-  content: ContentType;
-  setContent: (content: ContentType) => void;
+  content: MovieType;
+  setContent: (content: MovieType) => void;
+
+  refetch: () => void;
+
 }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
@@ -60,6 +67,44 @@ function ContentPanel({
 
   const { accessToken } = useAuthContext();
 
+  const [myState, setMyState] = useState<MyStateResType | null>(
+    content.my_state ?? null
+
+  );
+  const setMyStateHandler = (targetState: MyStateType) => {
+    if (!accessToken) return;
+    if (content.my_state === null && targetState !== null)
+
+      return postCreateWatchingState(content.movieCD, accessToken, targetState)
+        .then(defaultResponseHandler)
+        .then((myState) => {
+          console.log(myState);
+          setMyState(myState);
+        });
+
+    return (
+      content.my_state &&
+      putUpdateWatchingState(content.my_state.id, accessToken, targetState)
+        .then(defaultResponseHandler)
+        .then((myState) => {
+          console.log(myState);
+          setMyState(myState);
+        })
+    );
+  };
+
+
+    return putUpdateWatchingState(
+      content.movieCD,
+      accessToken,
+      targetState
+    ).then((res) => {
+      if (!res.ok) {
+        throw new Error("잘못된 요청입니다");
+      }
+      setMyState(targetState);
+    });
+  };
   return (
     <section className={styles.panelBackground}>
       <div className={styles.panelCon}>
@@ -72,6 +117,7 @@ function ContentPanel({
             <div className={styles.userRatingCon}>
               <div className={styles.starRatingBox}>
                 <StarRating
+                  refetch={refetch}
                   my_rate={content.my_rate}
                   movieCD={content.movieCD}
                 />
@@ -80,15 +126,33 @@ function ContentPanel({
             </div>
             <div className={styles.avgRatingCon}>
               <div className={styles.avgRatingDigit}>
-                {content.averageRate}
+                {content.average_rate}
                 {/*.toFixed(1)*/}
               </div>
               평균 평점(평점 총 개수)
             </div>
             <ul className={styles.reviewMenuCon}>
-              <li>
+              <li
+                onClick={() => {
+
+                  myState?.user_state === "want_to_watch"
+
+                    ? setMyStateHandler(null)
+                    : setMyStateHandler("want_to_watch");
+                }}
+              >
                 <div className={styles.reviewMenuIconBox}>
-                  <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    className={
+
+                      myState?.user_state === "want_to_watch"
+                        ? styles.checked
+                        : ""
+
+                    }
+                  >
                     <path d="M20.5 13.093h-7.357V20.5h-2.286v-7.407H3.5v-2.286h7.357V3.5h2.286v7.307H20.5v2.286Z"></path>
                   </svg>
                 </div>
@@ -96,9 +160,9 @@ function ContentPanel({
               </li>
               <li
                 onClick={() => {
-                  // mycommentapi가 있어야함
-
-                  setCurrentModal("createComment");
+                  content.my_comment !== null
+                    ? setCurrentModal("updateComment")
+                    : setCurrentModal("createComment");
                 }}
               >
                 <div className={styles.reviewMenuIconBox}>
@@ -108,13 +172,29 @@ function ContentPanel({
                 </div>
                 코멘트
               </li>
-              <li>
+              <li
+                onClick={() => {
+
+                  myState?.user_state === "watching"
+
+                    ? setMyStateHandler(null)
+                    : setMyStateHandler("watching");
+                }}
+              >
                 <div className={styles.reviewMenuIconBox}>
-                  <svg aria-hidden="true" viewBox="0 0 24 24">
-                    <path d="M13.626 11.998a1.623 1.623 0 1 1-3.247 0 1.623 1.623 0 0 1 3.247 0Zm-5.6 0a1.623 1.623 0 1 1-3.246 0 1.623 1.623 0 0 1 3.247 0Zm9.576 1.623a1.623 1.623 0 1 0 0-3.246 1.623 1.623 0 0 0 0 3.246Z"></path>
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+
+                    className={
+                      myState?.user_state === "watching" ? styles.checked : ""
+                    }
+
+                  >
+                    <path d="M12 5C7 5 2.73 8.11 1 12.5 2.73 16.89 7 20 12 20s9.27-3.11 11-7.5C21.27 8.11 17 5 12 5Zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3Z"></path>
                   </svg>
+                  <div>보는 중</div>
                 </div>
-                더보기
               </li>
             </ul>
           </nav>
@@ -126,14 +206,13 @@ function ContentPanel({
             content={content}
             setContent={setContent}
           />
-          {/* 아직 코멘트 받아오는 api가 없음 */}
           <div className={styles.overviewBox}>{content.plot}</div>
         </main>
       </div>
       {currentModal && accessToken && (
         <WritingModal
           type="comment"
-          title={content.titleKo}
+          title={content.title_ko}
           content={content}
           currentModal={currentModal}
           setCurrentModal={setCurrentModal}
@@ -144,18 +223,30 @@ function ContentPanel({
   );
 }
 
-function ContentCast({ content }: { content: ContentType }) {
+function ContentCast({ content }: { content: MovieType }) {
   return (
     <section className={styles.castCon}>
       <h2>출연/제작</h2>
       <Carousel>
         <ul>
+          {content.directors.map((direct, idx) => (
+            <li key={idx}>
+              <div className={styles.castCard}>
+                <img src={direct.photo ?? profileDefault} />
+                <div
+                  className={`${styles.castDescCon} ${
+                    idx % 3 !== 2 ? styles.borderBottom : ""
+                  }`}
+                >
+                  <h3 className={styles.castName}>{direct.name}</h3>
+                  <p className={styles.castRole}>director</p>
+                </div>
+              </div>
+            </li>
+          ))}
           {content.castings.map((cast, idx) => (
             <li key={idx}>
-              <Link
-                to={`/people/${cast.actor.peopleCD}`}
-                className={styles.castCard}
-              >
+              <div className={styles.castCard}>
                 <img src={cast.actor.photo ?? profileDefault} />
                 <div
                   className={`${styles.castDescCon} ${
@@ -165,7 +256,7 @@ function ContentCast({ content }: { content: ContentType }) {
                   <h3 className={styles.castName}>{cast.actor.name}</h3>
                   <p className={styles.castRole}>{cast.role}</p>
                 </div>
-              </Link>
+              </div>
             </li>
           ))}
         </ul>
@@ -174,29 +265,29 @@ function ContentCast({ content }: { content: ContentType }) {
   );
 }
 
-function ContentComments({ content }: { content: ContentType }) {
+function ContentComments({ content }: { content: MovieType }) {
   const [comments, setComments] = useState<CommentType[]>([]);
-
+  const [commentsLength, setCommentsLength] = useState<number | null>(null);
   useEffect(() => {
     getCommentListRequest(content.movieCD)
       .then(defaultResponseHandler)
       .then((data: CommentsResType) => {
         const commentsResponse = data;
         const comments = commentsResponse.results;
-
+        setCommentsLength(comments.length);
         const repComment =
           comments.length <= 4 ? comments : comments.slice(0, 4);
         console.log(repComment);
         setComments(repComment);
       })
       .catch(() => alert("잘못된 요청입니다"));
-  }, [content.movieCD]);
+  }, [content.movieCD, content.my_comment]);
 
   return (
     <section className={styles.commentsCon}>
       <header>
         <h2>
-          코멘트 <span className={styles.commentCount}>10000+</span>
+          코멘트 <span className={styles.commentCount}>{commentsLength}+</span>
         </h2>
         <Link
           to={`/contents/${content.movieCD}/comments`}

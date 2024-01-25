@@ -12,9 +12,11 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1",
     "react-responsive": "^9.0.2",
     "react-router-dom": "^6.21.1",
     "sass": "^1.69.6",
+    "universal-user-agent": "^7.0.2",
     "vite-plugin-mkcert": "^1.17.2"
   },
   "devDependencies": {

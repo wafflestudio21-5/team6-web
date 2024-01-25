@@ -1,98 +1,193 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import userImage from "../assets/user_default.jpg";
 import styles from "./CommentInfo.module.scss";
-import { MovieType } from "./ContentList";
+
+
 import ReplyList from "./ReplyList";
 import elapsedTime from "../utils/elapsedTime";
 import { CommentType } from "../type";
+import { useEffect, useState } from "react";
 
-export type ReplyType = {
-  userName: string;
-  date: Date;
-  content: string;
-  likes: number;
-  liked: boolean;
-};
 
-function CommentHeader({
-  userName,
-  movie,
-  rating,
-  date,
-}: {
-  userName: string;
-  movie: MovieType;
-  rating: number;
-  date: Date;
-}) {
+import { defaultResponseHandler } from "../apis/custom";
+import { ReplyType } from "../type";
+import CommentPageWriteModal from "./CommentPageWriteModal";
+import { postToggleCommentLike } from "../apis/comment";
+import { useAuthContext } from "../contexts/authContext";
+import { getCommentReplies } from "../apis/comment";
+import DeleteComReplyModal from "./DeleteComReplyModal";
+import { MdEdit } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+
+
+function CommentHeader({ comment }: { comment: CommentType }) {
+  const { movie, rating, created_by, created_at } = comment;
+  console.log("target:", comment.movie);
+
   return (
     <div className={styles.commentHeader}>
       <div className={styles.commentUser}>
-        <Link className={styles.userLink} to="/users/idididid" title={userName}>
+        <Link
+          className={styles.userLink}
+
+          to={`/users/${created_by.id}`}
+          title={created_by.nickname}
+        >
           <div className={styles.userImage}>
-            <img src={userImage} alt={userName + "의 사진"} />
+            <img src={userImage} alt={created_by.nickname + "의 사진"} />
           </div>
           <div className={styles.userDate}>
-            <div className={styles.userName}>{userName}</div>
-            <div className={styles.date}>{elapsedTime(date)}</div>
+            <div className={styles.userName}>{created_by.nickname}</div>
+            <div className={styles.date}>
+              {elapsedTime(new Date(created_at))}
+            </div>
           </div>
         </Link>
-        <Link to="/contents/idididid">
-          <div className={styles.movieName}>{movie.name}</div>
-          <div className={styles.releaseYear}>영화 · {movie.releaseYear}</div>
-        </Link>
-        <div className={styles.ratingDiv}>
-          <div className={styles.rating}>
-            <img
-              width="16px"
-              height="16px"
-              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGZpbGw9IiM0QTRBNEEiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEyIDE3Ljk4bC02LjAxNSA0LjM5MmMtLjUwOC4zNzItMS4xOTQtLjEyNi0uOTk4LS43MjVsMi4zMTctNy4wODEtNi4wMzUtNC4zNjdjLS41MS0uMzY5LS4yNDctMS4xNzUuMzgyLTEuMTc0bDcuNDQ3LjAxNiAyLjI4Ni03LjA5MWMuMTkyLS42IDEuMDQtLjYgMS4yMzMgMGwyLjI4NiA3LjA5IDcuNDQ3LS4wMTVjLjYyOS0uMDAxLjg5LjgwNS4zOCAxLjE3NGwtNi4wMzMgNC4zNjcgMi4zMTYgNy4wOGMuMTk2LjYtLjQ5IDEuMDk4LS45OTkuNzI2TDEyIDE3Ljk4eiIvPgo8L3N2Zz4K"
-              alt="star"
-            />
-            <span className={styles.ratingText}>{rating.toFixed(1)}</span>
+        {movie && (
+          <Link to={`/contents/${movie.movieCD}`}>
+            <div className={styles.movieName}>{movie.title_ko}</div>
+            <div className={styles.releaseYear}>
+              영화 · {new Date(movie.release_date).getFullYear()}
+
+            </div>
+          </Link>
+        )}
+        {rating && (
+          <div className={styles.ratingDiv}>
+            <div className={styles.rating}>
+              <img
+                width="16px"
+                height="16px"
+                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGZpbGw9IiM0QTRBNEEiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEyIDE3Ljk4bC02LjAxNSA0LjM5MmMtLjUwOC4zNzItMS4xOTQtLjEyNi0uOTk4LS43MjVsMi4zMTctNy4wODEtNi4wMzUtNC4zNjdjLS41MS0uMzY5LS4yNDctMS4xNzUuMzgyLTEuMTc0bDcuNDQ3LjAxNiAyLjI4Ni03LjA5MWMuMTkyLS42IDEuMDQtLjYgMS4yMzMgMGwyLjI4NiA3LjA5IDcuNDQ3LS4wMTVjLjYyOS0uMDAxLjg5LjgwNS4zOCAxLjE3NGwtNi4wMzMgNC4zNjcgMi4zMTYgNy4wOGMuMTk2LjYtLjQ5IDEuMDk4LS45OTkuNzI2TDEyIDE3Ljk4eiIvPgo8L3N2Zz4K"
+                alt="star"
+              />
+
+              <span className={styles.ratingText}>
+                {rating.rate.toFixed(1)}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
-      <Link to="/contents/idididid" title={movie.name}>
-        <div className={styles.poster}>
-          <img src={movie.posterUrl} alt={movie.name + "의 포스터"} />
-        </div>
-      </Link>
+      {movie && (
+        <Link to={`/contents/${movie.movieCD}`} title={movie.title_ko}>
+          <div className={styles.poster}>
+            <img src={movie.poster} alt={movie.title_ko + "의 포스터"} />
+          </div>
+
+        </Link>
+      )}
     </div>
   );
 }
 
-function CommentBody({ content }: { content: string }) {
-  return <div className={styles.commentBody}>{content}</div>;
+function CommentBody({ comment }: { comment: CommentType }) {
+  const [preventWatchSpoiler, setPreventWatchSpoiler] = useState<boolean>(
+    comment.has_spoiler
+  );
+
+  if (preventWatchSpoiler)
+    return (
+      <div className={styles.commentBody}>
+        이 코멘트에는 스포일러가 있습니다.{" "}
+        <button
+          onClick={() => {
+            setPreventWatchSpoiler(false);
+          }}
+        >
+          보기
+        </button>
+      </div>
+    );
+  return <div className={styles.commentBody}>{comment.content}</div>;
 }
 
 function CommentLikeReply({
+  setUpdateModal,
+  setDeleteModal,
   likes,
   replies,
+  comment,
 }: {
   likes: number;
   replies: number;
+  setUpdateModal: () => void;
+  setDeleteModal: () => void;
+  comment: CommentType;
 }) {
+  const { myUserData } = useAuthContext();
+
   return (
     <div className={styles.commentLikeReply}>
       <span className={styles.likes}>좋아요 {likes}</span>
       <span>댓글 {replies}</span>
+      <div
+        className={styles.editDeleteBox}
+        style={{
+          visibility:
+            myUserData?.id === comment.created_by.id ? "visible" : "hidden",
+        }}
+      >
+        <button
+          className={styles.editButton}
+          onClick={() => {
+            setUpdateModal();
+          }}
+        >
+          <MdEdit /> 수정
+        </button>
+        <button
+          className={styles.deleteButton}
+          onClick={() => {
+            setDeleteModal();
+          }}
+        >
+          <RiDeleteBin6Line /> 삭제
+        </button>
+      </div>
     </div>
   );
 }
 
-function LikeReplyBar({ liked }: { liked: boolean }) {
-  console.log(liked);
+function LikeReplyBar({
+  liked: likeChecked,
+  setCurrentModalState,
+  refetchComment,
+}: {
+  liked: boolean;
+  setCurrentModalState: (
+    value:
+      | { type: "createReply" }
+      | { type: "updateReply"; targetReply: ReplyType }
+  ) => void;
+  refetchComment: () => void;
+}) {
+  const { accessToken } = useAuthContext();
+  const { id: commentId } = useParams();
+
   return (
     <section className={styles.likeReplyBar}>
       <hr />
       <div className={styles.likeReplyGrid}>
         <button
+          onClick={() => {
+            if (!accessToken) return;
+            if (!commentId) return;
+            postToggleCommentLike(parseInt(commentId), accessToken)
+              .then(defaultResponseHandler)
+              .then(() => {
+                refetchComment();
+              })
+              .catch(() => {
+                alert("실패");
+              });
+          }}
           className={
-            styles.likeButton + (liked ? " " + styles.likeButtonLiked : "")
+            styles.likeButton +
+            (likeChecked ? " " + styles.likeButtonLiked : "")
           }
         >
-          {liked ? (
+          {likeChecked ? (
             <svg className={styles.likeSvg} fill="#ff2f6e" viewBox="0 0 20 20">
               <path
                 className={styles.fillTarget}
@@ -129,7 +224,11 @@ function LikeReplyBar({ liked }: { liked: boolean }) {
           )}
           좋아요
         </button>
-        <button>
+        <button
+          onClick={() => {
+            setCurrentModalState({ type: "createReply" });
+          }}
+        >
           <svg viewBox="0 0 20 20" className="css-b7lu23-IcCommentSvg e4ahphr0">
             <path
               className={styles.fillTarget}
@@ -147,35 +246,125 @@ function LikeReplyBar({ liked }: { liked: boolean }) {
   );
 }
 
-/*
-{
-    id: number;
-    created_by: {
-        id: number;
-        nickname: string;
-        profile_photo: string | null;
-    };
-    rating: null | string;
-    like_count: number;
-    content: string;
-    has_spoiler: boolean;
-    created_at: string;
-    updated_at: string;
-*/
-export default function CommentInfo({ comment }: { comment: CommentType }) {
+export type CurrentModalStateType =
+  | { type: "deleteComment"; targetComment: CommentType }
+  | { type: "updateComment"; targetComment: CommentType }
+  | { type: "createReply" }
+  | { type: "updateReply"; targetReply: ReplyType }
+  | { type: "deleteReply"; targetReply: ReplyType }
+  | null;
+
+export default function CommentInfo({
+  comment,
+  refetchComment,
+  setComment,
+}: {
+  comment: CommentType;
+  setComment: (value: CommentType) => void;
+  refetchComment: () => void;
+}) {
+  const [currentModalState, setCurrentModalState] =
+    useState<CurrentModalStateType>(null);
+
+  const { id: commentId } = useParams();
+  const [replies, setReplies] = useState<ReplyType[]>([]);
+  const { accessToken } = useAuthContext();
+  const [nextRepliesUrl, setNextRepliesUrl] = useState<string | null>(null); // 업로드한 댓글 ui에 반영하기 위해서는 commentInfo에 다음 state들이 있어야 함.
+  console.log("replies :", replies);
+
+  console.log(comment.movie);
+
+  useEffect(() => {
+    if (!commentId) return;
+
+    getCommentReplies(parseInt(commentId), accessToken ?? undefined)
+      .then(defaultResponseHandler)
+      .then((data) => {
+        console.log("success replies !!!!:", data);
+        const repliesResponse = data;
+        setReplies(repliesResponse.results);
+        setNextRepliesUrl(repliesResponse.next);
+      })
+      .catch(() => alert("잘못된 요청입니다"));
+  }, [commentId]);
+
+  // 무한스크롤 페이지네이션 특성상 단순히 데이터 리패칭을 할 수 없음 따라서 state를 직접 변경한다.
+  const deleteReplyState = (replyId: number) => {
+    setReplies(replies.filter((reply) => reply.id !== replyId));
+    setComment({ ...comment, reply_count: comment.reply_count - 1 });
+  };
+  const updateReplyState = (resonseReply: ReplyType) => {
+    const { id: responseId } = resonseReply;
+    setReplies(
+      replies.map((reply) => (reply.id === responseId ? resonseReply : reply))
+    );
+  };
+  const addReplyState = (reply: ReplyType) => {
+    setReplies([reply, ...replies]);
+    setComment({ ...comment, reply_count: comment.reply_count + 1 });
+  };
+
   return (
     <section className={styles.commentInfo}>
-      {/* <CommentHeader
-        nickname={comment.created_by.nickname}
-        movie={comment.movie}
-        rating={comment.rating}
-        data={comment.created_at}
+      {currentModalState &&
+        (currentModalState.type === "createReply" ||
+          currentModalState.type === "updateComment" ||
+          currentModalState.type === "updateReply") && (
+          <CommentPageWriteModal
+            addReply={addReplyState}
+            updateReply={updateReplyState}
+            setCurrentModal={setCurrentModalState}
+            refetchComment={refetchComment}
+            currentModalState={currentModalState}
+          />
+        )}
+
+      {currentModalState &&
+        (currentModalState.type === "deleteReply" ||
+          currentModalState.type === "deleteComment") && (
+          <DeleteComReplyModal
+            currentModalState={currentModalState}
+            setCurrentModalState={setCurrentModalState}
+            deleteReplyState={deleteReplyState}
+          />
+        )}
+
+      <CommentHeader comment={comment} />
+
+
+      <CommentBody comment={comment} />
+      <CommentLikeReply
+        comment={comment}
+        setUpdateModal={() => {
+          setCurrentModalState({
+            type: "updateComment",
+            targetComment: comment,
+          });
+        }}
+        setDeleteModal={() => {
+          setCurrentModalState({
+            type: "deleteComment",
+            targetComment: comment,
+          });
+        }}
+        likes={comment.like_count}
+        replies={comment.reply_count}
       />
-      <CommentBody content={comment.content} />{" "}
-      
-      <CommentLikeReply likes={comment.like_count} replies={3} />
-      <LikeReplyBar liked={comment.like_count} />
-  <ReplyList replyNumber={3} replies={comment.replies} />*/}
+      <LikeReplyBar
+        refetchComment={refetchComment}
+        liked={comment.liked_by_user}
+        setCurrentModalState={setCurrentModalState}
+      />
+
+      <ReplyList
+        openUpdateModal={(reply: ReplyType) => {
+          setCurrentModalState({ type: "updateReply", targetReply: reply });
+        }}
+        openDeleteReplyModal={(reply: ReplyType) => {
+          setCurrentModalState({ type: "deleteReply", targetReply: reply });
+        }}
+        {...{ comment, setReplies, replies, nextRepliesUrl, setNextRepliesUrl }}
+      />
     </section>
   );
 }

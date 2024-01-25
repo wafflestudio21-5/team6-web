@@ -90,6 +90,7 @@
           letter-spacing: -0.55px;
           line-height: 22px;
           white-space: pre-wrap;
+          word-break: break-all;
           width: calc(100% - 40px);
           margin-top: 4px;
           margin-bottom: 8px;
@@ -139,6 +140,42 @@
           width: 14px;
           height: 14px;
           margin-right: 6px;
+        }
+        .likeSettingContainer {
+          button {
+            cursor: pointer;
+            background: none;
+            border: none;
+          }
+          display: flex;
+          .settingButtonBox {
+            position: relative;
+            margin-left: auto;
+          }
+          .settingBox {
+            height: 85px;
+            cursor: pointer;
+            position: absolute;
+            display: flex;
+            top: 25px;
+            left: -166px;
+            flex-direction: column;
+            background: rgb(255, 255, 255);
+            box-sizing: border-box;
+            width: 176px;
+            padding: 5px;
+            border-radius: 7px;
+            box-shadow: rgba(0, 0, 0, 0.17) 0px 1px 6px;
+            div {
+              border-radius: 5px;
+              height: 100%;
+
+              padding: 5px;
+            }
+            div:hover {
+              background-color: rgb(219, 207, 207);
+            }
+          }
         }
       }
     }

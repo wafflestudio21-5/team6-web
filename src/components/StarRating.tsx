@@ -1,12 +1,11 @@
 import { useState } from "react";
 import styles from "./StarRating.module.scss";
-import { RateType } from "../type";
+// import { MyRateType } from "../type";
 import {
   createRatingRequest,
   deleteRatingRequest,
   updateRatingRequest,
 } from "../apis/content";
-import { defaultResponseHandler } from "../apis/custom";
 import { useAuthContext } from "../contexts/authContext";
 
 type StarProps = {
@@ -50,13 +49,21 @@ function Star(props: StarProps) {
 }
 
 type StarRatingProps = {
-  my_rate: RateType | null;
+  my_rate: {
+    id: number;
+    my_rate: number;
+  } | null;
   movieCD: string;
+  refetch: () => void;
 };
 
-export default function StarRating({ my_rate, movieCD }: StarRatingProps) {
+export default function StarRating({
+  my_rate,
+  movieCD,
+  refetch,
+}: StarRatingProps) {
   console.log("my_Rate :", my_rate);
-  const [savedRating, setSavedRating] = useState(my_rate ? my_rate.my_rate : 0);
+  const savedRating = my_rate ? my_rate.my_rate : 0;
   const [selectedRating, setSelectedRating] = useState(savedRating);
   const { isLogined, accessToken } = useAuthContext();
 
@@ -66,24 +73,32 @@ export default function StarRating({ my_rate, movieCD }: StarRatingProps) {
   const onMouseLeaveStar = () => {
     setSelectedRating(savedRating);
   };
-  const onClickStar = (rating: number) => {
+  const onClickStarHandler = (rating: number) => {
+    console.log("my_rate", my_rate);
+    console.log("clicked rating: ", rating);
+
     if (!isLogined) {
       // loginModal;
     } else {
       console.log("clicked rating: ", rating);
       console.log("accessToken", accessToken);
-      (my_rate
-        ? rating === my_rate.my_rate
-          ? deleteRatingRequest(my_rate.id, accessToken ?? "")
-          : updateRatingRequest(my_rate.id, rating, accessToken ?? "")
-        : createRatingRequest(movieCD, rating, accessToken ?? "")
-      )
-        .then(() => {
-          return setSavedRating(
-            my_rate && rating === my_rate.my_rate ? 0 : rating,
-          );
-        })
-        .catch((e) => console.log(e));
+
+      if (!my_rate)
+        return createRatingRequest(movieCD, rating, accessToken ?? "").then(
+          () => {
+            refetch();
+          }
+        );
+      if (rating === my_rate.my_rate)
+        return deleteRatingRequest(my_rate.id, accessToken ?? "").then(() => {
+          refetch();
+        });
+      return updateRatingRequest(my_rate.id, rating, accessToken ?? "").then(
+        () => {
+          refetch();
+        }
+      );
+
     }
   };
 
@@ -104,7 +119,7 @@ export default function StarRating({ my_rate, movieCD }: StarRatingProps) {
           rating={idx}
           onMouseEnterStar={onMouseEnterStar}
           onMouseLeaveStar={onMouseLeaveStar}
-          onClickStar={onClickStar}
+          onClickStar={onClickStarHandler}
         />
       ))}
     </div>

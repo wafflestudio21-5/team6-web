@@ -72,7 +72,13 @@ export default function Layout() {
         <Header setCurrentModal={setCurrentModal} />
         <section className={styles.mainSection}>
           <div className={styles.mainDiv}>
-            <Outlet context={{ setCurrentModal } satisfies OutletContextType} />
+            <Outlet
+              context={
+                {
+                  setCurrentModal,
+                } satisfies OutletContextType
+              }
+            />
             <Footer />
           </div>
         </section>

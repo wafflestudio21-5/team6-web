@@ -1,5 +1,5 @@
 import { createCommentRequest, updateCommentRequest } from "../apis/comment";
-import { CommentType, ContentType, MyCommentType } from "../type";
+import { CommentType, MovieType } from "../type";
 import Modal from "./Modal";
 import styles from "./WritingModal.module.scss";
 import { useState } from "react";
@@ -9,12 +9,12 @@ import { defaultResponseHandler } from "../apis/custom";
 type WritingModalProps = {
   type: "comment" | "reply";
   title: string;
-  content: ContentType;
+  content: MovieType;
   currentModal: "updateComment" | "createComment" | null;
   setCurrentModal: (
-    currentModal: "updateComment" | "createComment" | null,
+    currentModal: "updateComment" | "createComment" | null
   ) => void;
-  setContent: (content: ContentType) => void;
+  setContent: (content: MovieType) => void;
 };
 
 export default function WritingModal(props: WritingModalProps) {
@@ -24,11 +24,12 @@ export default function WritingModal(props: WritingModalProps) {
   const { my_comment, movieCD } = content;
 
   const [commentInput, setCommentInput] = useState(
-    my_comment === null ? "" : my_comment.my_comment,
+    my_comment === null ? "" : my_comment.content
   ); //comment는 기존에 썼던 코멘트가 있을 경우에만 존재
   const [hasSpoiler, setHasSpoiler] = useState(
-    my_comment === null ? false : my_comment.has_spoiler,
+    my_comment === null ? false : my_comment.has_spoiler
   );
+
   return (
     <Modal
       onClose={() => {
@@ -56,17 +57,15 @@ export default function WritingModal(props: WritingModalProps) {
                   movieCD,
                   accessToken,
                   commentInput,
-                  hasSpoiler,
+                  hasSpoiler
                 )
                   .then(defaultResponseHandler)
                   .then((data: CommentType) => {
+                    console.log("data : ", data);
+                    console.log("content : ", data.content);
                     setContent({
                       ...content,
-                      my_comment: {
-                        my_comment: data.content,
-                        has_spoiler: data.has_spoiler,
-                        id: data.id,
-                      },
+                      my_comment: data,
                     });
                     setCurrentModal(null);
                   });
@@ -77,17 +76,15 @@ export default function WritingModal(props: WritingModalProps) {
                   my_comment?.id,
                   accessToken,
                   commentInput,
-                  hasSpoiler,
+                  hasSpoiler
                 )
                   .then(defaultResponseHandler)
                   .then((data: CommentType) => {
+                    console.log("data : ", data);
+                    console.log("content : ", data.content);
                     setContent({
                       ...content,
-                      my_comment: {
-                        my_comment: data.content,
-                        has_spoiler: data.has_spoiler,
-                        id: data.id,
-                      },
+                      my_comment: data,
                     });
                     setCurrentModal(null);
                   });
@@ -102,8 +99,15 @@ export default function WritingModal(props: WritingModalProps) {
             />
             <nav>
               {type === "comment" && (
-                <button type="button" className={styles.spoilerButton}>
+                <button
+                  type="button"
+                  className={styles.spoilerButton}
+                  onClick={() => {
+                    setHasSpoiler(!hasSpoiler);
+                  }}
+                >
                   <svg
+                    className={hasSpoiler ? styles.checked : ""}
                     fill="none"
                     height="30"
                     viewBox="0 0 24 24"
@@ -118,7 +122,9 @@ export default function WritingModal(props: WritingModalProps) {
                 </button>
               )}
               <div className={styles.navSubCon}>
-                <div className={styles.textConut}>0/10000</div>
+                <div className={styles.textConut}>
+                  {commentInput.length}/10000
+                </div>
                 <button type="submit" className={styles.submitButton}>
                   {currentModal == "createComment" ? "등록" : "수정"}
                 </button>
