@@ -1,5 +1,6 @@
 import { BASE_API_URL } from "./const";
 
+
 export async function getCommentListRequest(
   movieCD: string,
   sortQuery?: string
@@ -8,6 +9,7 @@ export async function getCommentListRequest(
   return fetch(
     `${BASE_API_URL}/contents/${movieCD}/comments/?order=${sortQuery}`
   );
+
 }
 
 export async function createCommentRequest(
@@ -82,6 +84,7 @@ export async function getCommentReplies(
     return fetch(`${BASE_API_URL}/comments/${commentId}/replies/`);
 
   return fetch(`${BASE_API_URL}/comments/${commentId}/replies/`, {
+
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -94,12 +97,15 @@ export async function getNextCommentReplies(
 ) {
   if (!accessToken) return fetch(nextUrl);
   return fetch(nextUrl, {
+
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
     },
   });
 }
+
+
 
 export async function postCreateReply(
   commentId: number,

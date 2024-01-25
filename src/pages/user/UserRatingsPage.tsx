@@ -149,7 +149,9 @@ function DefaultMovieList({
           >
             <img src={movie.poster} alt={movie.title_ko} />
             <p>{movie.title_ko}</p>
+
             <span>평가함 ★ {movieData.rate}</span>
+
           </li>
         );
       })}

@@ -75,6 +75,8 @@ export async function postCreateWatchingState(
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
     method: "POST",
+
+
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,

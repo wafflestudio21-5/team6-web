@@ -20,7 +20,9 @@ export default function CommentListPage() {
       getCommentListRequest(movieCD, sortQuery)
         .then(defaultResponseHandler)
         .then((data) => {
+
           console.log("success!!!!", data);
+
           const commentsResponse = data;
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);

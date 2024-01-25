@@ -7,8 +7,10 @@ import { defaultResponseHandler } from "../../apis/custom";
 import { CommentType } from "../../type";
 import { getMyLikesComments } from "../../apis/auth";
 import { useAuthContext } from "../../contexts/authContext";
+
 import { SortQueryType } from "../../type";
 import SortMoadal from "../../components/SortModal";
+
 
 export default function UserLikesCommentListPage() {
   const navigate = useNavigate();
@@ -17,6 +19,7 @@ export default function UserLikesCommentListPage() {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
+
 
   const [sortQuery, setSortQuery] = useState<SortQueryType>("like");
   const [currentModal, setCurrenModal] = useState<null | "sort">(null);
@@ -62,14 +65,47 @@ export default function UserLikesCommentListPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [comments]);
 
+
   useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
+    if (!accessToken) return;
+    if (!userId) return;
+
+    getMyLikesComments(accessToken)
+      .then(defaultResponseHandler)
+      .then((data) => {
+        console.log("user likes comment list page : ", data);
+        const commentsResponse = data;
+        setComments(commentsResponse.results);
+        setNextCommentsUrl(commentsResponse.next);
+      })
+      .catch(() => alert("잘못된 요청입니다"))
+      .finally(() => {
+        setLoading(false);
       });
-    };
-    scrollToTop();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight } = document.documentElement;
+
+      if (window.innerHeight + scrollTop + 150 >= scrollHeight) {
+        nextCommentsUrl &&
+          comments &&
+          fetch(nextCommentsUrl)
+            .then(defaultResponseHandler)
+            .then((data) => {
+              console.log("scroll success  :", data);
+              const commentsResponse = data;
+              setComments(comments.concat(commentsResponse.results));
+              setNextCommentsUrl(commentsResponse.next);
+            })
+            .catch(() => alert("잘못된 요청입니다"));
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [comments]);
 
   return (
     <div className={styles.pageCon}>

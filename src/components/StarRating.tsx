@@ -82,6 +82,7 @@ export default function StarRating({
     } else {
       console.log("clicked rating: ", rating);
       console.log("accessToken", accessToken);
+
       if (!my_rate)
         return createRatingRequest(movieCD, rating, accessToken ?? "").then(
           () => {
@@ -97,6 +98,7 @@ export default function StarRating({
           refetch();
         }
       );
+
     }
   };
 

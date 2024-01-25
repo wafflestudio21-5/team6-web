@@ -16,6 +16,7 @@ export default function User() {
   const { myUserData, accessToken } = useAuthContext();
   const loginUserId = myUserData?.id;
   const { id: pageUserId } = useParams();
+
   const pageMode = !loginUserId
     ? "notLoggedIn"
     : pageUserId === loginUserId.toString()
@@ -24,6 +25,7 @@ export default function User() {
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
   // isLoggedIn : 팔로우 버튼 보여준다(무조건 팔로우) / 좋아요 섹션 보여주지 않는다.
+
 
   const [pageUser, setPageUser] = useState<UserDataType | null>(null); // PageUserType은 아래에 정의되어 있습니다.
   const [pageUserloading, setPageUserLoading] = useState(true);
@@ -74,7 +76,9 @@ export default function User() {
         });
   }, [pageUserId]);
 
+
   // 유저데이터에 팔로잉 리스트가 없어서 추가로 가져와야 함
+
   useEffect(() => {
     if (!myUserData) return setIsMyFollowingLoading(false);
 
@@ -84,7 +88,9 @@ export default function User() {
         const myFollowingIdList = data.map((follower) => follower.id);
         const isMyFollowing =
           !!pageUserId && myFollowingIdList.includes(parseInt(pageUserId));
+
         console.log("isfollw", isMyFollowing);
+
         setIsMyFollowing(isMyFollowing);
       })
       .catch((e) => {
@@ -96,6 +102,7 @@ export default function User() {
   }, [pageUserId]);
 
   useEffect(() => {
+
     const scrollToTop = () => {
       window.scrollTo({
         top: 0,
@@ -137,11 +144,13 @@ export default function User() {
                     isMyFollowing && styles.unfollow
                   }`}
                   onClick={followButtonClickHandler}
+
                 >
                   {isMyFollowing ? "팔로잉" : "팔로우"}
                 </button>
               )}
             </div>
+
             <div className={styles.userTabBox}>
               <Link to="ratings" className={styles.ratings}>
                 <span className={styles.count}>{pageUser.rate_num}</span>
@@ -181,6 +190,7 @@ export default function User() {
                 </svg>
               </div>
               <span>영화</span>
+
             </Link>
           </section>
           {/* likeSection 내가 좋아한 코멘트 목록 섹션 */}

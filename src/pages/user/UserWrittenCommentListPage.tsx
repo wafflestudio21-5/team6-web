@@ -6,8 +6,10 @@ import { useEffect } from "react";
 import { getUserWrittenComments } from "../../apis/user";
 import { useState } from "react";
 import { defaultResponseHandler } from "../../apis/custom";
+
 import { CommentType, SortQueryType } from "../../type";
 import SortMoadal from "../../components/SortModal";
+
 
 export default function UserWrittenCommentListPage() {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ export default function UserWrittenCommentListPage() {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
+
   const [sortQuery, setSortQuery] = useState<SortQueryType>("like");
   const [currentModal, setCurrenModal] = useState<null | "sort">(null);
 
@@ -24,6 +27,7 @@ export default function UserWrittenCommentListPage() {
         .then(defaultResponseHandler)
         .then((data) => {
           console.log("success!!!!", data);
+
           const commentsResponse = data;
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);
@@ -32,7 +36,9 @@ export default function UserWrittenCommentListPage() {
         .finally(() => {
           setLoading(false);
         });
+
   }, [sortQuery]);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,6 +63,7 @@ export default function UserWrittenCommentListPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [comments]);
 
+
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
@@ -65,6 +72,7 @@ export default function UserWrittenCommentListPage() {
     };
     scrollToTop();
   }, []);
+
 
   return (
     <div className={styles.pageCon}>

@@ -1,4 +1,6 @@
+
 import { SortQueryType } from "../type";
+
 import { BASE_API_URL } from "./const";
 import { BASE_API_AUTH_URL } from "./const";
 
@@ -70,6 +72,7 @@ export async function deleteWithDrawalUser(accessToken: string) {
   });
 }
 
+
 export async function getMyLikesComments(
   accessToken: string,
   query?: SortQueryType
@@ -84,6 +87,7 @@ export async function getMyLikesComments(
       }
     );
   }
+
   return fetch(`${BASE_API_URL}/users/mypage/likes/comments/`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,

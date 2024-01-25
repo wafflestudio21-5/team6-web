@@ -4,12 +4,14 @@ import { Carousel } from "./Carousel";
 import profileDefault from "../assets/user_default.jpg";
 import StarRating from "./StarRating";
 import CommentCard from "./CommentCard";
+
 import {
   CommentsResType,
   CommentType,
   MovieType,
   MyStateResType,
 } from "../type";
+
 import { MyStateType } from "../type";
 import { Link } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
@@ -55,19 +57,24 @@ function ContentPanel({
 }: {
   content: MovieType;
   setContent: (content: MovieType) => void;
+
   refetch: () => void;
+
 }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
   >(null);
 
   const { accessToken } = useAuthContext();
+
   const [myState, setMyState] = useState<MyStateResType | null>(
     content.my_state ?? null
+
   );
   const setMyStateHandler = (targetState: MyStateType) => {
     if (!accessToken) return;
     if (content.my_state === null && targetState !== null)
+
       return postCreateWatchingState(content.movieCD, accessToken, targetState)
         .then(defaultResponseHandler)
         .then((myState) => {
@@ -86,6 +93,18 @@ function ContentPanel({
     );
   };
 
+
+    return putUpdateWatchingState(
+      content.movieCD,
+      accessToken,
+      targetState
+    ).then((res) => {
+      if (!res.ok) {
+        throw new Error("잘못된 요청입니다");
+      }
+      setMyState(targetState);
+    });
+  };
   return (
     <section className={styles.panelBackground}>
       <div className={styles.panelCon}>
@@ -115,7 +134,9 @@ function ContentPanel({
             <ul className={styles.reviewMenuCon}>
               <li
                 onClick={() => {
+
                   myState?.user_state === "want_to_watch"
+
                     ? setMyStateHandler(null)
                     : setMyStateHandler("want_to_watch");
                 }}
@@ -125,9 +146,11 @@ function ContentPanel({
                     aria-hidden="true"
                     viewBox="0 0 24 24"
                     className={
+
                       myState?.user_state === "want_to_watch"
                         ? styles.checked
                         : ""
+
                     }
                   >
                     <path d="M20.5 13.093h-7.357V20.5h-2.286v-7.407H3.5v-2.286h7.357V3.5h2.286v7.307H20.5v2.286Z"></path>
@@ -151,7 +174,9 @@ function ContentPanel({
               </li>
               <li
                 onClick={() => {
+
                   myState?.user_state === "watching"
+
                     ? setMyStateHandler(null)
                     : setMyStateHandler("watching");
                 }}
@@ -160,9 +185,11 @@ function ContentPanel({
                   <svg
                     aria-hidden="true"
                     viewBox="0 0 24 24"
+
                     className={
                       myState?.user_state === "watching" ? styles.checked : ""
                     }
+
                   >
                     <path d="M12 5C7 5 2.73 8.11 1 12.5 2.73 16.89 7 20 12 20s9.27-3.11 11-7.5C21.27 8.11 17 5 12 5Zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3Z"></path>
                   </svg>
