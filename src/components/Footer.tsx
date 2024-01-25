@@ -19,7 +19,7 @@ export default function Footer() {
               <a href="https://wafflestudio.com/">동아리 소개</a>
             </div>
             <ul className={styles.teamInfo}>
-              팀 와플피디아 ㅣ 오수현, 박민철, 정우진, 강우진, 백창원, 이규원,
+              팀 와플피디아 ㅣ 오수현, 박민철, 정우진, 강우진, 백창인, 이규원,
               이다은 ㅣ 서울특별시 관악구 관악로 1
             </ul>
           </div>
