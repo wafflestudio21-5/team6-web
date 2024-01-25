@@ -78,7 +78,7 @@ export async function getMyLikesComments(accessToken: string) {
 }
 export async function getNextMyLikesComments(
   accessToken: string,
-  nextUrl: string
+  nextUrl: string,
 ) {
   return fetch(nextUrl, {
     headers: {

@@ -19,7 +19,7 @@ export default function UserCard({
   const myId = myUserData?.id;
   const isMyUserCard = follower.id === myId;
   const buttonClickHandler = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     if (!accessToken) return;

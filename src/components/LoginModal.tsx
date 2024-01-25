@@ -42,7 +42,7 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
             setAuthErrorMessage("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
           } else {
             setAuthErrorMessage(
-              "알 수 없는 오류가 발생했습니다. 다시 시도해 주세요"
+              "알 수 없는 오류가 발생했습니다. 다시 시도해 주세요",
             );
           }
         })
@@ -192,7 +192,7 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
                   window.open(
                     "/auth/toKakao",
                     "_blank",
-                    "width=350,height=600"
+                    "width=350,height=600",
                   );
                 }}
               >

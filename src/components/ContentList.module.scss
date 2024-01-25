@@ -88,6 +88,9 @@
                 letter-spacing: -0.3px;
                 line-height: 22px;
                 margin-bottom: 3px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
               }
 
               .movieYearCountry {

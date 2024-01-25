@@ -56,7 +56,7 @@ function ContentPanel({
 
   const { accessToken } = useAuthContext();
   const [myState, setMyState] = useState<MyStateType | null>(
-    content.my_state ? content.my_state.my_state : null
+    content.my_state ? content.my_state.my_state : null,
   );
   const setMyStateHandler = (targetState: MyStateType) => {
     if (!accessToken) return;
@@ -64,7 +64,7 @@ function ContentPanel({
       return postCreateWatchingState(
         content.movieCD,
         accessToken,
-        targetState
+        targetState,
       ).then((res) => {
         if (!res.ok) {
           throw new Error("잘못된 요청입니다");
@@ -75,7 +75,7 @@ function ContentPanel({
     return putUpdateWatchingState(
       content.movieCD,
       accessToken,
-      targetState
+      targetState,
     ).then((res) => {
       if (!res.ok) {
         throw new Error("잘못된 요청입니다");

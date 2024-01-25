@@ -27,7 +27,7 @@ export default function User() {
   const loading = pageUserloading || isMyFollowingLoading;
 
   const followButtonClickHandler = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     if (!pageUser) return;
