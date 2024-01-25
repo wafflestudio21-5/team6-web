@@ -6,7 +6,8 @@ import { useEffect } from "react";
 import { getUserWrittenComments } from "../../apis/user";
 import { useState } from "react";
 import { defaultResponseHandler } from "../../apis/custom";
-import { CommentType } from "../../type";
+import { CommentType, SortQueryType } from "../../type";
+import SortMoadal from "../../components/SortModal";
 
 export default function UserWrittenCommentListPage() {
   const navigate = useNavigate();
@@ -14,12 +15,15 @@ export default function UserWrittenCommentListPage() {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
+  const [sortQuery, setSortQuery] = useState<SortQueryType>("like");
+  const [currentModal, setCurrenModal] = useState<null | "sort">(null);
 
   useEffect(() => {
     userId &&
       getUserWrittenComments(parseInt(userId))
         .then(defaultResponseHandler)
         .then((data) => {
+          console.log("success!!!!", data);
           const commentsResponse = data;
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);
@@ -28,7 +32,7 @@ export default function UserWrittenCommentListPage() {
         .finally(() => {
           setLoading(false);
         });
-  }, []);
+  }, [sortQuery]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +60,15 @@ export default function UserWrittenCommentListPage() {
   return (
     <div className={styles.pageCon}>
       <header>
+        {currentModal === "sort" && (
+          <SortMoadal
+            sortQuery={sortQuery}
+            setSortQuery={setSortQuery}
+            onCloseModal={() => {
+              setCurrenModal(null);
+            }}
+          />
+        )}
         <div className={styles.headerTitleBox}>
           <button
             onClick={() => {
@@ -65,7 +78,11 @@ export default function UserWrittenCommentListPage() {
           <h2>코멘트</h2>
         </div>
         <nav>
-          <button>
+          <button
+            onClick={() => {
+              setCurrenModal("sort");
+            }}
+          >
             <div className={styles.bottomArrow} />
             좋아요 순
           </button>

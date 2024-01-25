@@ -37,9 +37,9 @@ export async function postUnFollow(accessToken: string, userId: number) {
 
 export async function getUserWrittenComments(
   userId: number,
-  query?: "like" | "created" | "high-rating" | "low-rating",
+  query?: "like" | "created" | "high-rating" | "low-rating"
 ) {
-  if (query === undefined) {
+  if (!query) {
     return fetch(`${BASE_API_URL}/users/${userId}/comments/`);
   }
 
@@ -86,11 +86,11 @@ export async function postCreateWatchingState(
 }
 
 export async function putUpdateWatchingState(
-  movieCD: string,
+  state_id: number,
   accessToken: string,
   user_state: "watching" | "want_to_watch" | "not_interested" | null
 ) {
-  return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
+  return fetch(`${BASE_API_URL}/contents/states/${state_id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -101,12 +101,3 @@ export async function putUpdateWatchingState(
     }),
   });
 }
-
-/*
-credentials: "include",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-
-
-*/

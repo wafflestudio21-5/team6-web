@@ -66,7 +66,7 @@ export default function UserCard({
                 }
                 onClick={buttonClickHandler}
               >
-                {isFollowing ? "팔로워" : "팔로잉"}
+                {isFollowing ? "팔로잉" : "팔로우"}
               </button>
             )}
           </div>

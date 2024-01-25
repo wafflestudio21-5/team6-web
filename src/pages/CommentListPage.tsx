@@ -5,24 +5,28 @@ import { CommentType } from "../type";
 import { useParams } from "react-router-dom";
 import { getCommentListRequest } from "../apis/comment";
 import { defaultResponseHandler } from "../apis/custom";
-// import { convertKeysToCamelCase } from "../utils/snackToCamel";
+import { SortQueryType } from "../type";
+import SortMoadal from "../components/SortModal";
 
 export default function CommentListPage() {
   const { id: movieCD } = useParams();
   const [comments, setComments] = useState<CommentType[]>([]);
   const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
+  const [sortQuery, setSortQuery] = useState<SortQueryType>("like");
+  const [currentModal, setCurrenModal] = useState<null | "sort">(null);
 
   useEffect(() => {
     movieCD &&
-      getCommentListRequest(movieCD)
+      getCommentListRequest(movieCD, sortQuery)
         .then(defaultResponseHandler)
         .then((data) => {
+          console.log("success!!!!", data);
           const commentsResponse = data;
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);
         })
         .catch(() => alert("잘못된 요청입니다"));
-  }, [movieCD]);
+  }, [movieCD, sortQuery]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,13 +51,26 @@ export default function CommentListPage() {
 
   return (
     <div className={styles.pageCon}>
+      {currentModal === "sort" && (
+        <SortMoadal
+          sortQuery={sortQuery}
+          onCloseModal={() => {
+            setCurrenModal(null);
+          }}
+          setSortQuery={setSortQuery}
+        />
+      )}
       <header>
         <div className={styles.headerTitleBox}>
           <button />
           <h2>코멘트</h2>
         </div>
         <nav>
-          <button>
+          <button
+            onClick={() => {
+              setCurrenModal("sort");
+            }}
+          >
             <div className={styles.bottomArrow} />
             좋아요 순
           </button>

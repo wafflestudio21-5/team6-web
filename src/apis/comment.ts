@@ -1,19 +1,20 @@
 import { BASE_API_URL } from "./const";
 
-export async function getCommentListRequest(movieCD: string) {
-  return fetch(`${BASE_API_URL}/contents/${movieCD}/comments`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export async function getCommentListRequest(
+  movieCD: string,
+  sortQuery?: string
+) {
+  if (!sortQuery) return fetch(`${BASE_API_URL}/contents/${movieCD}/comments`);
+  return fetch(
+    `${BASE_API_URL}/contents/${movieCD}/comments/?order=${sortQuery}`
+  );
 }
 
 export async function createCommentRequest(
   movieCD: string,
   accessToken: string,
   content: string,
-  has_spoiler: boolean,
+  has_spoiler: boolean
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/comments/`, {
     method: "POST",
@@ -46,7 +47,7 @@ export async function updateCommentRequest(
   commentId: number,
   accessToken: string,
   content: string,
-  hasSpoiler: boolean,
+  hasSpoiler: boolean
 ) {
   return fetch(`${BASE_API_URL}/comments/${commentId}`, {
     method: "PUT",

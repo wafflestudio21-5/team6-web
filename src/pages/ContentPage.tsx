@@ -13,7 +13,6 @@ export default function ContentPage() {
   const [content, setContent] = useState<MovieType | null>(null);
   const { accessToken } = useAuthContext();
   useEffect(() => {
-    console.log("accesstoken", accessToken);
     id &&
       getContentRequest(id, accessToken ? accessToken : undefined)
         .then(defaultResponseHandler)
@@ -21,7 +20,9 @@ export default function ContentPage() {
           console.log(content);
           setContent(content);
         })
-        .catch(() => alert("잘못된 영화CD입니다"));
+        .catch(() => {
+          alert("잘못된 요청입니다");
+        });
   }, [id]);
 
   return (

@@ -7,6 +7,8 @@ import { defaultResponseHandler } from "../../apis/custom";
 import { CommentType } from "../../type";
 import { getMyLikesComments } from "../../apis/auth";
 import { useAuthContext } from "../../contexts/authContext";
+import { SortQueryType } from "../../type";
+import SortMoadal from "../../components/SortModal";
 
 export default function UserLikesCommentListPage() {
   const navigate = useNavigate();
@@ -16,14 +18,17 @@ export default function UserLikesCommentListPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
 
+  const [sortQuery, setSortQuery] = useState<SortQueryType>("like");
+  const [currentModal, setCurrenModal] = useState<null | "sort">(null);
+
   useEffect(() => {
     if (!accessToken) return;
     if (!userId) return;
-
-    getMyLikesComments(accessToken)
+    setLoading(true);
+    getMyLikesComments(accessToken, sortQuery)
       .then(defaultResponseHandler)
       .then((data) => {
-        console.log("user likes comment list page : ", data);
+        console.log("success!!!!", data);
         const commentsResponse = data;
         setComments(commentsResponse.results);
         setNextCommentsUrl(commentsResponse.next);
@@ -32,7 +37,7 @@ export default function UserLikesCommentListPage() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [sortQuery]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,6 +64,15 @@ export default function UserLikesCommentListPage() {
 
   return (
     <div className={styles.pageCon}>
+      {currentModal && (
+        <SortMoadal
+          sortQuery={sortQuery}
+          setSortQuery={setSortQuery}
+          onCloseModal={() => {
+            setCurrenModal(null);
+          }}
+        />
+      )}
       <header>
         <div className={styles.headerTitleBox}>
           <button
@@ -69,7 +83,11 @@ export default function UserLikesCommentListPage() {
           <h2>내가 좋아요 한 코멘트</h2>
         </div>
         <nav>
-          <button>
+          <button
+            onClick={() => {
+              setCurrenModal("sort");
+            }}
+          >
             <div className={styles.bottomArrow} />
             좋아요 순
           </button>
