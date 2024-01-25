@@ -8,10 +8,6 @@ import { CommentType } from "../../type";
 import { getMyLikesComments } from "../../apis/auth";
 import { useAuthContext } from "../../contexts/authContext";
 
-import { SortQueryType } from "../../type";
-import SortMoadal from "../../components/SortModal";
-
-
 export default function UserLikesCommentListPage() {
   const navigate = useNavigate();
   const { id: userId } = useParams();
@@ -20,15 +16,11 @@ export default function UserLikesCommentListPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
 
-
-  const [sortQuery, setSortQuery] = useState<SortQueryType>("like");
-  const [currentModal, setCurrenModal] = useState<null | "sort">(null);
-
   useEffect(() => {
     if (!accessToken) return;
     if (!userId) return;
     setLoading(true);
-    getMyLikesComments(accessToken, sortQuery)
+    getMyLikesComments(accessToken)
       .then(defaultResponseHandler)
       .then((data) => {
         console.log("success!!!!", data);
@@ -40,7 +32,7 @@ export default function UserLikesCommentListPage() {
       .finally(() => {
         setLoading(false);
       });
-  }, [sortQuery]);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,7 +56,6 @@ export default function UserLikesCommentListPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [comments]);
-
 
   useEffect(() => {
     if (!accessToken) return;
@@ -109,15 +100,6 @@ export default function UserLikesCommentListPage() {
 
   return (
     <div className={styles.pageCon}>
-      {currentModal && (
-        <SortMoadal
-          sortQuery={sortQuery}
-          setSortQuery={setSortQuery}
-          onCloseModal={() => {
-            setCurrenModal(null);
-          }}
-        />
-      )}
       <header>
         <div className={styles.headerTitleBox}>
           <button
@@ -127,19 +109,6 @@ export default function UserLikesCommentListPage() {
           />
           <h2>내가 좋아요 한 코멘트</h2>
         </div>
-        <nav>
-          <button
-            onClick={() => {
-              setCurrenModal("sort");
-            }}
-          >
-            <div className={styles.bottomArrow} />
-            {sortQuery === "like" && "좋아요 순"}
-            {sortQuery === "created" && "최신 순"}
-            {sortQuery === "high-rating" && "높은 별점 순"}
-            {sortQuery === "low-rating" && "낮은 별점 순"}
-          </button>
-        </nav>
       </header>
       <main className={styles.commentListCon}>
         <ul>
