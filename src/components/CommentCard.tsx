@@ -4,9 +4,11 @@ import styles from "./CommentCard.module.scss";
 import profileDefault from "../assets/user_default.jpg";
 import { Link, useNavigate } from "react-router-dom";
 
+
 export default function CommentCard({ comment }: { comment: CommentType }) {
   // user 하위 페이지에서 코멘트를 불러오는 경우, movie의 정보를 이용해야 한다.
-  const naviagete = useNavigate();
+
+
   return (
     <li className={styles.cardCon}>
       <div className={styles.commentHead}>
@@ -28,14 +30,9 @@ export default function CommentCard({ comment }: { comment: CommentType }) {
         )}
       </div>
       <div className={styles.commentContentContainer}>
-        <div
-          className={styles.commentTextBox}
-          onClick={() => {
-            naviagete(`/comments/${comment.id}`);
-          }}
-        >
-          <div className={styles.commentText}>{comment.content}</div>
-        </div>
+
+        <CommentContentBox comment={comment} />
+
       </div>
 
       <div className={styles.commentFeedbackCon}>
@@ -51,5 +48,57 @@ export default function CommentCard({ comment }: { comment: CommentType }) {
         {comment.reply_count}
       </div>
     </li>
+  );
+}
+
+function CommentContentBox({ comment }: { comment: CommentType }) {
+  const navigate = useNavigate();
+  const onHiddenMoviedata = window.location.pathname.includes("contents");
+
+  return (
+    <>
+      {!onHiddenMoviedata && (
+        <div className={styles.posterBox}>
+          <img
+            src={comment.movie.poster}
+            alt={comment.movie.title_ko}
+            onClick={() => {
+              navigate(`/contents/${comment.movie.movieCD}`);
+            }}
+          />
+        </div>
+      )}
+      <div className={styles.commentTextBox}>
+        <div className={styles.commentText}>
+          {!onHiddenMoviedata && (
+            <p
+              className={styles.movieTitle}
+              onClick={() => {
+                navigate(`/contents/${comment.movie.movieCD}`);
+              }}
+            >
+              {comment.movie.title_ko}{" "}
+            </p>
+          )}
+          {!onHiddenMoviedata && (
+            <p
+              className={styles.movieYear}
+              onClick={() => {
+                navigate(`/contents/${comment.movie.movieCD}`);
+              }}
+            >
+              영화 · {new Date(comment.movie.release_date).getFullYear()}
+            </p>
+          )}
+          <span
+            onClick={() => {
+              navigate(`/comments/${comment.id}`);
+            }}
+          >
+            {comment.content}
+          </span>
+        </div>
+      </div>
+    </>
   );
 }

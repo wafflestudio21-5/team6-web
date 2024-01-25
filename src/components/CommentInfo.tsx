@@ -1,12 +1,14 @@
 import { Link, useParams } from "react-router-dom";
 import userImage from "../assets/user_default.jpg";
 import styles from "./CommentInfo.module.scss";
-import { MovieType } from "../type";
+
+
 import ReplyList from "./ReplyList";
 import elapsedTime from "../utils/elapsedTime";
 import { CommentType } from "../type";
 import { useEffect, useState } from "react";
-import { getContentRequest } from "../apis/content";
+
+
 import { defaultResponseHandler } from "../apis/custom";
 import { ReplyType } from "../type";
 import CommentPageWriteModal from "./CommentPageWriteModal";
@@ -17,52 +19,36 @@ import DeleteComReplyModal from "./DeleteComReplyModal";
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-function CommentHeader({
-  nickname,
-  movie,
-  rating,
-  date,
-  userId,
-}: {
-  nickname: string;
-  movie: string;
-  rating: number | undefined;
-  date: Date;
-  userId: number;
-}) {
-  const [movieData, setMovieData] = useState<MovieType | null>(null);
-  useEffect(() => {
-    getContentRequest(movie)
-      .then(defaultResponseHandler)
-      .then((data) => {
-        console.log("movie!", data);
-        setMovieData(data);
-      })
-      .catch(() => {});
-  }, []);
+
+function CommentHeader({ comment }: { comment: CommentType }) {
+  const { movie, rating, created_by, created_at } = comment;
+  console.log("target:", comment.movie);
+
   return (
     <div className={styles.commentHeader}>
       <div className={styles.commentUser}>
         <Link
           className={styles.userLink}
-          to={`/users/${userId}`}
-          title={nickname}
+
+          to={`/users/${created_by.id}`}
+          title={created_by.nickname}
         >
           <div className={styles.userImage}>
-            <img src={userImage} alt={nickname + "의 사진"} />
+            <img src={userImage} alt={created_by.nickname + "의 사진"} />
           </div>
           <div className={styles.userDate}>
-            <div className={styles.userName}>{nickname}</div>
-            <div className={styles.date}>{elapsedTime(date)}</div>
+            <div className={styles.userName}>{created_by.nickname}</div>
+            <div className={styles.date}>
+              {elapsedTime(new Date(created_at))}
+            </div>
           </div>
         </Link>
-        {movieData && (
-          <Link to={`/contents/${movieData.movieCD}`}>
-            <div className={styles.movieName}>
-              {movieData.title_ko || movieData.title_original}
-            </div>
+        {movie && (
+          <Link to={`/contents/${movie.movieCD}`}>
+            <div className={styles.movieName}>{movie.title_ko}</div>
             <div className={styles.releaseYear}>
-              영화 · {new Date(movieData.release_date).getFullYear()}
+              영화 · {new Date(movie.release_date).getFullYear()}
+
             </div>
           </Link>
         )}
@@ -75,19 +61,20 @@ function CommentHeader({
                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGZpbGw9IiM0QTRBNEEiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEyIDE3Ljk4bC02LjAxNSA0LjM5MmMtLjUwOC4zNzItMS4xOTQtLjEyNi0uOTk4LS43MjVsMi4zMTctNy4wODEtNi4wMzUtNC4zNjdjLS41MS0uMzY5LS4yNDctMS4xNzUuMzgyLTEuMTc0bDcuNDQ3LjAxNiAyLjI4Ni03LjA5MWMuMTkyLS42IDEuMDQtLjYgMS4yMzMgMGwyLjI4NiA3LjA5IDcuNDQ3LS4wMTVjLjYyOS0uMDAxLjg5LjgwNS4zOCAxLjE3NGwtNi4wMzMgNC4zNjcgMi4zMTYgNy4wOGMuMTk2LjYtLjQ5IDEuMDk4LS45OTkuNzI2TDEyIDE3Ljk4eiIvPgo8L3N2Zz4K"
                 alt="star"
               />
-              <span className={styles.ratingText}>{rating.toFixed(1)}</span>
+
+              <span className={styles.ratingText}>
+                {rating.rate.toFixed(1)}
+              </span>
             </div>
           </div>
         )}
       </div>
-      {movieData && (
-        <Link to={`/contents/${movieData.movieCD}`} title={movieData.title_ko}>
+      {movie && (
+        <Link to={`/contents/${movie.movieCD}`} title={movie.title_ko}>
           <div className={styles.poster}>
-            <img
-              src={movieData.poster}
-              alt={movieData.title_ko + "의 포스터"}
-            />
+            <img src={movie.poster} alt={movie.title_ko + "의 포스터"} />
           </div>
+
         </Link>
       )}
     </div>
@@ -284,6 +271,9 @@ export default function CommentInfo({
   const { accessToken } = useAuthContext();
   const [nextRepliesUrl, setNextRepliesUrl] = useState<string | null>(null); // 업로드한 댓글 ui에 반영하기 위해서는 commentInfo에 다음 state들이 있어야 함.
   console.log("replies :", replies);
+
+  console.log(comment.movie);
+
   useEffect(() => {
     if (!commentId) return;
 
@@ -338,13 +328,9 @@ export default function CommentInfo({
             deleteReplyState={deleteReplyState}
           />
         )}
-      <CommentHeader
-        nickname={comment.created_by.nickname}
-        movie={comment.movie}
-        rating={comment.rating?.rate}
-        date={new Date(comment.created_at)}
-        userId={comment.created_by.id}
-      />
+
+      <CommentHeader comment={comment} />
+
 
       <CommentBody comment={comment} />
       <CommentLikeReply
