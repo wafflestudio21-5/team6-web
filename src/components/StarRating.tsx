@@ -62,7 +62,6 @@ export default function StarRating({
   movieCD,
   refetch,
 }: StarRatingProps) {
-  console.log("my_Rate :", my_rate);
   const savedRating = my_rate ? my_rate.my_rate : 0;
   const [selectedRating, setSelectedRating] = useState(savedRating);
   const { isLogined, accessToken } = useAuthContext();
@@ -74,15 +73,9 @@ export default function StarRating({
     setSelectedRating(savedRating);
   };
   const onClickStarHandler = (rating: number) => {
-    console.log("my_rate", my_rate);
-    console.log("clicked rating: ", rating);
-
     if (!isLogined) {
       // loginModal;
     } else {
-      console.log("clicked rating: ", rating);
-      console.log("accessToken", accessToken);
-
       if (!my_rate)
         return createRatingRequest(movieCD, rating, accessToken ?? "").then(
           () => {
@@ -98,7 +91,6 @@ export default function StarRating({
           refetch();
         }
       );
-
     }
   };
 

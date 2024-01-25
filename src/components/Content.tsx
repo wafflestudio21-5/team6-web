@@ -75,7 +75,6 @@ function ContentPanel({
       return postCreateWatchingState(content.movieCD, accessToken, targetState)
         .then(defaultResponseHandler)
         .then((myState) => {
-          console.log(myState);
           setMyState(myState);
         });
 
@@ -84,7 +83,6 @@ function ContentPanel({
       putUpdateWatchingState(content.my_state.id, accessToken, targetState)
         .then(defaultResponseHandler)
         .then((myState) => {
-          console.log(myState);
           setMyState(myState);
         })
     );
@@ -254,7 +252,7 @@ function ContentComments({ content }: { content: MovieType }) {
         setCommentsLength(comments.length);
         const repComment =
           comments.length <= 4 ? comments : comments.slice(0, 4);
-        console.log(repComment);
+
         setComments(repComment);
       })
       .catch(() => alert("잘못된 요청입니다"));
@@ -276,7 +274,6 @@ function ContentComments({ content }: { content: MovieType }) {
       <div className={styles.commentGridCon}>
         <ul className={styles.commentsGrid}>
           {comments.map((comment) => {
-            console.log(comment);
             return <CommentCard key={comment.id} comment={comment} />;
           })}
         </ul>

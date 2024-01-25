@@ -2,12 +2,10 @@ import { Link, useParams } from "react-router-dom";
 import userImage from "../assets/user_default.jpg";
 import styles from "./CommentInfo.module.scss";
 
-
 import ReplyList from "./ReplyList";
 import elapsedTime from "../utils/elapsedTime";
 import { CommentType } from "../type";
 import { useEffect, useState } from "react";
-
 
 import { defaultResponseHandler } from "../apis/custom";
 import { ReplyType } from "../type";
@@ -19,17 +17,14 @@ import DeleteComReplyModal from "./DeleteComReplyModal";
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-
 function CommentHeader({ comment }: { comment: CommentType }) {
   const { movie, rating, created_by, created_at } = comment;
-  console.log("target:", comment.movie);
 
   return (
     <div className={styles.commentHeader}>
       <div className={styles.commentUser}>
         <Link
           className={styles.userLink}
-
           to={`/users/${created_by.id}`}
           title={created_by.nickname}
         >
@@ -48,7 +43,6 @@ function CommentHeader({ comment }: { comment: CommentType }) {
             <div className={styles.movieName}>{movie.title_ko}</div>
             <div className={styles.releaseYear}>
               영화 · {new Date(movie.release_date).getFullYear()}
-
             </div>
           </Link>
         )}
@@ -74,7 +68,6 @@ function CommentHeader({ comment }: { comment: CommentType }) {
           <div className={styles.poster}>
             <img src={movie.poster} alt={movie.title_ko + "의 포스터"} />
           </div>
-
         </Link>
       )}
     </div>
@@ -270,9 +263,6 @@ export default function CommentInfo({
   const [replies, setReplies] = useState<ReplyType[]>([]);
   const { accessToken } = useAuthContext();
   const [nextRepliesUrl, setNextRepliesUrl] = useState<string | null>(null); // 업로드한 댓글 ui에 반영하기 위해서는 commentInfo에 다음 state들이 있어야 함.
-  console.log("replies :", replies);
-
-  console.log(comment.movie);
 
   useEffect(() => {
     if (!commentId) return;
@@ -280,7 +270,6 @@ export default function CommentInfo({
     getCommentReplies(parseInt(commentId), accessToken ?? undefined)
       .then(defaultResponseHandler)
       .then((data) => {
-        console.log("success replies !!!!:", data);
         const repliesResponse = data;
         setReplies(repliesResponse.results);
         setNextRepliesUrl(repliesResponse.next);
@@ -330,7 +319,6 @@ export default function CommentInfo({
         )}
 
       <CommentHeader comment={comment} />
-
 
       <CommentBody comment={comment} />
       <CommentLikeReply

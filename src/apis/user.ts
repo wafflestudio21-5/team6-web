@@ -57,8 +57,6 @@ export async function getUserRatingMovies(
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
 
-  console.log(`${BASE_API_URL}/users/${userId}/ratings?${result}`);
-
   return fetch(`${BASE_API_URL}/users/${userId}/ratings?${result}`);
 }
 export async function getUserWatchings(userId: number) {
@@ -75,7 +73,6 @@ export async function postCreateWatchingState(
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
     method: "POST",
-
 
     headers: {
       "Content-Type": "application/json",

@@ -20,9 +20,6 @@ export default function CommentListPage() {
       getCommentListRequest(movieCD, sortQuery)
         .then(defaultResponseHandler)
         .then((data) => {
-
-          console.log("success!!!!", data);
-
           const commentsResponse = data;
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);
@@ -39,7 +36,6 @@ export default function CommentListPage() {
           fetch(nextCommentsUrl)
             .then(defaultResponseHandler)
             .then((data) => {
-              console.log("scroll success  :", data);
               const commentsResponse = data;
               setComments(comments.concat(commentsResponse.results));
               setNextCommentsUrl(commentsResponse.next);

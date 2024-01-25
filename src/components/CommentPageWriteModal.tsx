@@ -119,7 +119,6 @@ export default function CommentPageWriteModal({
                       )
                         .then(defaultResponseHandler)
                         .then((data: ReplyType) => {
-                          console.log("댓글 작성 성공", data);
                           addReply(data);
                           setCurrentModal(null);
                         })
@@ -134,7 +133,6 @@ export default function CommentPageWriteModal({
                       )
                         .then(defaultResponseHandler)
                         .then((data: ReplyType) => {
-                          console.log("댓글 수정 성공", data);
                           updateReply(data);
                           setCurrentModal(null);
                         })

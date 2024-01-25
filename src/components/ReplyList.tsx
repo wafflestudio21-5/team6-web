@@ -185,12 +185,10 @@ export default function ReplyList({
               comment.reply_count === replies.length ? "hidden" : "visible",
           }}
           onClick={() => {
-            console.log("nextRepliesUrl :", nextRepliesUrl);
             nextRepliesUrl &&
               replies &&
               getNextCommentReplies(nextRepliesUrl, accessToken ?? undefined)
                 .then((res) => {
-                  console.log("res :", res);
                   return res.json();
                 })
                 .then((data) => {

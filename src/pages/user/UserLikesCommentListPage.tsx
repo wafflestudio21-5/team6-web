@@ -23,7 +23,6 @@ export default function UserLikesCommentListPage() {
     getMyLikesComments(accessToken)
       .then(defaultResponseHandler)
       .then((data) => {
-        console.log("success!!!!", data);
         const commentsResponse = data;
         setComments(commentsResponse.results);
         setNextCommentsUrl(commentsResponse.next);
@@ -44,7 +43,6 @@ export default function UserLikesCommentListPage() {
           fetch(nextCommentsUrl)
             .then(defaultResponseHandler)
             .then((data) => {
-              console.log("scroll success  :", data);
               const commentsResponse = data;
               setComments(comments.concat(commentsResponse.results));
               setNextCommentsUrl(commentsResponse.next);
@@ -64,7 +62,6 @@ export default function UserLikesCommentListPage() {
     getMyLikesComments(accessToken)
       .then(defaultResponseHandler)
       .then((data) => {
-        console.log("user likes comment list page : ", data);
         const commentsResponse = data;
         setComments(commentsResponse.results);
         setNextCommentsUrl(commentsResponse.next);
@@ -85,7 +82,6 @@ export default function UserLikesCommentListPage() {
           fetch(nextCommentsUrl)
             .then(defaultResponseHandler)
             .then((data) => {
-              console.log("scroll success  :", data);
               const commentsResponse = data;
               setComments(comments.concat(commentsResponse.results));
               setNextCommentsUrl(commentsResponse.next);

@@ -50,7 +50,7 @@ export default function WritingModal(props: WritingModalProps) {
             action=""
             onSubmit={(e) => {
               e.preventDefault();
-              console.log(movieCD, accessToken, commentInput, !hasSpoiler);
+
               currentModal === "createComment" &&
                 accessToken &&
                 createCommentRequest(
@@ -61,8 +61,6 @@ export default function WritingModal(props: WritingModalProps) {
                 )
                   .then(defaultResponseHandler)
                   .then((data: CommentType) => {
-                    console.log("data : ", data);
-                    console.log("content : ", data.content);
                     setContent({
                       ...content,
                       my_comment: data,
@@ -80,8 +78,6 @@ export default function WritingModal(props: WritingModalProps) {
                 )
                   .then(defaultResponseHandler)
                   .then((data: CommentType) => {
-                    console.log("data : ", data);
-                    console.log("content : ", data.content);
                     setContent({
                       ...content,
                       my_comment: data,
