@@ -20,7 +20,7 @@ export default function UserWrittenCommentListPage() {
 
   useEffect(() => {
     userId &&
-      getUserWrittenComments(parseInt(userId))
+      getUserWrittenComments(parseInt(userId), sortQuery)
         .then(defaultResponseHandler)
         .then((data) => {
           console.log("success!!!!", data);
@@ -57,18 +57,28 @@ export default function UserWrittenCommentListPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [comments]);
 
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+      });
+    };
+    scrollToTop();
+  }, []);
+
   return (
     <div className={styles.pageCon}>
+      {currentModal === "sort" && (
+        <SortMoadal
+          sortQuery={sortQuery}
+          setSortQuery={setSortQuery}
+          onCloseModal={() => {
+            setCurrenModal(null);
+          }}
+        />
+      )}
+
       <header>
-        {currentModal === "sort" && (
-          <SortMoadal
-            sortQuery={sortQuery}
-            setSortQuery={setSortQuery}
-            onCloseModal={() => {
-              setCurrenModal(null);
-            }}
-          />
-        )}
         <div className={styles.headerTitleBox}>
           <button
             onClick={() => {
@@ -84,7 +94,10 @@ export default function UserWrittenCommentListPage() {
             }}
           >
             <div className={styles.bottomArrow} />
-            좋아요 순
+            {sortQuery === "like" && "좋아요 순"}
+            {sortQuery === "created" && "최신 순"}
+            {sortQuery === "high-rating" && "높은 별점 순"}
+            {sortQuery === "low-rating" && "낮은 별점 순"}
           </button>
         </nav>
       </header>

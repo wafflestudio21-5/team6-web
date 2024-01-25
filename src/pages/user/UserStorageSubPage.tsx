@@ -59,7 +59,9 @@ export default function UserStorageSubPage() {
             }}
           />
         </div>
-        <div className={styles.titleContainer}>{pageTitle}</div>
+        <div className={styles.titleContainer}>
+          {pageTitle} <span>{movies?.length}</span>
+        </div>
       </div>
       <div className={styles.wishesPage}>
         <section className={styles.movieListSection}>

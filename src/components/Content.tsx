@@ -51,9 +51,11 @@ function ContentHeader({ content }: { content: MovieType }) {
 function ContentPanel({
   content,
   setContent,
+  refetch,
 }: {
   content: MovieType;
   setContent: (content: MovieType) => void;
+  refetch: () => void;
 }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
@@ -96,6 +98,7 @@ function ContentPanel({
             <div className={styles.userRatingCon}>
               <div className={styles.starRatingBox}>
                 <StarRating
+                  refetch={refetch}
                   my_rate={content.my_rate}
                   movieCD={content.movieCD}
                 />
@@ -199,12 +202,24 @@ function ContentCast({ content }: { content: MovieType }) {
       <h2>출연/제작</h2>
       <Carousel>
         <ul>
+          {content.directors.map((direct, idx) => (
+            <li key={idx}>
+              <div className={styles.castCard}>
+                <img src={direct.photo ?? profileDefault} />
+                <div
+                  className={`${styles.castDescCon} ${
+                    idx % 3 !== 2 ? styles.borderBottom : ""
+                  }`}
+                >
+                  <h3 className={styles.castName}>{direct.name}</h3>
+                  <p className={styles.castRole}>director</p>
+                </div>
+              </div>
+            </li>
+          ))}
           {content.castings.map((cast, idx) => (
             <li key={idx}>
-              <Link
-                to={`/people/${cast.actor.peopleCD}`}
-                className={styles.castCard}
-              >
+              <div className={styles.castCard}>
                 <img src={cast.actor.photo ?? profileDefault} />
                 <div
                   className={`${styles.castDescCon} ${
@@ -214,7 +229,7 @@ function ContentCast({ content }: { content: MovieType }) {
                   <h3 className={styles.castName}>{cast.actor.name}</h3>
                   <p className={styles.castRole}>{cast.role}</p>
                 </div>
-              </Link>
+              </div>
             </li>
           ))}
         </ul>

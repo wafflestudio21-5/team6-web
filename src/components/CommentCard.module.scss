@@ -48,21 +48,55 @@
       }
     }
   }
-  .commentTextBox {
-    width: 100%;
-    height: 120px;
-    margin: 12px 0 15px 0;
-    cursor: pointer;
-    .commentText {
-      display: block;
-      line-height: 24px;
-      font-size: 14px;
-      font-weight: 400;
-      word-break: break-all;
-      white-space-collapse: preserve;
-      cursor: pointer;
+  .commentContentContainer {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    height: 150px;
+    .posterBox {
+      width: 20%;
+      min-width: 100px;
+
+      img {
+        cursor: pointer;
+        width: 80%;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
+    .commentTextBox {
+      margin-left: auto;
+
+      height: 120px;
+      margin: 12px 0 15px 0;
+
+      .movieTitle {
+        color: rgb(0, 0, 0);
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 19px;
+        margin: 0px 0px 2px;
+      }
+      .movieYear {
+        color: rgb(120, 120, 120);
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 16px;
+        margin: 0px 0px 7px;
+      }
+      .commentText {
+        display: block;
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: 400;
+        word-break: break-all;
+        white-space-collapse: preserve;
+        cursor: pointer;
+      }
     }
   }
+
   .commentFeedbackCon {
     display: flex;
     align-items: center;

@@ -18,18 +18,12 @@ export async function getContentListRequest(
 }
 
 export async function getContentRequest(movieCD: string, accessToken?: string) {
-  const headers: HeadersInit = accessToken
-    ? {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      }
-    : {
-        "Content-Type": "application/json",
-      };
+  if (!accessToken) return fetch(`${BASE_API_URL}/contents/${movieCD}`);
   return fetch(`${BASE_API_URL}/contents/${movieCD}`, {
     method: "GET",
-    headers,
-    //  credentials: "include",
+    headers: {
+      Authorization: "Bearer " + accessToken,
+    },
   });
 }
 
@@ -44,9 +38,8 @@ export async function createRatingRequest(
       "Content-Type": "application/json",
       Authorization: "Bearer " + accessToken,
     },
-    credentials: "include",
     body: JSON.stringify({
-      rate,
+      rate: rate.toFixed(1),
     }),
   });
 }
@@ -64,7 +57,7 @@ export async function updateRatingRequest(
     },
     credentials: "include",
     body: JSON.stringify({
-      rate,
+      rate: rate.toFixed(1),
     }),
   });
 }

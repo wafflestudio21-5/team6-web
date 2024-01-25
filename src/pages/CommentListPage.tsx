@@ -72,7 +72,10 @@ export default function CommentListPage() {
             }}
           >
             <div className={styles.bottomArrow} />
-            좋아요 순
+            {sortQuery === "like" && "좋아요 순"}
+            {sortQuery === "created" && "최신 순"}
+            {sortQuery === "high-rating" && "높은 별점 순"}
+            {sortQuery === "low-rating" && "낮은 별점 순"}
           </button>
         </nav>
       </header>
