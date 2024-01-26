@@ -6,11 +6,13 @@ import { MovieType } from "../type";
 import { deleteCommentRequest } from "../apis/comment";
 
 export default function MyCommentBox({
+  myRate,
   openModal,
   content,
   setContent,
   closeModal,
 }: {
+  myRate: number;
   openModal: (type: "updateComment" | "createComment") => void;
   closeModal: () => void;
   content: MovieType;
@@ -18,6 +20,14 @@ export default function MyCommentBox({
 }) {
   const { isLogined, myUserData, accessToken } = useAuthContext();
   const my_comment = content.my_comment;
+
+  const message =
+    myRate < 2.5
+      ? myRate == 2
+        ? `좋은 평가네요. ${myUserData?.nickname} 님의 생각을 글로 남겨보세요`
+        : `이 작품에 대한 ${myUserData?.nickname} 님의 평가를 글로 남겨보세요`
+      : `대단한 작품이군요! ${myUserData?.nickname} 님의 감동을 글로 남겨보세요`;
+
   return (
     isLogined && (
       <>
@@ -60,22 +70,21 @@ export default function MyCommentBox({
             </div>
           </div>
         ) : (
-          <div className={styles.commentCon}>
-            <div className={styles.commentBox}>
-              <div className={styles.commentText}>
-                대단한 작품이군요! {myUserData?.nickname} 님의 감동을 글로
-                남겨보세요
+          myRate > 0 && (
+            <div className={styles.commentCon}>
+              <div className={styles.commentBox}>
+                <div className={styles.commentText}>{message}</div>
+                <button
+                  className={styles.commentCreateBtn}
+                  onClick={() => {
+                    accessToken && openModal("createComment");
+                  }}
+                >
+                  코멘트 남기기
+                </button>
               </div>
-              <button
-                className={styles.commentCreateBtn}
-                onClick={() => {
-                  accessToken && openModal("createComment");
-                }}
-              >
-                코멘트 남기기
-              </button>
             </div>
-          </div>
+          )
         )}
       </>
     )
