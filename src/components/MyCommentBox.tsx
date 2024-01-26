@@ -55,7 +55,7 @@ export default function MyCommentBox({
                     deleteCommentRequest(my_comment.id, accessToken ?? "")
                       .then(() => {
                         setContent({ ...content, my_comment: null }); // 성공 여부를 보고 반영
-                        alert("코멘트가 삭제되었습니다.");
+                        console.log("코멘트가 삭제되었습니다.");
                         closeModal();
                       })
                       .catch(() => {

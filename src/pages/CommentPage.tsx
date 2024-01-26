@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
 import { CommentType } from "../type";
 import { useAuthContext } from "../contexts/authContext";
+import useChangeTitle from "../hooks/useChangeTitle";
 
 export default function CommentPage() {
   const { id } = useParams();
@@ -13,13 +14,21 @@ export default function CommentPage() {
   const [commentDataLoading, setCommentDataLoading] = useState(true);
   const [refetch, setRefetch] = useState(false);
   const { accessToken } = useAuthContext();
+  const { setTitle } = useChangeTitle();
   const refetchComment = () => setRefetch(!refetch);
+
   useEffect(() => {
     id &&
       getCommentRequest(parseInt(id), accessToken ?? undefined)
         .then(defaultResponseHandler)
         .then((data: CommentType) => {
           setCommentData(data);
+          setTitle(
+            data.created_by.nickname +
+              `님이 "${
+                data.movie.title_ko ?? "영화"
+              }"에 남긴 코멘트 - 와플피디아`
+          );
         })
         .catch(() => {
           alert("잘못된 요청입니다");

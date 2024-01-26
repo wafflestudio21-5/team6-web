@@ -8,8 +8,10 @@ import SearchMovieList, {
 import { defaultResponseHandler } from "../apis/custom";
 import { getSearch } from "../apis/search";
 import SearchUserList, { SearchUserType } from "../components/SearchUserList";
+import useChangeTitle from "../hooks/useChangeTitle";
 
 export default function SearchPage() {
+  const { setTitle } = useChangeTitle();
   const [searchParams, setSearchParams_] = useSearchParams();
   const query = searchParams.get("query");
   const category_ = searchParams.get("category");
@@ -61,6 +63,11 @@ export default function SearchPage() {
   useEffect(() => {
     setMovies([]);
     setUsers([]);
+    setTitle(
+      query
+        ? query + "의 검색결과 - 와플피디아"
+        : "와플피디아 - 영화 평가 서비스"
+    );
     if (!query) return;
     setNextAvailable(false);
     if (category == "movie") {
@@ -74,7 +81,7 @@ export default function SearchPage() {
                 ...movie,
                 poster: movie.poster.replace("http", "https"),
               };
-            }),
+            })
           );
         });
     } else if (category == "users") {

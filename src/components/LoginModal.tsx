@@ -57,7 +57,7 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
       }}
     >
       <div
-        className={styles.modalBox}
+        className={styles.loginModalBox}
         onClick={(e) => {
           e.stopPropagation();
         }}

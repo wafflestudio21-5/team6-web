@@ -8,12 +8,21 @@ export async function getContentListRequest(
   order: string,
   accessToken?: string,
 ) {
-  if (!accessToken) return fetch(`${BASE_API_URL}/contents?order=${order}`);
+  const headers: HeadersInit = accessToken
+    ? {
+        Authorization: "Bearer " + accessToken,
+      }
+    : {};
+
+  if (order === "box-office")
+    return fetch(`${BASE_API_URL}/contentTest/movies/boxoffice/update/`, {
+      method: "GET",
+      headers: headers,
+    });
+
   return fetch(`${BASE_API_URL}/contents?order=${order}`, {
     method: "GET",
-    headers: {
-      Authorization: "Bearer " + accessToken,
-    },
+    headers: headers,
   });
 }
 

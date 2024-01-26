@@ -93,7 +93,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
       onClick={() => setCurrentModal(null)}
     >
       <div
-        className={styles.modalBox}
+        className={styles.signupModalBox}
         onClick={(e) => {
           e.stopPropagation();
         }}

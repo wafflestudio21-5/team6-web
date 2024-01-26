@@ -50,8 +50,7 @@ export default function DeleteComReplyModal({
                     deleteReplyState(currentModalState.targetReply.id);
                     setCurrentModalState(null);
                   })
-                  .catch((e) => {
-                    console.log(e);
+                  .catch(() => {
                     console.log("실패");
                   });
               modalType === "deleteComment" &&
@@ -61,10 +60,9 @@ export default function DeleteComReplyModal({
                 )
                   .then((res) => {
                     if (!res.ok) throw new Error("삭제 실패");
-                    window.document.location.href = `/contents/${currentModalState.targetComment.movie}`;
+                    window.document.location.href = `/contents/${currentModalState.targetComment.movie.movieCD}`;
                   })
-                  .catch((e) => {
-                    console.log(e);
+                  .catch(() => {
                     console.log("실패");
                   });
             }}

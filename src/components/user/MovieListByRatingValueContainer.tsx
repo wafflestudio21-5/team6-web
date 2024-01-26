@@ -57,7 +57,7 @@ function MovieCaroucelBox({ ratingNumber }: { ratingNumber: number }) {
     <>
       <div className={styles.headerByRatingNumber}>
         <h2 className={styles.titleByRatingNumber}>
-          {ratingNumber} 평가함 <span>{movieCount}</span>
+          {ratingNumber.toFixed(1)} 평가함 <span>{movieCount}</span>
         </h2>
         <div className={styles.moreMoviesButtonBox}>
           <Link to={(ratingNumber * 2).toString()}>더보기</Link>

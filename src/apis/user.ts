@@ -100,3 +100,15 @@ export async function putUpdateWatchingState(
     }),
   });
 }
+
+export async function deleteWatchingState(
+  state_id: number,
+  accessToken: string
+) {
+  return fetch(`${BASE_API_URL}/contents/states/${state_id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+}

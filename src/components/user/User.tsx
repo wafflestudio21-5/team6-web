@@ -11,6 +11,7 @@ import { UserDataType } from "../../type";
 import { FollowListType } from "../../type";
 import { getFollowingList } from "../../apis/user";
 import { postAddFollow, postUnFollow } from "../../apis/user";
+import useChangeTitle from "../../hooks/useChangeTitle";
 export default function User() {
   const { setCurrentModal } = useOutletContext<OutletContextType>();
   const { myUserData, accessToken } = useAuthContext();
@@ -25,7 +26,7 @@ export default function User() {
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
   // isLoggedIn : 팔로우 버튼 보여준다(무조건 팔로우) / 좋아요 섹션 보여주지 않는다.
-
+  const { setTitle } = useChangeTitle();
   const [pageUser, setPageUser] = useState<UserDataType | null>(null); // PageUserType은 아래에 정의되어 있습니다.
   const [pageUserloading, setPageUserLoading] = useState(true);
   const [isMyFollowing, setIsMyFollowing] = useState<boolean>(false);
@@ -63,6 +64,11 @@ export default function User() {
       getUserDetail(parseInt(pageUserId))
         .then(defaultResponseHandler)
         .then((data: UserDataType) => {
+          setTitle(
+            data.nickname
+              ? `${data.nickname}님의 프로필 페이지 - 와플피디아`
+              : "와플피디아 - 영화 평가 서비스"
+          );
           setPageUser(data);
         })
         .catch((e) => {
