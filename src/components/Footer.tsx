@@ -10,13 +10,12 @@ export default function Footer() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      return;
       getRatesCount()
         .then(defaultResponseHandler)
         .then((data) => {
-          setRates(data);
+          setRates(data.ratings_count);
         });
-    }, 5000);
+    }, 10000);
     return () => {
       clearInterval(interval);
     };
