@@ -85,8 +85,6 @@ export default function StarRating({
     if (!isLogined) {
       // loginModal;
     } else {
-      console.log("clicked rating: ", rating);
-      console.log("accessToken", accessToken);
       if (myRate) {
         if (rating === savedRating) {
           deleteRatingRequest(myRate.id, accessToken ?? "")
@@ -99,7 +97,6 @@ export default function StarRating({
           updateRatingRequest(myRate.id, rating, accessToken ?? "")
             .then(defaultResponseHandler)
             .then((data) => {
-              console.log(data);
               setMyRate({ ...data, my_rate: data.rate });
               setSelectedRating(data.rate);
             })
@@ -109,7 +106,6 @@ export default function StarRating({
         createRatingRequest(movieCD, rating, accessToken ?? "")
           .then(defaultResponseHandler)
           .then((data) => {
-            console.log(data);
             setMyRate({ ...data, my_rate: data.rate });
             setSelectedRating(data.rate);
           })
