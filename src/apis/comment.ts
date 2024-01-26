@@ -1,22 +1,20 @@
 import { BASE_API_URL } from "./const";
 
-
 export async function getCommentListRequest(
   movieCD: string,
-  sortQuery?: string
+  sortQuery?: string,
 ) {
   if (!sortQuery) return fetch(`${BASE_API_URL}/contents/${movieCD}/comments`);
   return fetch(
-    `${BASE_API_URL}/contents/${movieCD}/comments/?order=${sortQuery}`
+    `${BASE_API_URL}/contents/${movieCD}/comments/?order=${sortQuery}`,
   );
-
 }
 
 export async function createCommentRequest(
   movieCD: string,
   accessToken: string,
   content: string,
-  has_spoiler: boolean
+  has_spoiler: boolean,
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/comments/`, {
     method: "POST",
@@ -34,7 +32,7 @@ export async function createCommentRequest(
 //특정 코멘트 아이디의 코멘트를 알 수 있다.
 export async function getCommentRequest(
   commentId: number,
-  accessToken?: string
+  accessToken?: string,
 ) {
   if (!accessToken) return fetch(`${BASE_API_URL}/comments/${commentId}`);
   return fetch(`${BASE_API_URL}/comments/${commentId}`, {
@@ -49,7 +47,7 @@ export async function updateCommentRequest(
   commentId: number,
   accessToken: string,
   content: string,
-  hasSpoiler: boolean
+  hasSpoiler: boolean,
 ) {
   return fetch(`${BASE_API_URL}/comments/${commentId}`, {
     method: "PUT",
@@ -78,13 +76,12 @@ export async function deleteCommentRequest(id: number, accessToken: string) {
 
 export async function getCommentReplies(
   commentId: number,
-  accessToken?: string
+  accessToken?: string,
 ) {
   if (!accessToken)
     return fetch(`${BASE_API_URL}/comments/${commentId}/replies/`);
 
   return fetch(`${BASE_API_URL}/comments/${commentId}/replies/`, {
-
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -93,11 +90,10 @@ export async function getCommentReplies(
 }
 export async function getNextCommentReplies(
   nextUrl: string,
-  accessToken?: string
+  accessToken?: string,
 ) {
   if (!accessToken) return fetch(nextUrl);
   return fetch(nextUrl, {
-
     method: "GET",
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -105,12 +101,10 @@ export async function getNextCommentReplies(
   });
 }
 
-
-
 export async function postCreateReply(
   commentId: number,
   accessToken: string,
-  content: string
+  content: string,
 ) {
   return fetch(`${BASE_API_URL}/comments/${commentId}/replies/`, {
     method: "POST",
@@ -126,7 +120,7 @@ export async function postCreateReply(
 export async function putUpdateReply(
   reply_id: number,
   accessToken: string,
-  content: string
+  content: string,
 ) {
   return fetch(`${BASE_API_URL}/comments/replies/${reply_id}`, {
     method: "PUT",
@@ -150,7 +144,7 @@ export async function deleteReply(reply_id: number, accessToken: string) {
 
 export async function postToggleReplyLike(
   replyId: number,
-  accessToken: string
+  accessToken: string,
 ) {
   return fetch(`${BASE_API_URL}/comments/replies/${replyId}/like`, {
     method: "POST",
@@ -162,7 +156,7 @@ export async function postToggleReplyLike(
 
 export async function postToggleCommentLike(
   comment_id: number,
-  accessToken: string
+  accessToken: string,
 ) {
   return fetch(`${BASE_API_URL}/comments/${comment_id}/like`, {
     method: "POST",

@@ -4,6 +4,8 @@
   .contentList {
     max-width: $max-screen;
     margin-bottom: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
     position: relative;
 
     @media (min-width: 760px) {
@@ -88,6 +90,9 @@
                 letter-spacing: -0.3px;
                 line-height: 22px;
                 margin-bottom: 3px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
               }
 
               .movieYearCountry {

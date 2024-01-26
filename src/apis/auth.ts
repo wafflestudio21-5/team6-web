@@ -1,4 +1,3 @@
-
 import { SortQueryType } from "../type";
 
 import { BASE_API_URL } from "./const";
@@ -8,7 +7,7 @@ export async function postSignup(
   nickname: string,
   username: string,
   password1: string,
-  password2: string
+  password2: string,
 ) {
   return fetch(`${BASE_API_AUTH_URL}/auth/token/register/`, {
     method: "POST",
@@ -72,10 +71,9 @@ export async function deleteWithDrawalUser(accessToken: string) {
   });
 }
 
-
 export async function getMyLikesComments(
   accessToken: string,
-  query?: SortQueryType
+  query?: SortQueryType,
 ) {
   if (!query) {
     return fetch(
@@ -84,7 +82,7 @@ export async function getMyLikesComments(
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
   }
 
@@ -97,7 +95,7 @@ export async function getMyLikesComments(
 
 export async function getNextMyLikesComments(
   accessToken: string,
-  nextUrl: string
+  nextUrl: string,
 ) {
   return fetch(nextUrl, {
     headers: {

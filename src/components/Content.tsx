@@ -53,21 +53,19 @@ function ContentHeader({ content }: { content: MovieType }) {
 function ContentPanel({
   content,
   setContent,
-  refetch,
 }: {
   content: MovieType;
   setContent: (content: MovieType) => void;
-
-  refetch: () => void;
 }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
   >(null);
 
-  const { accessToken } = useAuthContext();
+  const [myRate, setMyRate] = useState(content.my_rate);
 
+  const { accessToken } = useAuthContext();
   const [myState, setMyState] = useState<MyStateResType | null>(
-    content.my_state ?? null
+    content.my_state ?? null,
   );
   const setMyStateHandler = (targetState: MyStateType) => {
     if (!accessToken) return;
@@ -87,6 +85,19 @@ function ContentPanel({
         })
     );
   };
+  const rateStr = [
+    "평가하기",
+    "최악이에요",
+    "싫어요",
+    "재미없어요",
+    "별로예요",
+    "부족해요",
+    "보통이에요",
+    "볼만해요",
+    "재미있어요",
+    "훌륭해요!",
+    "최고예요!",
+  ];
 
   return (
     <section className={styles.panelBackground}>
@@ -100,17 +111,20 @@ function ContentPanel({
             <div className={styles.userRatingCon}>
               <div className={styles.starRatingBox}>
                 <StarRating
-                  refetch={refetch}
-                  my_rate={content.my_rate}
+                  myRate={myRate}
+                  setMyRate={setMyRate}
                   movieCD={content.movieCD}
                 />
               </div>
-              <div className={styles.userRatingTextBox}>평가하기</div>
+              <div className={styles.userRatingTextBox}>
+                {rateStr[myRate ? myRate.my_rate * 2 : 0]}
+              </div>
             </div>
             <div className={styles.avgRatingCon}>
               <div className={styles.avgRatingDigit}>
-                {content.average_rate}
-                {/*.toFixed(1)*/}
+                {content.average_rate
+                  ? content.average_rate.toFixed(1)
+                  : "평가 없음"}
               </div>
               평균 평점(평점 총 개수)
             </div>
@@ -174,6 +188,7 @@ function ContentPanel({
             </ul>
           </nav>
           <MyCommentBox
+            myRate={myRate ? myRate.my_rate : 0}
             closeModal={() => {
               setCurrentModal(null);
             }}

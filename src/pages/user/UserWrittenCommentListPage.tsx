@@ -10,7 +10,6 @@ import { defaultResponseHandler } from "../../apis/custom";
 import { CommentType, SortQueryType } from "../../type";
 import SortMoadal from "../../components/SortModal";
 
-
 export default function UserWrittenCommentListPage() {
   const navigate = useNavigate();
   const { id: userId } = useParams();
@@ -36,9 +35,7 @@ export default function UserWrittenCommentListPage() {
         .finally(() => {
           setLoading(false);
         });
-
   }, [sortQuery]);
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +60,6 @@ export default function UserWrittenCommentListPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [comments]);
 
-
   useEffect(() => {
     const scrollToTop = () => {
       window.scrollTo({
@@ -72,7 +68,6 @@ export default function UserWrittenCommentListPage() {
     };
     scrollToTop();
   }, []);
-
 
   return (
     <div className={styles.pageCon}>

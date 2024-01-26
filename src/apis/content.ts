@@ -6,7 +6,7 @@ import { BASE_API_URL } from "./const";
 // 나중에 바꾸기
 export async function getContentListRequest(
   order: string,
-  accessToken?: string
+  accessToken?: string,
 ) {
   if (!accessToken) return fetch(`${BASE_API_URL}/contents?order=${order}`);
   return fetch(`${BASE_API_URL}/contents?order=${order}`, {
@@ -30,7 +30,7 @@ export async function getContentRequest(movieCD: string, accessToken?: string) {
 export async function createRatingRequest(
   movieCD: string,
   rate: number,
-  accessToken: string
+  accessToken: string,
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/rate`, {
     method: "POST",
@@ -47,7 +47,7 @@ export async function createRatingRequest(
 export async function updateRatingRequest(
   rateId: number,
   rate: number,
-  accessToken: string
+  accessToken: string,
 ) {
   return fetch(`${BASE_API_URL}/contents/rates/${rateId}`, {
     method: "PUT",
@@ -70,5 +70,14 @@ export async function deleteRatingRequest(rateId: number, accessToken: string) {
       Authorization: "Bearer " + accessToken,
     },
     credentials: "include",
+  });
+}
+
+export async function getRatesCount() {
+  return fetch(`${BASE_API_URL}/contents/rates/count`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 }

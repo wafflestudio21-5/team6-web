@@ -76,7 +76,7 @@ function CommentHeader({ comment }: { comment: CommentType }) {
 
 function CommentBody({ comment }: { comment: CommentType }) {
   const [preventWatchSpoiler, setPreventWatchSpoiler] = useState<boolean>(
-    comment.has_spoiler
+    comment.has_spoiler,
   );
 
   if (preventWatchSpoiler)
@@ -151,7 +151,7 @@ function LikeReplyBar({
   setCurrentModalState: (
     value:
       | { type: "createReply" }
-      | { type: "updateReply"; targetReply: ReplyType }
+      | { type: "updateReply"; targetReply: ReplyType },
   ) => void;
   refetchComment: () => void;
 }) {
@@ -285,7 +285,7 @@ export default function CommentInfo({
   const updateReplyState = (resonseReply: ReplyType) => {
     const { id: responseId } = resonseReply;
     setReplies(
-      replies.map((reply) => (reply.id === responseId ? resonseReply : reply))
+      replies.map((reply) => (reply.id === responseId ? resonseReply : reply)),
     );
   };
   const addReplyState = (reply: ReplyType) => {

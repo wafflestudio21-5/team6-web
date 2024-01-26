@@ -4,10 +4,8 @@ import styles from "./CommentCard.module.scss";
 import profileDefault from "../assets/user_default.jpg";
 import { Link, useNavigate } from "react-router-dom";
 
-
 export default function CommentCard({ comment }: { comment: CommentType }) {
   // user 하위 페이지에서 코멘트를 불러오는 경우, movie의 정보를 이용해야 한다.
-
 
   return (
     <li className={styles.cardCon}>
@@ -30,9 +28,7 @@ export default function CommentCard({ comment }: { comment: CommentType }) {
         )}
       </div>
       <div className={styles.commentContentContainer}>
-
         <CommentContentBox comment={comment} />
-
       </div>
 
       <div className={styles.commentFeedbackCon}>

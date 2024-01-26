@@ -40,15 +40,12 @@ export type MyStateResType = {
   id: number;
 
   user_state: MyStateType | null;
-
 };
 export type MyStateType =
   | "watching"
   | "want_to_watch"
   | "not_interested"
   | null;
-
-
 
 // 유저가 평가한 영화 리스트에 필요한 MovieType
 export type MovieResByUserType = {
@@ -82,7 +79,6 @@ export type MoviesResType = {
 };
 
 export type CommentsResType = {
-
   results: CommentType[];
 
   next: string | null;
@@ -113,7 +109,6 @@ export type CommentType = {
     title_ko: string;
     release_date: string;
   };
-
 };
 
 export type ReplyType = {
@@ -162,6 +157,4 @@ export type FollowType = {
 };
 export type FollowListType = FollowType[];
 
-
 export type SortQueryType = "like" | "created" | "high-rating" | "low-rating";
-

@@ -212,6 +212,7 @@
         color: rgb(255, 47, 110);
         .likeSvg {
           color: rgb(255, 47, 110);
+          animation: 300ms ease 0s 1 normal none running boing;
         }
       }
 
@@ -225,5 +226,11 @@
         margin-right: 5px;
       }
     }
+  }
+}
+
+@keyframes boing {
+  50% {
+    transform: scale(1.5) rotate(-20deg);
   }
 }

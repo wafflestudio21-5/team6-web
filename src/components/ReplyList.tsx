@@ -24,7 +24,7 @@ function Reply({
   const [isOnSettingBox, setIsOnSettingBox] = useState(false);
   const [myReplyLike, setMyReplyLike] = useState(reply.liked_by_user); //reply.my_like 나중에 구현!!
   const [replyLikeCount, setReplyLikeCount] = useState<number>(
-    reply.like_count
+    reply.like_count,
   );
   const { accessToken, myUserData } = useAuthContext();
 
@@ -67,7 +67,7 @@ function Reply({
                   if (!res.ok) throw new Error("실패");
                   setMyReplyLike(!myReplyLike);
                   setReplyLikeCount(
-                    myReplyLike ? replyLikeCount - 1 : replyLikeCount + 1
+                    myReplyLike ? replyLikeCount - 1 : replyLikeCount + 1,
                   );
                 })
                 .catch(() => {

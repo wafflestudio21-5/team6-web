@@ -32,14 +32,14 @@ export default function CommentPageWriteModal({
   const [hasSpoiler, setHasSpoiler] = useState<boolean | null>(
     modalType === "updateComment"
       ? currentModalState.targetComment.has_spoiler
-      : null
+      : null,
   );
   const [contentInput, setContentInput] = useState(
     modalType === "updateReply"
       ? currentModalState.targetReply.content
       : modalType === "updateComment"
-      ? currentModalState.targetComment.content
-      : ""
+        ? currentModalState.targetComment.content
+        : "",
   );
   const { accessToken } = useAuthContext();
   const { id: commentId } = useParams();
@@ -115,7 +115,7 @@ export default function CommentPageWriteModal({
                       postCreateReply(
                         parseInt(commentId),
                         accessToken,
-                        contentInput
+                        contentInput,
                       )
                         .then(defaultResponseHandler)
                         .then((data: ReplyType) => {
@@ -129,7 +129,7 @@ export default function CommentPageWriteModal({
                       putUpdateReply(
                         currentModalState.targetReply.id,
                         accessToken,
-                        contentInput
+                        contentInput,
                       )
                         .then(defaultResponseHandler)
                         .then((data: ReplyType) => {
@@ -147,7 +147,7 @@ export default function CommentPageWriteModal({
                         parseInt(commentId),
                         accessToken,
                         contentInput,
-                        hasSpoiler
+                        hasSpoiler,
                       )
                         .then(defaultResponseHandler)
                         .then(() => {

@@ -82,7 +82,7 @@ export default function UserFollowerPage() {
             <ul className={styles.followList}>
               {pageFollowerListData.map((follower: FollowType) => {
                 const myFollowingIdList = myFollowingListData.map(
-                  (follower) => follower.id
+                  (follower) => follower.id,
                 );
                 const isMyFollowing = myFollowingIdList.includes(follower.id)
                   ? true
