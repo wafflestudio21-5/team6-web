@@ -106,8 +106,9 @@ function ContentPanel({
             </div>
             <div className={styles.avgRatingCon}>
               <div className={styles.avgRatingDigit}>
-                {content.average_rate.toFixed(1)}
-                {/*.toFixed(1)*/}
+                {content.average_rate
+                  ? content.average_rate.toFixed(1)
+                  : "평가되지 않음"}
               </div>
               평균 평점(평점 총 개수)
             </div>
