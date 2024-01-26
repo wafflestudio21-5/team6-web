@@ -100,7 +100,7 @@ export function MovieCarousel({ movies }: { movies: MovieResByUserType[] }) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false
+          : false,
       );
     }
   }
@@ -116,7 +116,7 @@ export function MovieCarousel({ movies }: { movies: MovieResByUserType[] }) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false
+          : false,
       );
     }
   }

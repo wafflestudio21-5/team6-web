@@ -56,7 +56,7 @@ export default function DeleteComReplyModal({
               modalType === "deleteComment" &&
                 deleteCommentRequest(
                   currentModalState.targetComment.id,
-                  accessToken
+                  accessToken,
                 )
                   .then((res) => {
                     if (!res.ok) throw new Error("삭제 실패");

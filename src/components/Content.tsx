@@ -52,20 +52,24 @@ function ContentHeader({ content }: { content: MovieType }) {
 function ContentPanel({
   content,
   setContent,
+
   refetchContent,
 }: {
   content: MovieType;
   setContent: (content: MovieType) => void;
   refetchContent: () => void;
+
 }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
   >(null);
 
+
   const [myRate, setMyRate] = useState(content.my_rate ?? null);
 
   const { accessToken } = useAuthContext();
   const myState = content.my_state ?? null;
+
 
   const setMyStateHandler = (targetState: MyStateType) => {
     if (!accessToken) return;

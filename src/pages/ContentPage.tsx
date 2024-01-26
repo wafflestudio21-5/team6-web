@@ -13,9 +13,11 @@ export default function ContentPage() {
   const { id } = useParams();
   const [content, setContent] = useState<MovieType | null>(null);
   const { accessToken } = useAuthContext();
+
   const { setTitle } = useChangeTitle();
   const [refetch, setRefetch] = useState(false);
   const refetchContent = () => setRefetch(!refetch);
+
   useEffect(() => {
     id &&
       getContentRequest(id, accessToken ?? undefined)
@@ -28,18 +30,22 @@ export default function ContentPage() {
         .catch(() => {
           alert("잘못된 요청입니다");
         });
+
   }, [id, accessToken, refetch]);
+
 
   return (
     <div className={styles.container}>
       {content && (
         <>
           <Content.Header content={content} />
+
           <Content.Panel
             content={content}
             setContent={setContent}
             refetchContent={refetchContent}
           />
+
           <Content.Cast content={content} />
           <Content.Comments content={content} />
         </>
