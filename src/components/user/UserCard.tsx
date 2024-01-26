@@ -26,17 +26,15 @@ export default function UserCard({
     isFollowing
       ? postUnFollow(accessToken, follower.id)
           .then(defaultResponseHandler)
-          .then((data) => {
-            console.log(data);
-            setIsFollowing(false); // 고쳐야 함!!!!!
+          .then(() => {
+            setIsFollowing(false);
           })
           .catch(() => {
             console.log("팔로우 취소 실패");
           })
       : postAddFollow(accessToken, follower.id)
           .then(defaultResponseHandler)
-          .then((data) => {
-            console.log(data);
+          .then(() => {
             setIsFollowing(true);
           })
           .catch(() => {
@@ -66,7 +64,7 @@ export default function UserCard({
                 }
                 onClick={buttonClickHandler}
               >
-                {isFollowing ? "팔로워" : "팔로잉"}
+                {isFollowing ? "팔로잉" : "팔로우"}
               </button>
             )}
           </div>

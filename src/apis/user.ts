@@ -39,7 +39,7 @@ export async function getUserWrittenComments(
   userId: number,
   query?: "like" | "created" | "high-rating" | "low-rating",
 ) {
-  if (query === undefined) {
+  if (!query) {
     return fetch(`${BASE_API_URL}/users/${userId}/comments/`);
   }
 
@@ -57,8 +57,6 @@ export async function getUserRatingMovies(
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
 
-  console.log(`${BASE_API_URL}/users/${userId}/ratings?${result}`);
-
   return fetch(`${BASE_API_URL}/users/${userId}/ratings?${result}`);
 }
 export async function getUserWatchings(userId: number) {
@@ -75,6 +73,7 @@ export async function postCreateWatchingState(
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
     method: "POST",
+
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
@@ -86,11 +85,11 @@ export async function postCreateWatchingState(
 }
 
 export async function putUpdateWatchingState(
-  movieCD: string,
+  state_id: number,
   accessToken: string,
   user_state: "watching" | "want_to_watch" | "not_interested" | null,
 ) {
-  return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
+  return fetch(`${BASE_API_URL}/contents/states/${state_id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -101,12 +100,3 @@ export async function putUpdateWatchingState(
     }),
   });
 }
-
-/*
-credentials: "include",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-
-
-*/

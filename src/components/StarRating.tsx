@@ -81,7 +81,7 @@ export default function StarRating({
     setSelectedRating(savedRating);
     setHover(false);
   };
-  const onClickStar = (rating: number) => {
+  const onClickStarHandler = (rating: number) => {
     if (!isLogined) {
       // loginModal;
     } else {
@@ -131,7 +131,7 @@ export default function StarRating({
           rating={idx}
           onMouseEnterStar={onMouseEnterStar}
           onMouseLeaveStar={onMouseLeaveStar}
-          onClickStar={onClickStar}
+          onClickStar={onClickStarHandler}
         />
       ))}
       {hover && savedRating > 0 && savedRating === selectedRating && (

@@ -19,7 +19,6 @@ export default function CommentPage() {
       getCommentRequest(parseInt(id), accessToken ?? undefined)
         .then(defaultResponseHandler)
         .then((data: CommentType) => {
-          console.log("comment apge : ", data);
           setCommentData(data);
         })
         .catch(() => {

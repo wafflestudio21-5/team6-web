@@ -11,6 +11,7 @@
   padding-top: 150px;
   padding-bottom: 40px;
   min-height: 800px;
+  min-height: 100vh;
 }
 
 .backButtonContainer {
@@ -127,10 +128,10 @@
   }
 }
 .isFollowing {
-  background: rgb(255, 234, 241);
-  color: rgb(255, 47, 110);
-}
-.isNotFollowing {
   background: rgb(245, 245, 247);
   color: rgb(116, 116, 123);
+}
+.isNotFollowing {
+  background: rgb(255, 234, 241);
+  color: rgb(255, 47, 110);
 }

@@ -38,13 +38,15 @@ export type MovieType = {
 
 export type MyStateResType = {
   id: number;
-  my_state: MyStateType | null;
+
+  user_state: MyStateType | null;
 };
 export type MyStateType =
   | "watching"
   | "want_to_watch"
   | "not_interested"
   | null;
+
 // 유저가 평가한 영화 리스트에 필요한 MovieType
 export type MovieResByUserType = {
   id: number;
@@ -77,7 +79,8 @@ export type MoviesResType = {
 };
 
 export type CommentsResType = {
-  results: CommentType[] | CommentType[];
+  results: CommentType[];
+
   next: string | null;
   previous: string | null;
   count: number;
@@ -99,7 +102,13 @@ export type CommentType = {
   has_spoiler: boolean;
   created_at: string;
   updated_at: string;
-  movie: string; //MovieType; //movie typeㅇ로 바뀌어야 함
+
+  movie: {
+    movieCD: string;
+    poster: string;
+    title_ko: string;
+    release_date: string;
+  };
 };
 
 export type ReplyType = {
@@ -147,3 +156,5 @@ export type FollowType = {
   background_photo: string | null;
 };
 export type FollowListType = FollowType[];
+
+export type SortQueryType = "like" | "created" | "high-rating" | "low-rating";

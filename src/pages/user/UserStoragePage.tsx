@@ -52,11 +52,11 @@ export default function UserStoragePage() {
         {!loading && movies && <MovieCarousel movies={movies} />}
         <Link to="wishes" className={styles.outLinkTab}>
           <span>보고 싶어요</span>
-          <span className={styles.count}>4</span>
+          <span className={styles.count}></span>
         </Link>
         <Link to="doings" className={styles.outLinkTab}>
           <span>보는 중</span>
-          <span className={styles.count}>4</span>
+          <span className={styles.count}></span>
         </Link>
       </section>
     </>

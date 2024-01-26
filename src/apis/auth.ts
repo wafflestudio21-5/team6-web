@@ -1,3 +1,5 @@
+import { SortQueryType } from "../type";
+
 import { BASE_API_URL } from "./const";
 import { BASE_API_AUTH_URL } from "./const";
 
@@ -69,13 +71,28 @@ export async function deleteWithDrawalUser(accessToken: string) {
   });
 }
 
-export async function getMyLikesComments(accessToken: string) {
+export async function getMyLikesComments(
+  accessToken: string,
+  query?: SortQueryType,
+) {
+  if (!query) {
+    return fetch(
+      `${BASE_API_URL}/users/mypage/likes/comments/?order=${query}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+  }
+
   return fetch(`${BASE_API_URL}/users/mypage/likes/comments/`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
 }
+
 export async function getNextMyLikesComments(
   accessToken: string,
   nextUrl: string,

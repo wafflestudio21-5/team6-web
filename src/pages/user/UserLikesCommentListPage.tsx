@@ -19,11 +19,10 @@ export default function UserLikesCommentListPage() {
   useEffect(() => {
     if (!accessToken) return;
     if (!userId) return;
-
+    setLoading(true);
     getMyLikesComments(accessToken)
       .then(defaultResponseHandler)
       .then((data) => {
-        console.log("user likes comment list page : ", data);
         const commentsResponse = data;
         setComments(commentsResponse.results);
         setNextCommentsUrl(commentsResponse.next);
@@ -44,7 +43,45 @@ export default function UserLikesCommentListPage() {
           fetch(nextCommentsUrl)
             .then(defaultResponseHandler)
             .then((data) => {
-              console.log("scroll success  :", data);
+              const commentsResponse = data;
+              setComments(comments.concat(commentsResponse.results));
+              setNextCommentsUrl(commentsResponse.next);
+            })
+            .catch(() => alert("잘못된 요청입니다"));
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [comments]);
+
+  useEffect(() => {
+    if (!accessToken) return;
+    if (!userId) return;
+
+    getMyLikesComments(accessToken)
+      .then(defaultResponseHandler)
+      .then((data) => {
+        const commentsResponse = data;
+        setComments(commentsResponse.results);
+        setNextCommentsUrl(commentsResponse.next);
+      })
+      .catch(() => alert("잘못된 요청입니다"))
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight } = document.documentElement;
+
+      if (window.innerHeight + scrollTop + 150 >= scrollHeight) {
+        nextCommentsUrl &&
+          comments &&
+          fetch(nextCommentsUrl)
+            .then(defaultResponseHandler)
+            .then((data) => {
               const commentsResponse = data;
               setComments(comments.concat(commentsResponse.results));
               setNextCommentsUrl(commentsResponse.next);
@@ -68,12 +105,6 @@ export default function UserLikesCommentListPage() {
           />
           <h2>내가 좋아요 한 코멘트</h2>
         </div>
-        <nav>
-          <button>
-            <div className={styles.bottomArrow} />
-            좋아요 순
-          </button>
-        </nav>
       </header>
       <main className={styles.commentListCon}>
         <ul>

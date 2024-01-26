@@ -43,7 +43,6 @@ export default function UserRatingsPage() {
           fetch(nextmoviesUrl)
             .then(defaultResponseHandler)
             .then((data) => {
-              console.log("scroll success  :", data);
               const commentsResponse = data;
               setMovies(movies.concat(commentsResponse.results));
               setNextMoviesUrl(commentsResponse.next);
@@ -149,7 +148,8 @@ function DefaultMovieList({
           >
             <img src={movie.poster} alt={movie.title_ko} />
             <p>{movie.title_ko}</p>
-            <span>평가함 {movieData.rate}</span>
+
+            <span>평가함 ★ {movieData.rate}</span>
           </li>
         );
       })}

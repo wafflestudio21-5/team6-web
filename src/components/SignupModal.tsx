@@ -41,9 +41,6 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
     isAllInputsValid &&
     postSignup(nameInput, idInput, passwordInput1, passwordInput2)
       .then((res) => {
-        if (!res.ok) {
-          console.log(res); // res.json()에 에러 메시지가 담겨 있음
-        }
         return res.json();
       })
       .then((data) => {
