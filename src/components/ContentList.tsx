@@ -67,16 +67,40 @@ export default function ContentList({ title, order }: ContentListProps) {
   const [contents, setContents] = useState<MovieType[]>([]);
 
   const { accessToken } = useAuthContext();
+
   useEffect(() => {
-    getContentListRequest(order, accessToken ? accessToken : undefined)
-      .then(defaultResponseHandler)
-      .then((data) => {
-        setContents(
-          data.map((movie: MovieType) => {
-            return { ...movie, poster: movie.poster.replace("http", "https") };
-          }),
-        );
-      });
+    order === "box-office"
+      ? getContentListRequest(order, accessToken ?? undefined)
+          .then(defaultResponseHandler)
+          .then((data) => {
+            console.log(title, order);
+            console.log(data);
+
+            setContents(
+              data.map((movieRes: { movie: MovieType; rank: number }) => {
+                const movie = movieRes.movie;
+                return {
+                  ...movie,
+                  poster: movie.poster.replace("http", "https"),
+                };
+              })
+            );
+          })
+      : getContentListRequest(order, accessToken ?? undefined)
+          .then(defaultResponseHandler)
+          .then((data) => {
+            console.log(title, order);
+            console.log(data);
+
+            setContents(
+              data.map((movie: MovieType) => {
+                return {
+                  ...movie,
+                  poster: movie.poster.replace("http", "https"),
+                };
+              })
+            );
+          });
   }, [order]);
 
   function handleRightClick() {
@@ -93,7 +117,7 @@ export default function ContentList({ title, order }: ContentListProps) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false,
+          : false
       );
     }
   }
@@ -109,7 +133,7 @@ export default function ContentList({ title, order }: ContentListProps) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false,
+          : false
       );
     }
   }
@@ -121,7 +145,7 @@ export default function ContentList({ title, order }: ContentListProps) {
         <div className={styles.scrollBar} ref={carouselContentRef}>
           <ul ref={carouselUlRef}>
             {contents.map((content: MovieType, index: number) =>
-              ContentCell(content, index + 1),
+              ContentCell(content, index + 1)
             )}
           </ul>
         </div>

@@ -5,12 +5,7 @@ import profileDefault from "../assets/user_default.jpg";
 import StarRating from "./StarRating";
 import CommentCard from "./CommentCard";
 
-import {
-  CommentsResType,
-  CommentType,
-  MovieType,
-  MyStateResType,
-} from "../type";
+import { CommentsResType, CommentType, MovieType } from "../type";
 
 import { MyStateType } from "../type";
 import { Link } from "react-router-dom";
@@ -19,7 +14,11 @@ import { getCommentListRequest } from "../apis/comment";
 import MyCommentBox from "./MyCommentBox";
 import WritingModal from "./WritingModal";
 import { useAuthContext } from "../contexts/authContext";
-import { postCreateWatchingState, putUpdateWatchingState } from "../apis/user";
+import {
+  deleteWatchingState,
+  postCreateWatchingState,
+  putUpdateWatchingState,
+} from "../apis/user";
 
 function ContentHeader({ content }: { content: MovieType }) {
   const backGroundStyle = {
@@ -53,37 +52,43 @@ function ContentHeader({ content }: { content: MovieType }) {
 function ContentPanel({
   content,
   setContent,
+  refetchContent,
 }: {
   content: MovieType;
   setContent: (content: MovieType) => void;
+  refetchContent: () => void;
 }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
   >(null);
 
-  const [myRate, setMyRate] = useState(content.my_rate);
+  const [myRate, setMyRate] = useState(content.my_rate ?? null);
 
   const { accessToken } = useAuthContext();
-  const [myState, setMyState] = useState<MyStateResType | null>(
-    content.my_state ?? null,
-  );
+  const myState = content.my_state ?? null;
+
   const setMyStateHandler = (targetState: MyStateType) => {
     if (!accessToken) return;
-    if (content.my_state === null && targetState !== null)
+    if (!targetState)
+      return (
+        content.my_state &&
+        deleteWatchingState(content.my_state.id, accessToken).then(() => {
+          refetchContent();
+        })
+      );
+
+    if (content.my_state === null)
       return postCreateWatchingState(content.movieCD, accessToken, targetState)
         .then(defaultResponseHandler)
-        .then((myState) => {
-          setMyState(myState);
+        .then(() => {
+          refetchContent();
         });
 
-    return (
-      content.my_state &&
-      putUpdateWatchingState(content.my_state.id, accessToken, targetState)
-        .then(defaultResponseHandler)
-        .then((myState) => {
-          setMyState(myState);
-        })
-    );
+    return putUpdateWatchingState(content.my_state.id, accessToken, targetState)
+      .then(defaultResponseHandler)
+      .then(() => {
+        refetchContent();
+      });
   };
   const rateStr = [
     "평가하기",
@@ -104,7 +109,7 @@ function ContentPanel({
       <div className={styles.panelCon}>
         <div className={styles.imageCon}>
           <img src={content.poster} alt="영화 포스터" />
-          <div className={styles.ratingGraph}>평점 그래프</div>
+          {/*<div className={styles.ratingGraph}>평점 그래프</div>*/}
         </div>
         <main className={styles.reviewCon}>
           <nav className={styles.reviewNav}>
@@ -131,7 +136,7 @@ function ContentPanel({
             <ul className={styles.reviewMenuCon}>
               <li
                 onClick={() => {
-                  myState?.user_state === "want_to_watch"
+                  myState?.my_state === "want_to_watch"
                     ? setMyStateHandler(null)
                     : setMyStateHandler("want_to_watch");
                 }}
@@ -141,7 +146,7 @@ function ContentPanel({
                     aria-hidden="true"
                     viewBox="0 0 24 24"
                     className={
-                      myState?.user_state === "want_to_watch"
+                      myState?.my_state === "want_to_watch"
                         ? styles.checked
                         : ""
                     }
@@ -167,7 +172,7 @@ function ContentPanel({
               </li>
               <li
                 onClick={() => {
-                  myState?.user_state === "watching"
+                  myState?.my_state === "watching"
                     ? setMyStateHandler(null)
                     : setMyStateHandler("watching");
                 }}
@@ -177,7 +182,7 @@ function ContentPanel({
                     aria-hidden="true"
                     viewBox="0 0 24 24"
                     className={
-                      myState?.user_state === "watching" ? styles.checked : ""
+                      myState?.my_state === "watching" ? styles.checked : ""
                     }
                   >
                     <path d="M12 5C7 5 2.73 8.11 1 12.5 2.73 16.89 7 20 12 20s9.27-3.11 11-7.5C21.27 8.11 17 5 12 5Zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3Z"></path>

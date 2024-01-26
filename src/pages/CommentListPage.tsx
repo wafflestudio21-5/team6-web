@@ -7,6 +7,7 @@ import { getCommentListRequest } from "../apis/comment";
 import { defaultResponseHandler } from "../apis/custom";
 import { SortQueryType } from "../type";
 import SortMoadal from "../components/SortModal";
+import useChangeTitle from "../hooks/useChangeTitle";
 
 export default function CommentListPage() {
   const { id: movieCD } = useParams();
@@ -14,6 +15,7 @@ export default function CommentListPage() {
   const [nextCommentsUrl, setNextCommentsUrl] = useState<string | null>(null);
   const [sortQuery, setSortQuery] = useState<SortQueryType>("like");
   const [currentModal, setCurrenModal] = useState<null | "sort">(null);
+  const { setTitle } = useChangeTitle();
 
   useEffect(() => {
     movieCD &&
@@ -21,6 +23,9 @@ export default function CommentListPage() {
         .then(defaultResponseHandler)
         .then((data) => {
           const commentsResponse = data;
+          setTitle(
+            `${commentsResponse.results.length}개의 코멘트 목록 - 와플피디아`
+          );
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);
         })

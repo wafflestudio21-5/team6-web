@@ -76,7 +76,7 @@ export default function SettingModal({ setCurrentModal }: SettingModalProps) {
 
 type ButtonBoxProps = {
   setAlertMessage: (
-    alertMessage: "logoutAlert" | "withdrawalAlert" | "clipboard" | null,
+    alertMessage: "logoutAlert" | "withdrawalAlert" | "clipboard" | null
   ) => void;
 };
 
@@ -158,7 +158,7 @@ function WithdrawalAlertBoxContainer({ setAlertMessage }: ButtonBoxProps) {
                 .then(defaultResponseHandler)
                 .then(() => {
                   alert("회원탈퇴 성공");
-                  window.location.reload();
+                  window.location.href = "/";
                 })
                 .catch((e) => {
                   console.log(e);

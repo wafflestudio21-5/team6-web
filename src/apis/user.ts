@@ -37,7 +37,7 @@ export async function postUnFollow(accessToken: string, userId: number) {
 
 export async function getUserWrittenComments(
   userId: number,
-  query?: "like" | "created" | "high-rating" | "low-rating",
+  query?: "like" | "created" | "high-rating" | "low-rating"
 ) {
   if (!query) {
     return fetch(`${BASE_API_URL}/users/${userId}/comments/`);
@@ -51,7 +51,7 @@ export async function getUserRatingMovies(
   query: {
     order?: "high-rating" | "low-rating" | "created";
     rate?: number;
-  },
+  }
 ) {
   const result = Object.entries(query)
     .map(([key, value]) => `${key}=${value}`)
@@ -69,7 +69,7 @@ export async function getUserWantToWatch(userId: number) {
 export async function postCreateWatchingState(
   movieCD: string,
   accessToken: string,
-  user_state: "watching" | "want_to_watch" | "not_interested" | null,
+  user_state: "watching" | "want_to_watch" | "not_interested" | null
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
     method: "POST",
@@ -87,7 +87,7 @@ export async function postCreateWatchingState(
 export async function putUpdateWatchingState(
   state_id: number,
   accessToken: string,
-  user_state: "watching" | "want_to_watch" | "not_interested" | null,
+  user_state: "watching" | "want_to_watch" | "not_interested" | null
 ) {
   return fetch(`${BASE_API_URL}/contents/states/${state_id}`, {
     method: "PUT",
@@ -98,5 +98,17 @@ export async function putUpdateWatchingState(
     body: JSON.stringify({
       user_state,
     }),
+  });
+}
+
+export async function deleteWatchingState(
+  state_id: number,
+  accessToken: string
+) {
+  return fetch(`${BASE_API_URL}/contents/states/${state_id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   });
 }

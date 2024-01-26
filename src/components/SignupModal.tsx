@@ -93,7 +93,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
       onClick={() => setCurrentModal(null)}
     >
       <div
-        className={styles.modalBox}
+        className={styles.signupModalBox}
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -277,7 +277,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
                   window.open(
                     "/auth/toKakao",
                     "_blank",
-                    "width=350,height=600",
+                    "width=350,height=600"
                   );
                 }}
               >

@@ -6,14 +6,23 @@ import { BASE_API_URL } from "./const";
 // 나중에 바꾸기
 export async function getContentListRequest(
   order: string,
-  accessToken?: string,
+  accessToken?: string
 ) {
-  if (!accessToken) return fetch(`${BASE_API_URL}/contents?order=${order}`);
+  const headers: HeadersInit = accessToken
+    ? {
+        Authorization: "Bearer " + accessToken,
+      }
+    : {};
+
+  if (order === "box-office")
+    return fetch(`${BASE_API_URL}/contentTest/movies/boxoffice/update/`, {
+      method: "GET",
+      headers: headers,
+    });
+
   return fetch(`${BASE_API_URL}/contents?order=${order}`, {
     method: "GET",
-    headers: {
-      Authorization: "Bearer " + accessToken,
-    },
+    headers: headers,
   });
 }
 
@@ -30,7 +39,7 @@ export async function getContentRequest(movieCD: string, accessToken?: string) {
 export async function createRatingRequest(
   movieCD: string,
   rate: number,
-  accessToken: string,
+  accessToken: string
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/rate`, {
     method: "POST",
@@ -47,7 +56,7 @@ export async function createRatingRequest(
 export async function updateRatingRequest(
   rateId: number,
   rate: number,
-  accessToken: string,
+  accessToken: string
 ) {
   return fetch(`${BASE_API_URL}/contents/rates/${rateId}`, {
     method: "PUT",

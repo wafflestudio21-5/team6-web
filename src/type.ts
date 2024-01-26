@@ -38,8 +38,7 @@ export type MovieType = {
 
 export type MyStateResType = {
   id: number;
-
-  user_state: MyStateType | null;
+  my_state: MyStateType | null;
 };
 export type MyStateType =
   | "watching"
