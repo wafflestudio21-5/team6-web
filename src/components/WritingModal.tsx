@@ -2,7 +2,7 @@ import { createCommentRequest, updateCommentRequest } from "../apis/comment";
 import { CommentType, MovieType } from "../type";
 import Modal from "./Modal";
 import styles from "./WritingModal.module.scss";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useAuthContext } from "../contexts/authContext";
 import { defaultResponseHandler } from "../apis/custom";
 
@@ -29,6 +29,12 @@ export default function WritingModal(props: WritingModalProps) {
   const [hasSpoiler, setHasSpoiler] = useState(
     my_comment === null ? false : my_comment.has_spoiler,
   );
+
+  const onTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const s_ = e.target.value;
+    const s = s_.length > 10000 ? s_.substring(0, 10000) : s_;
+    setCommentInput(s);
+  };
 
   return (
     <Modal
@@ -89,9 +95,7 @@ export default function WritingModal(props: WritingModalProps) {
             <textarea
               placeholder="이 작품을 대한 생각을 자유롭게 표현해주세요."
               value={commentInput}
-              onChange={(e) => {
-                setCommentInput(e.target.value);
-              }}
+              onChange={onTextChange}
             />
             <nav>
               {type === "comment" && (

@@ -57,7 +57,9 @@
       width: 280px;
       height: 400px;
       margin-bottom: 30px;
-      transition: width 0.3s, height 0.3s;
+      transition:
+        width 0.3s,
+        height 0.3s;
 
       @media (max-width: #{$medium-screen + 100}) {
         width: 200px;

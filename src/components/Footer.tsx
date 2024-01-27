@@ -9,13 +9,11 @@ export default function Footer() {
   const [rates, setRates] = useState(0);
 
   useEffect(() => {
-
     getRatesCount()
       .then(defaultResponseHandler)
       .then((data) => {
         setRates(data.ratings_count);
       });
-
 
     const interval = setInterval(() => {
       getRatesCount()
@@ -33,9 +31,7 @@ export default function Footer() {
     <footer>
       <section className={styles.commentNumber}>
         <span>
-
           지금까지 <em>★ {rates.toLocaleString("ko-KR")} 개의</em> 평가가
-
           쌓였어요.
         </span>
       </section>
