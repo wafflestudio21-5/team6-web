@@ -3,6 +3,7 @@ import styles from "./DeleteComReplyModal.module.scss";
 import { CommentType, ReplyType } from "../type";
 import { deleteCommentRequest, deleteReply } from "../apis/comment";
 import { useAuthContext } from "../contexts/authContext";
+import autoSave from "../utils/autoSave";
 
 type DeleteComReplyModalProps = {
   setCurrentModalState: (value: null) => void;
@@ -18,7 +19,13 @@ export default function DeleteComReplyModal({
   deleteReplyState,
 }: DeleteComReplyModalProps) {
   const modalType = currentModalState.type;
-  const { accessToken } = useAuthContext();
+  const { myUserData, accessToken } = useAuthContext();
+  const myId = myUserData?.id;
+  const mode = modalType == "deleteComment" ? "comment" : "edit";
+  const autoSaveId =
+    modalType == "deleteComment"
+      ? currentModalState.targetComment.movie.movieCD
+      : currentModalState.targetReply.id;
   return (
     <Modal
       onClose={() => {
@@ -47,6 +54,7 @@ export default function DeleteComReplyModal({
                 deleteReply(currentModalState.targetReply.id, accessToken)
                   .then((res) => {
                     if (!res.ok) throw new Error("삭제 실패");
+                    autoSave.remove(myId!, mode, autoSaveId);
                     deleteReplyState(currentModalState.targetReply.id);
                     setCurrentModalState(null);
                   })
@@ -60,6 +68,7 @@ export default function DeleteComReplyModal({
                 )
                   .then((res) => {
                     if (!res.ok) throw new Error("삭제 실패");
+                    autoSave.remove(myId!, mode, autoSaveId);
                     window.document.location.href = `/contents/${currentModalState.targetComment.movie.movieCD}`;
                   })
                   .catch(() => {
