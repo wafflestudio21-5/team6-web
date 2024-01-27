@@ -42,9 +42,7 @@ export default function WritingModal(props: WritingModalProps) {
     const s = s_.length > 10000 ? s_.substring(0, 10000) : s_; // 길이는 최대 1만자
     setDoSave(true);
     setCommentInput(s);
-    if (myId != undefined) {
-      await autoSave.set(myId, "comment", movieCD, s);
-    }
+    autoSave.set(myId!, "comment", movieCD, s); //모달은 로그인을 했을 때만 뜬다
   };
 
   return (
