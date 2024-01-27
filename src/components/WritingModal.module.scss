@@ -73,6 +73,16 @@
       display: flex;
       align-items: center;
 
+      .autoSave{
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: -0.2px;
+        color: $medium-gray;
+        line-height: 16px;
+        text-align: right;
+        margin-right: 12px;
+      }
+
       .textConut {
         margin-right: 13px;
         font-size: 13px;

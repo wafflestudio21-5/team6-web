@@ -207,7 +207,6 @@ function ContentPanel({
       </div>
       {currentModal && accessToken && (
         <WritingModal
-          type="comment"
           title={content.title_ko}
           content={content}
           currentModal={currentModal}
