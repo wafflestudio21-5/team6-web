@@ -20,14 +20,16 @@ type WritingModalProps = {
 export default function WritingModal(props: WritingModalProps) {
   const { myUserData, accessToken } = useAuthContext();
   const myId = myUserData?.id;
-  const { title, content, currentModal, setCurrentModal, setContent } =
-    props;
+  const { title, content, currentModal, setCurrentModal, setContent } = props;
   const { my_comment, movieCD } = content;
   const savedText = autoSave.get(myId ?? -1, "comment", movieCD);
-  
+
   const [commentInput, setCommentInput] = useState(
-    savedText != null ? savedText :
-    (my_comment === null ? "" : my_comment.content)
+    savedText != null
+      ? savedText
+      : my_comment === null
+        ? ""
+        : my_comment.content,
   ); //comment는 기존에 썼던 코멘트가 있을 경우에만 존재
   const [hasSpoiler, setHasSpoiler] = useState(
     my_comment === null ? false : my_comment.has_spoiler,
@@ -40,8 +42,8 @@ export default function WritingModal(props: WritingModalProps) {
     const s = s_.length > 10000 ? s_.substring(0, 10000) : s_; // 길이는 최대 1만자
     setDoSave(true);
     setCommentInput(s);
-    if(myId!=undefined){
-      await autoSave.set(myId,"comment",movieCD,s);
+    if (myId != undefined) {
+      await autoSave.set(myId, "comment", movieCD, s);
     }
   };
 
@@ -80,7 +82,8 @@ export default function WritingModal(props: WritingModalProps) {
                       ...content,
                       my_comment: data,
                     });
-                    if(myId!=undefined)autoSave.remove(myId,"comment",movieCD);
+                    if (myId != undefined)
+                      autoSave.remove(myId, "comment", movieCD);
                     setCurrentModal(null);
                   });
               currentModal === "updateComment" &&
@@ -98,7 +101,8 @@ export default function WritingModal(props: WritingModalProps) {
                       ...content,
                       my_comment: data,
                     });
-                    if(myId!=undefined)autoSave.remove(myId,"comment",movieCD);
+                    if (myId != undefined)
+                      autoSave.remove(myId, "comment", movieCD);
                     setCurrentModal(null);
                   });
             }}
