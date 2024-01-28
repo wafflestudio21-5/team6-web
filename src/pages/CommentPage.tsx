@@ -27,7 +27,7 @@ export default function CommentPage() {
             data.created_by.nickname +
               `님이 "${
                 data.movie.title_ko ?? "영화"
-              }"에 남긴 코멘트 - 와플피디아`
+              }"에 남긴 코멘트 - 와플피디아`,
           );
         })
         .catch(() => {

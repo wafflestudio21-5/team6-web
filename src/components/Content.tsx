@@ -58,18 +58,15 @@ function ContentPanel({
   content: MovieType;
   setContent: (content: MovieType) => void;
   refetchContent: () => void;
-
 }) {
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
   >(null);
 
-
   const [myRate, setMyRate] = useState(content.my_rate ?? null);
 
   const { accessToken } = useAuthContext();
   const myState = content.my_state ?? null;
-
 
   const setMyStateHandler = (targetState: MyStateType) => {
     if (!accessToken) return;
@@ -210,7 +207,6 @@ function ContentPanel({
       </div>
       {currentModal && accessToken && (
         <WritingModal
-          type="comment"
           title={content.title_ko}
           content={content}
           currentModal={currentModal}

@@ -4,6 +4,7 @@ import profileDefault from "../assets/user_default.jpg";
 import { Link } from "react-router-dom";
 import { MovieType } from "../type";
 import { deleteCommentRequest } from "../apis/comment";
+import autoSave from "../utils/autoSave";
 
 export default function MyCommentBox({
   myRate,
@@ -19,6 +20,7 @@ export default function MyCommentBox({
   setContent: (content: MovieType) => void;
 }) {
   const { isLogined, myUserData, accessToken } = useAuthContext();
+  const myId = myUserData?.id;
   const my_comment = content.my_comment;
 
   const message =
@@ -56,6 +58,8 @@ export default function MyCommentBox({
                       .then(() => {
                         setContent({ ...content, my_comment: null }); // 성공 여부를 보고 반영
                         console.log("코멘트가 삭제되었습니다.");
+                        if (myId != undefined)
+                          autoSave.remove(myId, "comment", content.movieCD);
                         closeModal();
                       })
                       .catch(() => {

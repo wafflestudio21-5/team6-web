@@ -66,7 +66,7 @@ export default function SearchPage() {
     setTitle(
       query
         ? query + "의 검색결과 - 와플피디아"
-        : "와플피디아 - 영화 평가 서비스"
+        : "와플피디아 - 영화 평가 서비스",
     );
     if (!query) return;
     setNextAvailable(false);
@@ -81,7 +81,7 @@ export default function SearchPage() {
                 ...movie,
                 poster: movie.poster.replace("http", "https"),
               };
-            })
+            }),
           );
         });
     } else if (category == "users") {

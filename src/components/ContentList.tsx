@@ -69,7 +69,6 @@ export default function ContentList({ title, order }: ContentListProps) {
   const { accessToken } = useAuthContext();
 
   useEffect(() => {
-
     order === "box-office"
       ? getContentListRequest(order, accessToken ?? undefined)
           .then(defaultResponseHandler)
@@ -84,7 +83,7 @@ export default function ContentList({ title, order }: ContentListProps) {
                   ...movie,
                   poster: movie.poster.replace("http", "https"),
                 };
-              })
+              }),
             );
           })
       : getContentListRequest(order, accessToken ?? undefined)
@@ -99,10 +98,9 @@ export default function ContentList({ title, order }: ContentListProps) {
                   ...movie,
                   poster: movie.poster.replace("http", "https"),
                 };
-              })
+              }),
             );
           });
-
   }, [order]);
 
   function handleRightClick() {
