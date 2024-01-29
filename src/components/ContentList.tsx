@@ -64,7 +64,17 @@ export default function ContentList({ title, order }: ContentListProps) {
   const [isLast, setIsLast] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
 
-  const [contents, setContents] = useState<MovieType[]>([]);
+  const [contents, setContents] = useState<MovieType[]>(
+    new Array(10).fill({
+      movieCD: 0,
+      title_ko: "...",
+      release_date: "",
+      prod_country: "",
+      poster: "",
+      average_rate: null,
+      my_rate: null,
+    }),
+  );
 
   const { accessToken } = useAuthContext();
 
