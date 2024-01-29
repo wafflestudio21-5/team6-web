@@ -2,7 +2,7 @@ import styles from "./CommentListPage.module.scss";
 import CommentCard from "../components/CommentCard";
 import { useEffect, useState } from "react";
 import { CommentType } from "../type";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getCommentListRequest } from "../apis/comment";
 import { defaultResponseHandler } from "../apis/custom";
 import { SortQueryType } from "../type";
@@ -65,7 +65,9 @@ export default function CommentListPage() {
       )}
       <header>
         <div className={styles.headerTitleBox}>
-          <button />
+          <Link to={"/contents/" + movieCD}>
+            <button />
+          </Link>
           <h2>코멘트</h2>
         </div>
         <nav>
