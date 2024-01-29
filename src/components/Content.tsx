@@ -133,7 +133,7 @@ function ContentPanel({
                   ? content.average_rate.toFixed(1)
                   : "평가 없음"}
               </div>
-              평균 평점(평점 총 개수)
+              평균 평점({content.rates_count.toLocaleString("ko-KR")}명)
             </div>
             <ul className={styles.reviewMenuCon}>
               <li

@@ -75,9 +75,6 @@ export default function ContentList({ title, order }: ContentListProps) {
       my_rate: null,
     }),
   );
-  useEffect(() => {
-    console.log(contents);
-  }, [contents]);
 
   const { accessToken } = useAuthContext();
 
