@@ -8,7 +8,7 @@ import CommentCard from "./CommentCard";
 import { CommentsResType, CommentType, MovieType } from "../type";
 
 import { MyStateType } from "../type";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
 import { getCommentListRequest } from "../apis/comment";
 import MyCommentBox from "./MyCommentBox";
@@ -19,6 +19,7 @@ import {
   postCreateWatchingState,
   putUpdateWatchingState,
 } from "../apis/user";
+import { OutletContextType } from "../pages/Layout";
 
 function ContentHeader({ content }: { content: MovieType }) {
   const backGroundStyle = {
@@ -52,7 +53,6 @@ function ContentHeader({ content }: { content: MovieType }) {
 function ContentPanel({
   content,
   setContent,
-
   refetchContent,
 }: {
   content: MovieType;
@@ -62,10 +62,12 @@ function ContentPanel({
   const [currentModal, setCurrentModal] = useState<
     "updateComment" | "createComment" | null
   >(null);
+  const { setCurrentModal: setLayoutCurrentModal } =
+    useOutletContext<OutletContextType>();
 
   const [myRate, setMyRate] = useState(content.my_rate ?? null);
 
-  const { accessToken } = useAuthContext();
+  const { isLogined, accessToken } = useAuthContext();
   const myState = content.my_state ?? null;
 
   const setMyStateHandler = (targetState: MyStateType) => {
@@ -110,7 +112,6 @@ function ContentPanel({
       <div className={styles.panelCon}>
         <div className={styles.imageCon}>
           <img src={content.poster} alt="영화 포스터" />
-          {/*<div className={styles.ratingGraph}>평점 그래프</div>*/}
         </div>
         <main className={styles.reviewCon}>
           <nav className={styles.reviewNav}>
@@ -137,9 +138,11 @@ function ContentPanel({
             <ul className={styles.reviewMenuCon}>
               <li
                 onClick={() => {
-                  myState?.my_state === "want_to_watch"
-                    ? setMyStateHandler(null)
-                    : setMyStateHandler("want_to_watch");
+                  isLogined
+                    ? myState?.my_state === "want_to_watch"
+                      ? setMyStateHandler(null)
+                      : setMyStateHandler("want_to_watch")
+                    : setLayoutCurrentModal("login");
                 }}
               >
                 <div className={styles.reviewMenuIconBox}>
@@ -159,9 +162,11 @@ function ContentPanel({
               </li>
               <li
                 onClick={() => {
-                  content.my_comment !== null
-                    ? setCurrentModal("updateComment")
-                    : setCurrentModal("createComment");
+                  isLogined
+                    ? content.my_comment !== null
+                      ? setCurrentModal("updateComment")
+                      : setCurrentModal("createComment")
+                    : setLayoutCurrentModal("login");
                 }}
               >
                 <div className={styles.reviewMenuIconBox}>
@@ -173,9 +178,11 @@ function ContentPanel({
               </li>
               <li
                 onClick={() => {
-                  myState?.my_state === "watching"
-                    ? setMyStateHandler(null)
-                    : setMyStateHandler("watching");
+                  isLogined
+                    ? myState?.my_state === "watching"
+                      ? setMyStateHandler(null)
+                      : setMyStateHandler("watching")
+                    : setLayoutCurrentModal("login");
                 }}
               >
                 <div className={styles.reviewMenuIconBox}>

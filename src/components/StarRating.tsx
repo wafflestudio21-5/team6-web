@@ -8,6 +8,8 @@ import {
 } from "../apis/content";
 import { useAuthContext } from "../contexts/authContext";
 import { defaultResponseHandler } from "../apis/custom";
+import { useOutletContext } from "react-router-dom";
+import { OutletContextType } from "../pages/Layout";
 
 type StarProps = {
   fill: "full" | "half" | "empty";
@@ -72,6 +74,7 @@ export default function StarRating({
   const [selectedRating, setSelectedRating] = useState(savedRating);
   const [hover, setHover] = useState(false);
   const { isLogined, accessToken } = useAuthContext();
+  const { setCurrentModal } = useOutletContext<OutletContextType>();
 
   const onMouseEnterStar = (rating: number) => {
     setSelectedRating(rating);
@@ -83,7 +86,8 @@ export default function StarRating({
   };
   const onClickStarHandler = (rating: number) => {
     if (!isLogined) {
-      // loginModal;
+      alert("영화를 평가하려면 로그인하세요.");
+      setCurrentModal("login");
     } else {
       if (myRate) {
         if (rating === savedRating) {
