@@ -86,7 +86,6 @@ export default function StarRating({
   };
   const onClickStarHandler = (rating: number) => {
     if (!isLogined) {
-      alert("영화를 평가하려면 로그인하세요.");
       setCurrentModal("login");
     } else {
       if (myRate) {
