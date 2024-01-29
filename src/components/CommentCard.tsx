@@ -3,9 +3,11 @@ import { CommentType } from "../type";
 import styles from "./CommentCard.module.scss";
 import profileDefault from "../assets/user_default.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function CommentCard({ comment }: { comment: CommentType }) {
   // user 하위 페이지에서 코멘트를 불러오는 경우, movie의 정보를 이용해야 한다.
+  console.log(comment);
 
   return (
     <li className={styles.cardCon}>
@@ -50,6 +52,7 @@ export default function CommentCard({ comment }: { comment: CommentType }) {
 function CommentContentBox({ comment }: { comment: CommentType }) {
   const navigate = useNavigate();
   const onHiddenMoviedata = window.location.pathname.includes("contents");
+  const [spoiler, setSpoiler] = useState(comment.has_spoiler);
 
   return (
     <>
@@ -86,13 +89,26 @@ function CommentContentBox({ comment }: { comment: CommentType }) {
               영화 · {new Date(comment.movie.release_date).getFullYear()}
             </p>
           )}
-          <span
-            onClick={() => {
-              navigate(`/comments/${comment.id}`);
-            }}
-          >
-            {comment.content}
-          </span>
+          {spoiler ? (
+            <div className={styles.spoiler}>
+              이 코멘트에는 스포일러가 있습니다.{" "}
+              <button
+                onClick={() => {
+                  setSpoiler(false);
+                }}
+              >
+                보기
+              </button>
+            </div>
+          ) : (
+            <span
+              onClick={() => {
+                navigate(`/comments/${comment.id}`);
+              }}
+            >
+              {comment.content}
+            </span>
+          )}
         </div>
       </div>
     </>

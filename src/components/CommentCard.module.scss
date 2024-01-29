@@ -94,6 +94,16 @@
         word-break: break-all;
         white-space-collapse: preserve;
         cursor: pointer;
+
+        .spoiler {
+          button {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: rgb(255, 47, 110);
+            font-size: 15px;
+          }
+        }
       }
     }
   }
