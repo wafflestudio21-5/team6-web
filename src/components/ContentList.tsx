@@ -75,6 +75,9 @@ export default function ContentList({ title, order }: ContentListProps) {
       my_rate: null,
     }),
   );
+  useEffect(() => {
+    console.log(contents);
+  }, [contents]);
 
   const { accessToken } = useAuthContext();
 
@@ -83,25 +86,28 @@ export default function ContentList({ title, order }: ContentListProps) {
       ? getContentListRequest(order, accessToken ?? undefined)
           .then(defaultResponseHandler)
           .then((data) => {
-            console.log(title, order);
-            console.log(data);
-
             setContents(
-              data.map((movieRes: { movie: MovieType; rank: number }) => {
-                const movie = movieRes.movie;
-                return {
-                  ...movie,
-                  poster: movie.poster.replace("http", "https"),
-                };
-              }),
+              data.map(
+                (movieRes: {
+                  movie: MovieType;
+                  my_rate: number | null;
+                  rank: number;
+                }) => {
+                  const movie = movieRes.movie;
+                  return {
+                    ...movie,
+                    poster: movie.poster.replace("http", "https"),
+                    my_rate: movieRes.my_rate
+                      ? { my_rate: movieRes.my_rate }
+                      : null,
+                  };
+                },
+              ),
             );
           })
       : getContentListRequest(order, accessToken ?? undefined)
           .then(defaultResponseHandler)
           .then((data) => {
-            console.log(title, order);
-            console.log(data);
-
             setContents(
               data.map((movie: MovieType) => {
                 return {
@@ -111,7 +117,7 @@ export default function ContentList({ title, order }: ContentListProps) {
               }),
             );
           });
-  }, [order]);
+  }, [order, accessToken]);
 
   function handleRightClick() {
     const scrollWidth = carouselUlRef.current?.scrollWidth;
