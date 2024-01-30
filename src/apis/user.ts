@@ -5,6 +5,42 @@ export async function getUserDetail(userId: number) {
   return fetch(`${BASE_API_URL}/users/${userId}/`);
 }
 
+export async function putUserUpdate(
+  nickname: string,
+  bio: string,
+  username: string,
+  accessToken: string
+) {
+  return fetch(`${BASE_API_URL}/users/mypage/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ nickname, bio, username }),
+  });
+}
+
+export async function putUserPhotoUpdate(
+  backgroundPhoto: File | null,
+  profilePhoto: File | null,
+  username: string,
+  accessToken: string
+) {
+  const formData = new FormData();
+  backgroundPhoto && formData.append("background_photo", backgroundPhoto);
+  profilePhoto && formData.append("profile_photo", profilePhoto);
+  formData.append("username", username);
+
+  return fetch(`${BASE_API_URL}/users/mypage/image_update/`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: formData,
+  });
+}
+
 export async function getFollowingList(userId: number) {
   return fetch(`${BASE_API_URL}/users/${userId}/followings/`);
 }
