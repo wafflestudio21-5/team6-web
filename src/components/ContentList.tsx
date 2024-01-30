@@ -35,7 +35,11 @@ function ContentCell(content: MovieType, rank: number) {
         <div className={styles.movieInfo}>
           <div className={styles.movieName}>{content.title_ko}</div>
           <div className={styles.movieYearCountry}>
-            {content.release_date.substring(0, 4)} · {content.prod_country}
+            {content.prod_country
+              ? content.release_date.substring(0, 4) +
+                " · " +
+                content.prod_country
+              : "ㅤ"}
           </div>
           {content.my_rate ? (
             <div className={styles.movieRatingMy}>
@@ -72,7 +76,7 @@ export default function ContentList({ title, order }: ContentListProps) {
     new Array(9)
       .fill({
         movieCD: 0,
-        title_ko: "...",
+        title_ko: "ㅤ",
         release_date: "",
         prod_country: "",
         poster: "",
@@ -82,7 +86,7 @@ export default function ContentList({ title, order }: ContentListProps) {
       .concat([
         {
           movieCD: 0,
-          title_ko: "...",
+          title_ko: "ㅤ",
           release_date: "",
           prod_country: "",
           poster: "",
