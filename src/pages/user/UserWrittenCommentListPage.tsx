@@ -50,7 +50,14 @@ export default function UserWrittenCommentListPage() {
       if (window.innerHeight + scrollTop + 150 >= scrollHeight) {
         nextCommentsUrl &&
           comments &&
-          fetch(nextCommentsUrl)
+          fetch(nextCommentsUrl, {
+            method: "GET",
+            headers: accessToken
+              ? {
+                  Authorization: "Bearer " + accessToken,
+                }
+              : {},
+          })
             .then(defaultResponseHandler)
             .then((data) => {
               console.log("scroll success  :", data);

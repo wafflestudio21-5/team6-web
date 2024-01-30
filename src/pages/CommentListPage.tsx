@@ -40,7 +40,14 @@ export default function CommentListPage() {
 
       if (window.innerHeight + scrollTop + 150 >= scrollHeight) {
         nextCommentsUrl &&
-          fetch(nextCommentsUrl)
+          fetch(nextCommentsUrl, {
+            method: "GET",
+            headers: accessToken
+              ? {
+                  Authorization: "Bearer " + accessToken,
+                }
+              : {},
+          })
             .then(defaultResponseHandler)
             .then((data) => {
               const commentsResponse = data;
