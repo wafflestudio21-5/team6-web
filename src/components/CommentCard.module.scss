@@ -53,7 +53,7 @@
     margin: 20px 0;
     display: flex;
     align-items: center;
-    height: 120px;
+    min-height: 120px;
     .posterBox {
       width: 20%;
       min-width: 20%;
@@ -68,8 +68,7 @@
     }
     .commentTextBox {
       margin-left: auto;
-
-      height: 120px;
+      min-height: 120px;
       margin: 12px 0 15px 0;
 
       .movieTitle {
@@ -87,15 +86,11 @@
         margin: 0px 0px 7px;
       }
       .commentText {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        word-break: break-word;
-        display: -webkit-box;
-        -webkit-line-clamp: 5; // 원하는 라인수
-        -webkit-box-orient: vertical;
         line-height: 24px;
         font-size: 14px;
         font-weight: 400;
+        white-space: pre-wrap;
+        word-break: break-word;
         cursor: pointer;
 
         .spoiler {
@@ -108,7 +103,18 @@
           }
         }
       }
+      .commentText.inContentPage {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+      }
     }
+  }
+
+  .commentContentContainer.inContentPage {
+    height: 120px;
   }
 
   .commentFeedbackCon {

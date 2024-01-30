@@ -2,7 +2,12 @@ import { CommentType } from "../type";
 
 import styles from "./CommentCard.module.scss";
 import profileDefault from "../assets/user_default.jpg";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useOutletContext,
+} from "react-router-dom";
 import { useState } from "react";
 import { useAuthContext } from "../contexts/authContext";
 import { OutletContextType } from "../pages/Layout";
@@ -20,6 +25,7 @@ export default function CommentCard({ comment }: { comment: CommentType }) {
   const [likeByMe, setLikeByMe] = useState(comment.liked_by_user);
   const [likeGoing, setLikeGoing] = useState(false);
   const [spoiler, setSpoiler] = useState(comment.has_spoiler);
+  const inContentPage = /^\/contents\/\d+$/.test(location.pathname);
 
   const likeClicked = () => {
     if (!accessToken) {
@@ -59,7 +65,12 @@ export default function CommentCard({ comment }: { comment: CommentType }) {
           </div>
         )}
       </div>
-      <div className={styles.commentContentContainer}>
+      <div
+        className={
+          styles.commentContentContainer +
+          (inContentPage ? " " + styles.inContentPage : "")
+        }
+      >
         <CommentContentBox
           comment={comment}
           spoiler={spoiler}
@@ -102,7 +113,9 @@ function CommentContentBox({
   setSpoiler: (s: boolean) => void;
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const onHiddenMoviedata = window.location.pathname.includes("contents");
+  const inContentPage = /^\/contents\/\d+$/.test(location.pathname);
 
   return (
     <>
@@ -118,7 +131,12 @@ function CommentContentBox({
         </div>
       )}
       <div className={styles.commentTextBox}>
-        <div className={styles.commentText}>
+        <div
+          className={
+            styles.commentText +
+            (inContentPage ? " " + styles.inContentPage : "")
+          }
+        >
           {!onHiddenMoviedata && (
             <p
               className={styles.movieTitle}
