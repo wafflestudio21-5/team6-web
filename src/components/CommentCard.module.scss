@@ -53,7 +53,7 @@
     margin: 20px 0;
     display: flex;
     align-items: center;
-    height: 150px;
+    height: 120px;
     .posterBox {
       width: 20%;
       min-width: 100px;
@@ -140,9 +140,15 @@
       color: $pink;
       cursor: pointer;
     }
+    button:disabled {
+      color: rgba(255, 47, 110, 0.5);
+    }
     .liked {
       background: rgb(255, 47, 110);
       color: rgb(255, 255, 255);
+    }
+    .liked:disabled {
+      background: rgba(255, 47, 110, 0.5);
     }
   }
 }
