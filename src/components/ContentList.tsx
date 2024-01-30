@@ -25,7 +25,11 @@ function ContentCell(content: MovieType, rank: number) {
     <li key={rank}>
       <Link to={`/contents/${content.movieCD}`}>
         <div className={styles.movieImage}>
-          <img src={content.poster} />
+          {content.poster ? (
+            <img className={styles.poster} src={content.poster} />
+          ) : (
+            <div className={styles.poster} />
+          )}
           <div className={styles.rank}>{rank}</div>
         </div>
         <div className={styles.movieInfo}>
@@ -65,15 +69,27 @@ export default function ContentList({ title, order }: ContentListProps) {
   const [isFirst, setIsFirst] = useState(true);
 
   const [contents, setContents] = useState<MovieType[]>(
-    new Array(10).fill({
-      movieCD: 0,
-      title_ko: "...",
-      release_date: "",
-      prod_country: "",
-      poster: "",
-      average_rate: null,
-      my_rate: null,
-    }),
+    new Array(9)
+      .fill({
+        movieCD: 0,
+        title_ko: "...",
+        release_date: "",
+        prod_country: "",
+        poster: "",
+        average_rate: null,
+        my_rate: null,
+      })
+      .concat([
+        {
+          movieCD: 0,
+          title_ko: "...",
+          release_date: "",
+          prod_country: "",
+          poster: "",
+          average_rate: 5,
+          my_rate: null,
+        },
+      ]),
   );
 
   const { accessToken } = useAuthContext();
