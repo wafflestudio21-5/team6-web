@@ -110,12 +110,23 @@ export default function User() {
     scrollToTop();
   }, []);
 
+  const backgoundStyle = {
+    backgroundImage: `url(${pageUser?.background_photo ?? ""})`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+  };
+
   return (
     <div className={styles.userContainer}>
       {!loading && pageUser && (
         <>
           {/* profile section. user 기본 정보와 평가&코멘트 탭을 포함하는 섹션 */}
           <section className={styles.profileSection}>
+            <div
+              className={styles.backgroundPhoto}
+              style={backgoundStyle}
+            ></div>
             <div className={styles.setBttnBox}>
               <button
                 className={styles.setBttn}
@@ -125,7 +136,10 @@ export default function User() {
               />
             </div>
             <div className={styles.profileInfoBox}>
-              <div className={styles.profilePhoto}></div>
+              <img
+                src={pageUser.profile_photo ?? profileDefault}
+                className={styles.profilePhoto}
+              />
               <h1>{pageUser.nickname}</h1>
               <p>{pageUser.username}</p>
               <div className={styles.connection}>
@@ -137,7 +151,14 @@ export default function User() {
                   <span>팔로잉 {pageUser.following_count}</span>
                 </Link>
               </div>
-              {pageMode !== "myPage" && (
+              {pageMode === "myPage" ? (
+                <button
+                  className={styles.userEditBttn}
+                  onClick={() => setCurrentModal("userEdit")}
+                >
+                  프로필 수정
+                </button>
+              ) : (
                 <button
                   className={`${styles.followBttn} ${
                     isMyFollowing && styles.unfollow
