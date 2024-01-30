@@ -24,7 +24,11 @@ export default function UserLikesCommentListPage() {
       .then(defaultResponseHandler)
       .then((data) => {
         const commentsResponse = data;
-        setComments(commentsResponse.results);
+        setComments(
+          commentsResponse.results.map((comment: CommentType) => {
+            return { ...comment, liked_by_user: true };
+          }),
+        );
         setNextCommentsUrl(commentsResponse.next);
       })
       .catch(() => alert("잘못된 요청입니다"))
@@ -44,7 +48,13 @@ export default function UserLikesCommentListPage() {
             .then(defaultResponseHandler)
             .then((data) => {
               const commentsResponse = data;
-              setComments(comments.concat(commentsResponse.results));
+              setComments(
+                comments.concat(
+                  commentsResponse.results.map((comment: CommentType) => {
+                    return { ...comment, liked_by_user: true };
+                  }),
+                ),
+              );
               setNextCommentsUrl(commentsResponse.next);
             })
             .catch(() => alert("잘못된 요청입니다"));
@@ -56,23 +66,6 @@ export default function UserLikesCommentListPage() {
   }, [comments]);
 
   useEffect(() => {
-    if (!accessToken) return;
-    if (!userId) return;
-
-    getMyLikesComments(accessToken)
-      .then(defaultResponseHandler)
-      .then((data) => {
-        const commentsResponse = data;
-        setComments(commentsResponse.results);
-        setNextCommentsUrl(commentsResponse.next);
-      })
-      .catch(() => alert("잘못된 요청입니다"))
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight } = document.documentElement;
 
@@ -83,7 +76,13 @@ export default function UserLikesCommentListPage() {
             .then(defaultResponseHandler)
             .then((data) => {
               const commentsResponse = data;
-              setComments(comments.concat(commentsResponse.results));
+              setComments(
+                comments.concat(
+                  commentsResponse.results.map((comment: CommentType) => {
+                    return { ...comment, liked_by_user: true };
+                  }),
+                ),
+              );
               setNextCommentsUrl(commentsResponse.next);
             })
             .catch(() => alert("잘못된 요청입니다"));
