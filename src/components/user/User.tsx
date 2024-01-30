@@ -12,6 +12,8 @@ import { FollowListType } from "../../type";
 import { getFollowingList } from "../../apis/user";
 import { postAddFollow, postUnFollow } from "../../apis/user";
 import useChangeTitle from "../../hooks/useChangeTitle";
+import profileDefault from "../../assets/user_default.jpg";
+
 export default function User() {
   const { setCurrentModal } = useOutletContext<OutletContextType>();
   const { myUserData, accessToken } = useAuthContext();
@@ -77,7 +79,7 @@ export default function User() {
         .finally(() => {
           setPageUserLoading(false);
         });
-  }, [pageUserId]);
+  }, [pageUserId, myUserData]);
 
   // 유저데이터에 팔로잉 리스트가 없어서 추가로 가져와야 함
 
