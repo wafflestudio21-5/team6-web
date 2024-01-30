@@ -270,8 +270,9 @@ function ContentCast({ content }: { content: MovieType }) {
 function ContentComments({ content }: { content: MovieType }) {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [commentsLength, setCommentsLength] = useState<number | null>(null);
+  const { accessToken } = useAuthContext();
   useEffect(() => {
-    getCommentListRequest(content.movieCD)
+    getCommentListRequest(content.movieCD, accessToken ?? undefined)
       .then(defaultResponseHandler)
       .then((data: CommentsResType) => {
         const commentsResponse = data;

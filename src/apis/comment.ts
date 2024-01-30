@@ -2,10 +2,19 @@ import { BASE_API_URL } from "./const";
 
 export async function getCommentListRequest(
   movieCD: string,
-  sortQuery?: string,
   accessToken?: string,
+  sortQuery?: string,
 ) {
-  if (!sortQuery) return fetch(`${BASE_API_URL}/contents/${movieCD}/comments`);
+  if (!sortQuery) {
+    return fetch(`${BASE_API_URL}/contents/${movieCD}/comments`, {
+      method: "GET",
+      headers: accessToken
+        ? {
+            Authorization: "Bearer " + accessToken,
+          }
+        : {},
+    });
+  }
   return fetch(
     `${BASE_API_URL}/contents/${movieCD}/comments/?order=${sortQuery}`,
     {

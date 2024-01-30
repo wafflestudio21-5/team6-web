@@ -37,13 +37,28 @@ export async function postUnFollow(accessToken: string, userId: number) {
 
 export async function getUserWrittenComments(
   userId: number,
+  accessToken?: string,
   query?: "like" | "created" | "high-rating" | "low-rating",
 ) {
   if (!query) {
-    return fetch(`${BASE_API_URL}/users/${userId}/comments/`);
+    return fetch(`${BASE_API_URL}/users/${userId}/comments/`, {
+      method: "GET",
+      headers: accessToken
+        ? {
+            Authorization: "Bearer " + accessToken,
+          }
+        : {},
+    });
   }
 
-  return fetch(`${BASE_API_URL}/users/${userId}/comments/?order=${query}`);
+  return fetch(`${BASE_API_URL}/users/${userId}/comments/?order=${query}`, {
+    method: "GET",
+    headers: accessToken
+      ? {
+          Authorization: "Bearer " + accessToken,
+        }
+      : {},
+  });
 }
 
 export async function getUserRatingMovies(

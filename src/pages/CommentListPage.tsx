@@ -8,6 +8,7 @@ import { defaultResponseHandler } from "../apis/custom";
 import { SortQueryType } from "../type";
 import SortMoadal from "../components/SortModal";
 import useChangeTitle from "../hooks/useChangeTitle";
+import { useAuthContext } from "../contexts/authContext";
 
 export default function CommentListPage() {
   const { id: movieCD } = useParams();
@@ -16,10 +17,11 @@ export default function CommentListPage() {
   const [sortQuery, setSortQuery] = useState<SortQueryType>("like");
   const [currentModal, setCurrenModal] = useState<null | "sort">(null);
   const { setTitle } = useChangeTitle();
+  const { accessToken } = useAuthContext();
 
   useEffect(() => {
     movieCD &&
-      getCommentListRequest(movieCD, sortQuery)
+      getCommentListRequest(movieCD, accessToken ?? undefined, sortQuery)
         .then(defaultResponseHandler)
         .then((data) => {
           const commentsResponse = data;
@@ -86,8 +88,8 @@ export default function CommentListPage() {
       </header>
       <main className={styles.commentListCon}>
         <ul>
-          {comments.map((comment, index) => (
-            <CommentCard key={index} comment={comment} /> // commentId가 같은 것이 있어서 index 임시
+          {comments.map((comment) => (
+            <CommentCard key={comment.id} comment={comment} />
           ))}
         </ul>
       </main>
