@@ -292,12 +292,14 @@ function ContentComments({ content }: { content: MovieType }) {
         <h2>
           코멘트 <span className={styles.commentCount}>{commentsLength}+</span>
         </h2>
-        <Link
-          to={`/contents/${content.movieCD}/comments`}
-          className={styles.moreComments}
-        >
-          더보기
-        </Link>
+        {commentsLength !== 0 && (
+          <Link
+            to={`/contents/${content.movieCD}/comments`}
+            className={styles.moreComments}
+          >
+            더보기
+          </Link>
+        )}
       </header>
       <div className={styles.commentGridCon}>
         <ul className={styles.commentsGrid}>

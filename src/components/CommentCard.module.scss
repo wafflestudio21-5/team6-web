@@ -147,9 +147,7 @@
       cursor: pointer;
       border-radius: 4px;
     }
-    button:hover {
-      filter: brightness(1.2);
-    }
+
     button:disabled {
       color: rgba(255, 47, 110, 0.5);
       cursor: default;

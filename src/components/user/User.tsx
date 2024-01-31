@@ -121,12 +121,14 @@ export default function User() {
               style={backgoundStyle}
             ></div>
             <div className={styles.setBttnBox}>
-              <button
-                className={styles.setBttn}
-                onClick={() => {
-                  setCurrentModal("setting");
-                }}
-              />
+              {pageMode === "myPage" && (
+                <button
+                  className={styles.setBttn}
+                  onClick={() => {
+                    setCurrentModal("setting");
+                  }}
+                />
+              )}
             </div>
             <div className={styles.profileInfoBox}>
               <img
