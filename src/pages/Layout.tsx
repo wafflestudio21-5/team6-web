@@ -9,8 +9,14 @@ import { getMyUserData, postNewToken } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
 import { defaultResponseHandler } from "../apis/custom";
 import SettingModal from "../components/user/SettingModal";
+import UserEditModal from "../components/user/UserEditModal";
 
-export type CurrentModalType = null | "signup" | "login" | "setting";
+export type CurrentModalType =
+  | null
+  | "signup"
+  | "login"
+  | "setting"
+  | "userEdit";
 export type OutletContextType = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
 };
@@ -68,6 +74,9 @@ export default function Layout() {
         )}
         {currentModal === "setting" && (
           <SettingModal setCurrentModal={setCurrentModal} />
+        )}
+        {currentModal === "userEdit" && (
+          <UserEditModal setCurrentModal={setCurrentModal} />
         )}
         <Header setCurrentModal={setCurrentModal} />
         <section className={styles.mainSection}>

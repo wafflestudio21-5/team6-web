@@ -1,6 +1,5 @@
 import CommentCard from "../../components/CommentCard";
 import styles from "./UserWrittenCommentListPage.module.scss";
-// import profileDefault from "../../assets/user_default.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { getUserWrittenComments } from "../../apis/user";

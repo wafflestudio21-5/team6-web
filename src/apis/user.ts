@@ -5,6 +5,39 @@ export async function getUserDetail(userId: number) {
   return fetch(`${BASE_API_URL}/users/${userId}/`);
 }
 
+export async function putUserUpdate(
+  nickname: string,
+  bio: string,
+  accessToken: string
+) {
+  return fetch(`${BASE_API_URL}/users/mypage/`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ nickname, bio }),
+  });
+}
+
+export async function putUserPhotoUpdate(
+  backgroundPhoto: File | null,
+  profilePhoto: File | null,
+  accessToken: string
+) {
+  const formData = new FormData();
+  backgroundPhoto && formData.append("background_photo", backgroundPhoto);
+  profilePhoto && formData.append("profile_photo", profilePhoto);
+
+  return fetch(`${BASE_API_URL}/users/mypage/image_update/`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: formData,
+  });
+}
+
 export async function getFollowingList(userId: number) {
   return fetch(`${BASE_API_URL}/users/${userId}/followings/`);
 }
@@ -66,7 +99,7 @@ export async function getUserRatingMovies(
   query: {
     order?: "high-rating" | "low-rating" | "created";
     rate?: number;
-  },
+  }
 ) {
   const result = Object.entries(query)
     .map(([key, value]) => `${key}=${value}`)
@@ -84,7 +117,7 @@ export async function getUserWantToWatch(userId: number) {
 export async function postCreateWatchingState(
   movieCD: string,
   accessToken: string,
-  user_state: "watching" | "want_to_watch" | "not_interested" | null,
+  user_state: "watching" | "want_to_watch" | "not_interested" | null
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
     method: "POST",
@@ -102,7 +135,7 @@ export async function postCreateWatchingState(
 export async function putUpdateWatchingState(
   state_id: number,
   accessToken: string,
-  user_state: "watching" | "want_to_watch" | "not_interested" | null,
+  user_state: "watching" | "want_to_watch" | "not_interested" | null
 ) {
   return fetch(`${BASE_API_URL}/contents/states/${state_id}`, {
     method: "PUT",
@@ -118,7 +151,7 @@ export async function putUpdateWatchingState(
 
 export async function deleteWatchingState(
   state_id: number,
-  accessToken: string,
+  accessToken: string
 ) {
   return fetch(`${BASE_API_URL}/contents/states/${state_id}`, {
     method: "DELETE",
