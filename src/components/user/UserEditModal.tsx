@@ -64,6 +64,7 @@ export default function UserEditModal({ setCurrentModal }: UserEditModalProps) {
           >
             <input
               type="file"
+              accept="image/*"
               id="backgroundPhotoUpload"
               onChange={handleBackgroundPhoto}
             />
@@ -75,6 +76,7 @@ export default function UserEditModal({ setCurrentModal }: UserEditModalProps) {
           >
             <input
               type="file"
+              accept="image/*"
               id="profilePhotoUpload"
               onChange={handleProfilePhoto}
             />
