@@ -54,7 +54,7 @@ export default function useUserEdit() {
 
     accessToken &&
       myUserData &&
-      putUserUpdate(nickname, bio, myUserData.username, accessToken)
+      putUserUpdate(nickname, bio, accessToken)
         .then(defaultResponseHandler)
         .then((data) => {
           setMyUserData(data);
@@ -64,12 +64,7 @@ export default function useUserEdit() {
     accessToken &&
       myUserData &&
       (backgroundPhotoFile || profilePhotoFile) &&
-      putUserPhotoUpdate(
-        backgroundPhotoFile,
-        profilePhotoFile,
-        myUserData.username,
-        accessToken
-      )
+      putUserPhotoUpdate(backgroundPhotoFile, profilePhotoFile, accessToken)
         .then(defaultResponseHandler)
         .then((data) => {
           setMyUserData(data);
