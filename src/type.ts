@@ -24,6 +24,7 @@ export type MovieType = {
   prod_country: string;
   poster: string;
   release_date: string;
+  rates_count: number;
   // option
   cumulative_audience: number | null;
   screening: boolean;

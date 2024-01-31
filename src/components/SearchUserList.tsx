@@ -20,7 +20,7 @@ const rate_comment = (user: SearchUserType) => {
 
 export type SearchUserType = {
   id: number;
-  username: string;
+  nickname: string;
   profile_photo: string;
   rate_num: number;
   comment_num: number;
@@ -39,13 +39,13 @@ export default function SearchUserList({
             <Link to={`/users/${user.id}`}>
               <div className={styles.userImage}>
                 <img
-                  alt={user.username + "의 사진"}
+                  alt={user.nickname + "의 사진"}
                   src={user.profile_photo ? user.profile_photo : UserDefault}
                 />
               </div>
               <div className={styles.userInfo}>
                 <div className={styles.userContainer}>
-                  <div className={styles.userName}>{user.username}</div>
+                  <div className={styles.userName}>{user.nickname}</div>
                   <div className={styles.rateComment}>{rate_comment(user)}</div>
                 </div>
                 <button>팔로우</button>

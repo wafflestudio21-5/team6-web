@@ -9,9 +9,11 @@ import { defaultResponseHandler } from "../../apis/custom";
 
 import { CommentType, SortQueryType } from "../../type";
 import SortMoadal from "../../components/SortModal";
+import { useAuthContext } from "../../contexts/authContext";
 
 export default function UserWrittenCommentListPage() {
   const navigate = useNavigate();
+  const { accessToken } = useAuthContext();
   const { id: userId } = useParams();
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,7 +24,11 @@ export default function UserWrittenCommentListPage() {
 
   useEffect(() => {
     userId &&
-      getUserWrittenComments(parseInt(userId), sortQuery)
+      getUserWrittenComments(
+        parseInt(userId),
+        accessToken ?? undefined,
+        sortQuery,
+      )
         .then(defaultResponseHandler)
         .then((data) => {
           console.log("success!!!!", data);
@@ -44,7 +50,14 @@ export default function UserWrittenCommentListPage() {
       if (window.innerHeight + scrollTop + 150 >= scrollHeight) {
         nextCommentsUrl &&
           comments &&
-          fetch(nextCommentsUrl)
+          fetch(nextCommentsUrl, {
+            method: "GET",
+            headers: accessToken
+              ? {
+                  Authorization: "Bearer " + accessToken,
+                }
+              : {},
+          })
             .then(defaultResponseHandler)
             .then((data) => {
               console.log("scroll success  :", data);
