@@ -8,6 +8,7 @@ import { FollowListType, FollowType } from "../../type";
 import { defaultResponseHandler } from "../../apis/custom";
 import { getFollowingList } from "../../apis/user";
 import { useAuthContext } from "../../contexts/authContext";
+import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 export default function UserFollowingPage() {
   const navigate = useNavigate();
 
@@ -20,14 +21,10 @@ export default function UserFollowingPage() {
   const [myFollowingLoading, setMyFollowingLoading] = useState(true);
 
   const { myUserData } = useAuthContext();
-  console.log(
-    pageFollowingListData,
-    myFollowingListData,
-    pageFollowingLoading,
-    myFollowingLoading,
-  );
+
   const { autoLoginConfirmed } = useAuthContext();
 
+  useMoveScrollToTop();
   // api 구성이 하나의 요청으로 해결할 수 없게 만들어져 있어서 여러 useeffect를 사용해야 함......
   useEffect(() => {
     if (!myUserData) {
@@ -62,15 +59,6 @@ export default function UserFollowingPage() {
   }, []);
 
   useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-      });
-    };
-    scrollToTop();
-  }, []);
-
-  useEffect(() => {
     if (myFollowingLoading || pageFollowingLoading) return;
   }, [myFollowingLoading, pageFollowingLoading]);
 
@@ -93,7 +81,7 @@ export default function UserFollowingPage() {
             <ul className={styles.followList}>
               {pageFollowingListData.map((follower: FollowType) => {
                 const myFollowingIdList = myFollowingListData.map(
-                  (follower) => follower.id,
+                  (follower) => follower.id
                 );
                 const isMyFollowing = myFollowingIdList.includes(follower.id)
                   ? true

@@ -28,34 +28,44 @@ function ContentCell(content: MovieType, rank: number) {
           {content.poster ? (
             <img className={styles.poster} src={content.poster} />
           ) : (
-            <div className={styles.poster} />
+            <div className={styles.poster + " " + styles.skeletonBox} />
           )}
           <div className={styles.rank}>{rank}</div>
         </div>
         <div className={styles.movieInfo}>
-          <div className={styles.movieName}>{content.title_ko}</div>
+          <div className={styles.movieName}>
+            {!content.poster && <div className={styles.skeletonBox} />}
+            {content.title_ko}
+          </div>
+
           <div className={styles.movieYearCountry}>
+            {!content.poster && <div className={styles.skeletonBox} />}
             {content.prod_country
               ? content.release_date.substring(0, 4) +
                 " · " +
                 content.prod_country
               : "ㅤ"}
           </div>
+
           {content.my_rate ? (
             <div className={styles.movieRatingMy}>
               평가함 ★{content.my_rate.my_rate.toFixed(1)}
             </div>
+          ) : content.average_rate ? (
+            <div
+              className={
+                content.average_rate
+                  ? styles.movieRating
+                  : styles.movieRatingNone
+              }
+            >
+              평균 ★{content.average_rate.toFixed(1)}
+            </div>
           ) : (
-            content.average_rate && (
+            !content.poster && (
               <div
-                className={
-                  content.average_rate
-                    ? styles.movieRating
-                    : styles.movieRatingNone
-                }
-              >
-                평균 ★{content.average_rate.toFixed(1)}
-              </div>
+                className={styles.ratingSkeletonBox + " " + styles.skeletonBox}
+              />
             )
           )}
         </div>
@@ -93,7 +103,7 @@ export default function ContentList({ title, order }: ContentListProps) {
           average_rate: 5,
           my_rate: null,
         },
-      ]),
+      ])
   );
 
   const { accessToken } = useAuthContext();
@@ -118,8 +128,8 @@ export default function ContentList({ title, order }: ContentListProps) {
                       ? { my_rate: movieRes.my_rate }
                       : null,
                   };
-                },
-              ),
+                }
+              )
             );
           })
       : getContentListRequest(order, accessToken ?? undefined)
@@ -131,7 +141,7 @@ export default function ContentList({ title, order }: ContentListProps) {
                   ...movie,
                   poster: movie.poster.replace("http", "https"),
                 };
-              }),
+              })
             );
           });
   }, [order, accessToken]);
@@ -150,7 +160,7 @@ export default function ContentList({ title, order }: ContentListProps) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false,
+          : false
       );
     }
   }
@@ -166,7 +176,7 @@ export default function ContentList({ title, order }: ContentListProps) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false,
+          : false
       );
     }
   }
@@ -178,7 +188,7 @@ export default function ContentList({ title, order }: ContentListProps) {
         <div className={styles.scrollBar} ref={carouselContentRef}>
           <ul ref={carouselUlRef}>
             {contents.map((content: MovieType, index: number) =>
-              ContentCell(content, index + 1),
+              ContentCell(content, index + 1)
             )}
           </ul>
         </div>

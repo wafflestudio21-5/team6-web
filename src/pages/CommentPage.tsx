@@ -7,6 +7,7 @@ import { defaultResponseHandler } from "../apis/custom";
 import { CommentType } from "../type";
 import { useAuthContext } from "../contexts/authContext";
 import useChangeTitle from "../hooks/useChangeTitle";
+import useMoveScrollToTop from "../hooks/useMoveScrollToTop";
 
 export default function CommentPage() {
   const { id } = useParams();
@@ -16,7 +17,7 @@ export default function CommentPage() {
   const { accessToken } = useAuthContext();
   const { setTitle } = useChangeTitle();
   const refetchComment = () => setRefetch(!refetch);
-
+  useMoveScrollToTop();
   useEffect(() => {
     id &&
       getCommentRequest(parseInt(id), accessToken ?? undefined)
@@ -27,7 +28,7 @@ export default function CommentPage() {
             data.created_by.nickname +
               `님이 "${
                 data.movie.title_ko ?? "영화"
-              }"에 남긴 코멘트 - 와플피디아`,
+              }"에 남긴 코멘트 - 와플피디아`
           );
         })
         .catch(() => {
