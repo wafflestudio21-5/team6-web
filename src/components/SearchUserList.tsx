@@ -3,6 +3,7 @@ import styles from "./SearchUserList.module.scss";
 import UserDefault from "../assets/user_default.jpg";
 
 const rate_comment = (user: SearchUserType) => {
+  if(user.bio)return user.bio;
   if (user.rate_num) {
     if (user.comment_num) {
       return `평가 ${user.rate_num} • 코멘트 ${user.comment_num}`;
@@ -21,6 +22,7 @@ const rate_comment = (user: SearchUserType) => {
 export type SearchUserType = {
   id: number;
   nickname: string;
+  bio: string;
   profile_photo: string;
   rate_num: number;
   comment_num: number;
@@ -39,7 +41,7 @@ export default function SearchUserList({
             <Link to={`/users/${user.id}`}>
               <div className={styles.userImage}>
                 <img
-                  alt={user.username + "의 사진"}
+                  alt={user.nickname + "의 사진"}
                   src={user.profile_photo ?? UserDefault}
                 />
               </div>
