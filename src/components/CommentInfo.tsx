@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import userImage from "../assets/user_default.jpg";
+import profileDefault from "../assets/user_default.jpg";
 import styles from "./CommentInfo.module.scss";
 
 import ReplyList from "./ReplyList";
@@ -29,7 +29,10 @@ function CommentHeader({ comment }: { comment: CommentType }) {
           title={created_by.nickname}
         >
           <div className={styles.userImage}>
-            <img src={userImage} alt={created_by.nickname + "의 사진"} />
+            <img
+              src={created_by.profile_photo ?? profileDefault}
+              alt={created_by.nickname + "의 사진"}
+            />
           </div>
           <div className={styles.userDate}>
             <div className={styles.userName}>{created_by.nickname}</div>

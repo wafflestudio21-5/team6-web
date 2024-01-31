@@ -1,7 +1,7 @@
 import { CurrentModalType } from "../pages/Layout";
 import Logo from "../assets/logo.svg";
 import WhiteLogo from "../assets/logo_white.svg";
-import UserImage from "../assets/user_default.jpg";
+import profileDefault from "../assets/user_default.jpg";
 import styles from "./Header.module.scss";
 import SearchBar from "./SearchBar";
 import searchSmall from "../assets/searchSmall.svg";
@@ -113,7 +113,7 @@ export default function Header({ setCurrentModal }: HeaderProps) {
               <li className={styles.myProfileLi}>
                 <Link to={`/users/${myUserData?.id}`}>
                   <div>
-                    <img src={UserImage} />
+                    <img src={myUserData?.profile_photo ?? profileDefault} />
                   </div>
                 </Link>
               </li>

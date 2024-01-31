@@ -37,7 +37,11 @@ export default function MyCommentBox({
           <div className={styles.commentCon}>
             <h3>내가 쓴 코멘트</h3>
             <div className={styles.commentBox}>
-              <img className={styles.userImage} src={profileDefault} alt="" />
+              <img
+                className={styles.userImage}
+                src={myUserData?.profile_photo ?? profileDefault}
+                alt=""
+              />
               <Link
                 to={`/comments/${my_comment.id}`}
                 className={styles.commentText}

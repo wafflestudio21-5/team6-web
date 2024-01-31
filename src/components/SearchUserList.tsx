@@ -40,7 +40,7 @@ export default function SearchUserList({
               <div className={styles.userImage}>
                 <img
                   alt={user.username + "의 사진"}
-                  src={user.profile_photo ? user.profile_photo : UserDefault}
+                  src={user.profile_photo ?? UserDefault}
                 />
               </div>
               <div className={styles.userInfo}>

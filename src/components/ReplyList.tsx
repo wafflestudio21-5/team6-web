@@ -1,5 +1,5 @@
 import styles from "./ReplyList.module.scss";
-import userImage from "../assets/user_default.jpg";
+import profileDefault from "../assets/user_default.jpg";
 import { Link } from "react-router-dom";
 import elapsedTime from "../utils/elapsedTime";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -44,7 +44,10 @@ function Reply({
     <div className={styles.reply}>
       <Link to={`/users/${reply.created_by.id}`}>
         <div className={styles.userImage}>
-          <img src={userImage} alt={reply.created_by.nickname + "의 사진"} />
+          <img
+            src={reply.created_by.profile_photo ?? profileDefault}
+            alt={reply.created_by.nickname + "의 사진"}
+          />
         </div>
       </Link>
       <div className={styles.replyBody}>
