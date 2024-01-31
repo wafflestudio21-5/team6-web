@@ -1,7 +1,6 @@
-import { Link, useParams } from "react-router-dom";
 import profileDefault from "../assets/user_default.jpg";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 import styles from "./CommentInfo.module.scss";
-
 import ReplyList from "./ReplyList";
 import elapsedTime from "../utils/elapsedTime";
 import { CommentType } from "../type";
@@ -16,6 +15,7 @@ import { getCommentReplies } from "../apis/comment";
 import DeleteComReplyModal from "./DeleteComReplyModal";
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { OutletContextType } from "../pages/Layout";
 
 function CommentHeader({ comment }: { comment: CommentType }) {
   const { movie, rating, created_by, created_at } = comment;
@@ -158,7 +158,8 @@ function LikeReplyBar({
   ) => void;
   refetchComment: () => void;
 }) {
-  const { accessToken } = useAuthContext();
+  const { isLogined, accessToken } = useAuthContext();
+  const { setCurrentModal } = useOutletContext<OutletContextType>();
   const { id: commentId } = useParams();
 
   return (
@@ -167,7 +168,10 @@ function LikeReplyBar({
       <div className={styles.likeReplyGrid}>
         <button
           onClick={() => {
-            if (!accessToken) return;
+            if (!accessToken) {
+              setCurrentModal("login");
+              return;
+            }
             if (!commentId) return;
             postToggleCommentLike(parseInt(commentId), accessToken)
               .then(defaultResponseHandler)
@@ -222,6 +226,10 @@ function LikeReplyBar({
         </button>
         <button
           onClick={() => {
+            if (!isLogined) {
+              setCurrentModal("login");
+              return;
+            }
             setCurrentModalState({ type: "createReply" });
           }}
         >
@@ -278,7 +286,7 @@ export default function CommentInfo({
         setNextRepliesUrl(repliesResponse.next);
       })
       .catch(() => alert("잘못된 요청입니다"));
-  }, [commentId]);
+  }, [commentId, accessToken]);
 
   // 무한스크롤 페이지네이션 특성상 단순히 데이터 리패칭을 할 수 없음 따라서 state를 직접 변경한다.
   const deleteReplyState = (replyId: number) => {

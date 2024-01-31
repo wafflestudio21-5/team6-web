@@ -25,13 +25,21 @@ function ContentCell(content: MovieType, rank: number) {
     <li key={rank}>
       <Link to={`/contents/${content.movieCD}`}>
         <div className={styles.movieImage}>
-          <img src={content.poster} />
+          {content.poster ? (
+            <img className={styles.poster} src={content.poster} />
+          ) : (
+            <div className={styles.poster} />
+          )}
           <div className={styles.rank}>{rank}</div>
         </div>
         <div className={styles.movieInfo}>
           <div className={styles.movieName}>{content.title_ko}</div>
           <div className={styles.movieYearCountry}>
-            {content.release_date.substring(0, 4)} · {content.prod_country}
+            {content.prod_country
+              ? content.release_date.substring(0, 4) +
+                " · " +
+                content.prod_country
+              : "ㅤ"}
           </div>
           {content.my_rate ? (
             <div className={styles.movieRatingMy}>
@@ -64,7 +72,29 @@ export default function ContentList({ title, order }: ContentListProps) {
   const [isLast, setIsLast] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
 
-  const [contents, setContents] = useState<MovieType[]>([]);
+  const [contents, setContents] = useState<MovieType[]>(
+    new Array(9)
+      .fill({
+        movieCD: 0,
+        title_ko: "ㅤ",
+        release_date: "",
+        prod_country: "",
+        poster: "",
+        average_rate: null,
+        my_rate: null,
+      })
+      .concat([
+        {
+          movieCD: 0,
+          title_ko: "ㅤ",
+          release_date: "",
+          prod_country: "",
+          poster: "",
+          average_rate: 5,
+          my_rate: null,
+        },
+      ]),
+  );
 
   const { accessToken } = useAuthContext();
 
@@ -73,25 +103,28 @@ export default function ContentList({ title, order }: ContentListProps) {
       ? getContentListRequest(order, accessToken ?? undefined)
           .then(defaultResponseHandler)
           .then((data) => {
-            console.log(title, order);
-            console.log(data);
-
             setContents(
-              data.map((movieRes: { movie: MovieType; rank: number }) => {
-                const movie = movieRes.movie;
-                return {
-                  ...movie,
-                  poster: movie.poster.replace("http", "https"),
-                };
-              }),
+              data.map(
+                (movieRes: {
+                  movie: MovieType;
+                  my_rate: number | null;
+                  rank: number;
+                }) => {
+                  const movie = movieRes.movie;
+                  return {
+                    ...movie,
+                    poster: movie.poster.replace("http", "https"),
+                    my_rate: movieRes.my_rate
+                      ? { my_rate: movieRes.my_rate }
+                      : null,
+                  };
+                },
+              ),
             );
           })
       : getContentListRequest(order, accessToken ?? undefined)
           .then(defaultResponseHandler)
           .then((data) => {
-            console.log(title, order);
-            console.log(data);
-
             setContents(
               data.map((movie: MovieType) => {
                 return {
@@ -101,7 +134,7 @@ export default function ContentList({ title, order }: ContentListProps) {
               }),
             );
           });
-  }, [order]);
+  }, [order, accessToken]);
 
   function handleRightClick() {
     const scrollWidth = carouselUlRef.current?.scrollWidth;

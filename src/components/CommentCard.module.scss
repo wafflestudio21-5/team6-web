@@ -53,10 +53,10 @@
     margin: 20px 0;
     display: flex;
     align-items: center;
-    height: 150px;
+    min-height: 120px;
     .posterBox {
       width: 20%;
-      min-width: 100px;
+      min-width: 20%;
 
       img {
         cursor: pointer;
@@ -68,8 +68,7 @@
     }
     .commentTextBox {
       margin-left: auto;
-
-      height: 120px;
+      min-height: 120px;
       margin: 12px 0 15px 0;
 
       .movieTitle {
@@ -87,15 +86,35 @@
         margin: 0px 0px 7px;
       }
       .commentText {
-        display: block;
         line-height: 24px;
         font-size: 14px;
         font-weight: 400;
-        word-break: break-all;
-        white-space-collapse: preserve;
+        white-space: pre-wrap;
+        word-break: break-word;
         cursor: pointer;
+
+        .spoiler {
+          button {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: rgb(255, 47, 110);
+            font-size: 15px;
+          }
+        }
+      }
+      .commentText.inContentPage {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
       }
     }
+  }
+
+  .commentContentContainer.inContentPage {
+    height: 120px;
   }
 
   .commentFeedbackCon {
@@ -127,9 +146,18 @@
       color: $pink;
       cursor: pointer;
     }
+    button:disabled {
+      color: rgba(255, 47, 110, 0.5);
+      cursor: default;
+    }
     .liked {
       background: rgb(255, 47, 110);
       color: rgb(255, 255, 255);
+    }
+    .liked:disabled {
+      background: rgba(255, 47, 110, 0.5);
+      color: rgb(255, 255, 255);
+      cursor: default;
     }
   }
 }

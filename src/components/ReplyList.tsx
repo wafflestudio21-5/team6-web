@@ -1,6 +1,6 @@
 import styles from "./ReplyList.module.scss";
 import profileDefault from "../assets/user_default.jpg";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import elapsedTime from "../utils/elapsedTime";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
@@ -11,6 +11,7 @@ import { getNextCommentReplies, postToggleReplyLike } from "../apis/comment";
 
 import { ReplyType } from "../type";
 import { useAuthContext } from "../contexts/authContext";
+import { OutletContextType } from "../pages/Layout";
 
 function Reply({
   reply,
@@ -27,6 +28,7 @@ function Reply({
     reply.like_count,
   );
   const { accessToken, myUserData } = useAuthContext();
+  const { setCurrentModal } = useOutletContext<OutletContextType>();
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
@@ -64,7 +66,10 @@ function Reply({
           <button
             className={myReplyLike ? styles.liked : styles.unliked}
             onClick={() => {
-              if (!accessToken) return;
+              if (!accessToken) {
+                setCurrentModal("login");
+                return;
+              }
               postToggleReplyLike(reply.id, accessToken)
                 .then((res) => {
                   if (!res.ok) throw new Error("실패");

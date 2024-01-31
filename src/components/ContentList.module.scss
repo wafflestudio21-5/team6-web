@@ -59,7 +59,8 @@
               border-radius: 5px;
               overflow: hidden;
               aspect-ratio: 0.6862;
-              img {
+              background-color: $light-gray;
+              .poster {
                 width: 100%;
                 height: 100%;
               }

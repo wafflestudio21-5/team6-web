@@ -30,7 +30,7 @@ export default function ContentPage() {
         .catch(() => {
           alert("잘못된 요청입니다");
         });
-  }, [id, accessToken, refetch]);
+  }, [id, accessToken, setTitle, refetch]);
 
   return (
     <div className={styles.container}>
