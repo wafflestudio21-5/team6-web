@@ -9,6 +9,7 @@ import { SortQueryType } from "../type";
 import SortMoadal from "../components/SortModal";
 import useChangeTitle from "../hooks/useChangeTitle";
 import { useAuthContext } from "../contexts/authContext";
+import useMoveScrollToTop from "../hooks/useMoveScrollToTop";
 
 export default function CommentListPage() {
   const { id: movieCD } = useParams();
@@ -26,13 +27,15 @@ export default function CommentListPage() {
         .then((data) => {
           const commentsResponse = data;
           setTitle(
-            `${commentsResponse.results.length}개의 코멘트 목록 - 와플피디아`,
+            `${commentsResponse.results.length}개의 코멘트 목록 - 와플피디아`
           );
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);
         })
         .catch(() => alert("잘못된 요청입니다"));
   }, [movieCD, sortQuery]);
+
+  useMoveScrollToTop();
 
   useEffect(() => {
     const handleScroll = () => {

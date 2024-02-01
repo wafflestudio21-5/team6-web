@@ -8,6 +8,8 @@ import { defaultResponseHandler } from "../apis/custom";
 import { CommentType, ReplyType } from "../type";
 import { updateCommentRequest } from "../apis/comment";
 import autoSave from "../utils/autoSave";
+import usePreventScroll from "../hooks/usePreventScroll";
+import useHandlePopState from "../hooks/useHandlePopState";
 
 export type CommentPageWriteModalStateType =
   | { type: "updateComment"; targetComment: CommentType }
@@ -37,28 +39,28 @@ export default function CommentPageWriteModal({
     modalType === "updateReply"
       ? "edit"
       : modalType === "updateComment"
-        ? "comment"
-        : "reply";
+      ? "comment"
+      : "reply";
   const autoSaveId =
     modalType === "updateReply"
       ? currentModalState.targetReply.id
       : modalType === "updateComment"
-        ? currentModalState.targetComment.movie.movieCD
-        : commentId;
+      ? currentModalState.targetComment.movie.movieCD
+      : commentId;
   const autoSavedText = autoSave.get(myId!, mode, autoSaveId!); //모달은 로그인을 했고, id의 코멘트가 있을 때 뜬다
   const [hasSpoiler, setHasSpoiler] = useState<boolean | null>(
     modalType === "updateComment"
       ? currentModalState.targetComment.has_spoiler
-      : null,
+      : null
   );
   const [contentInput, setContentInput] = useState(
     autoSavedText != null
       ? autoSavedText
       : modalType === "updateReply"
-        ? currentModalState.targetReply.content
-        : modalType === "updateComment"
-          ? currentModalState.targetComment.content
-          : "",
+      ? currentModalState.targetReply.content
+      : modalType === "updateComment"
+      ? currentModalState.targetComment.content
+      : ""
   );
 
   const [doSave, setDoSave] = useState(false);
@@ -71,6 +73,10 @@ export default function CommentPageWriteModal({
     autoSave.set(myId!, mode, autoSaveId!, s); //모달은 로그인을 했고, id의 코멘트가 있을 때 뜬다
   };
 
+  usePreventScroll();
+  useHandlePopState(() => {
+    setCurrentModal(null);
+  });
   return (
     <Modal
       onClose={() => {
@@ -141,7 +147,7 @@ export default function CommentPageWriteModal({
                       postCreateReply(
                         parseInt(commentId),
                         accessToken,
-                        contentInput,
+                        contentInput
                       )
                         .then(defaultResponseHandler)
                         .then((data: ReplyType) => {
@@ -156,7 +162,7 @@ export default function CommentPageWriteModal({
                       putUpdateReply(
                         currentModalState.targetReply.id,
                         accessToken,
-                        contentInput,
+                        contentInput
                       )
                         .then(defaultResponseHandler)
                         .then((data: ReplyType) => {
@@ -175,7 +181,7 @@ export default function CommentPageWriteModal({
                         parseInt(commentId),
                         accessToken,
                         contentInput,
-                        hasSpoiler,
+                        hasSpoiler
                       )
                         .then(defaultResponseHandler)
                         .then(() => {

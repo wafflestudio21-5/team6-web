@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MovieByStorageSubType } from "../../type";
 import { getUserWantToWatch, getUserWatchings } from "../../apis/user";
 import { defaultResponseHandler } from "../../apis/custom";
+import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 export default function UserStorageSubPage() {
   const { subpage } = useParams();
   const { id: userId } = useParams();
@@ -16,6 +17,7 @@ export default function UserStorageSubPage() {
 
   const pageTitle = subpage === "wishes" ? "보고 싶어요" : "보는 중이에요";
 
+  useMoveScrollToTop();
   useEffect(() => {
     if (!userId) return;
     subpage === "wishes" &&
@@ -38,15 +40,6 @@ export default function UserStorageSubPage() {
         .finally(() => {
           setLoading(false);
         });
-  }, []);
-
-  useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-      });
-    };
-    scrollToTop();
   }, []);
 
   return (
