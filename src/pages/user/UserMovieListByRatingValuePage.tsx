@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { defaultResponseHandler } from "../../apis/custom";
 import { getUserRatingMovies } from "../../apis/user";
 import { MovieResByUserType } from "../../type";
+import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 export default function UserMovieListByRatingValuePage() {
   const { ratingNumber, id: userId } = useParams();
   const number = !!ratingNumber ? parseInt(ratingNumber) : undefined;
@@ -13,6 +14,8 @@ export default function UserMovieListByRatingValuePage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [nextmoviesUrl, setNextMoviesUrl] = useState<string | null>(null);
   const [movieCount, setmovieCount] = useState<number | null>(null);
+
+  useMoveScrollToTop();
   useEffect(() => {
     userId &&
       number &&
@@ -50,15 +53,6 @@ export default function UserMovieListByRatingValuePage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [movies]);
-
-  useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-      });
-    };
-    scrollToTop();
-  }, []);
 
   return (
     <>

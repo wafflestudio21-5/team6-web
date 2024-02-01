@@ -8,6 +8,7 @@ import { defaultResponseHandler } from "../../apis/custom";
 import { FollowListType, FollowType } from "../../type";
 import { getFollowingList } from "../../apis/user";
 import { useAuthContext } from "../../contexts/authContext";
+import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 
 export default function UserFollowerPage() {
   const navigate = useNavigate();
@@ -19,8 +20,8 @@ export default function UserFollowerPage() {
     useState<FollowListType>([] as FollowListType);
   const [myFollowingLoading, setMyFollowingLoading] = useState(true);
   const { myUserData } = useAuthContext();
-  console.log(pageFollowerListData);
 
+  useMoveScrollToTop();
   useEffect(() => {
     if (!myUserData) {
       setMyFollowingLoading(false);
@@ -54,15 +55,6 @@ export default function UserFollowerPage() {
       });
   }, []);
 
-  useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-      });
-    };
-    scrollToTop();
-  }, []);
-
   return (
     <>
       <div className={styles.fixedTab}>
@@ -82,7 +74,7 @@ export default function UserFollowerPage() {
             <ul className={styles.followList}>
               {pageFollowerListData.map((follower: FollowType) => {
                 const myFollowingIdList = myFollowingListData.map(
-                  (follower) => follower.id,
+                  (follower) => follower.id
                 );
                 const isMyFollowing = myFollowingIdList.includes(follower.id)
                   ? true

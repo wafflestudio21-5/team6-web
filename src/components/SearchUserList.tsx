@@ -39,7 +39,7 @@ export default function SearchUserList({
             <Link to={`/users/${user.id}`}>
               <div className={styles.userImage}>
                 <img
-                  alt={user.username + "의 사진"}
+                  alt={user.nickname + "의 사진"}
                   src={user.profile_photo ?? UserDefault}
                 />
               </div>

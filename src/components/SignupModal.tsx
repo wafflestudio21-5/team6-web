@@ -6,6 +6,8 @@ import { CurrentModalType } from "../pages/Layout";
 import { postLogin, postSignup } from "../apis/auth";
 import { useAuthContext } from "../contexts/authContext";
 import { defaultResponseHandler } from "../apis/custom";
+import usePreventScroll from "../hooks/usePreventScroll";
+import useHandlePopState from "../hooks/useHandlePopState";
 
 type SignupModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -83,6 +85,11 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
     );
   };
 
+  usePreventScroll();
+  useHandlePopState(() => {
+    setCurrentModal(null);
+  });
+
   useEffect(() => {
     authHandler();
   }, [isSignupSuccess]); // 회원가입 시 자동 로그인
@@ -98,6 +105,13 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
           e.stopPropagation();
         }}
       >
+        <div className={styles.cancelButtonContainer}>
+          <button
+            onClick={() => {
+              setCurrentModal(null);
+            }}
+          />
+        </div>
         {!!authErrorMessage && (
           <div
             className={styles.authErrorBoxContainer}
@@ -277,7 +291,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
                   window.open(
                     "/auth/toKakao",
                     "_blank",
-                    "width=350,height=600",
+                    "width=350,height=600"
                   );
                 }}
               >

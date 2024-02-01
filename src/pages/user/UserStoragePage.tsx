@@ -6,6 +6,7 @@ import { defaultResponseHandler } from "../../apis/custom";
 import { useState } from "react";
 import { getUserRatingMovies } from "../../apis/user";
 import { MovieResByUserType } from "../../type";
+import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 
 export default function UserStoragePage() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function UserStoragePage() {
   const [movieCount, setmovieCount] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  useMoveScrollToTop();
   useEffect(() => {
     userId &&
       getUserRatingMovies(parseInt(userId), {})
