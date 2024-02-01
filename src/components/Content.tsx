@@ -4,9 +4,7 @@ import { Carousel } from "./Carousel";
 import profileDefault from "../assets/user_default.jpg";
 import StarRating from "./StarRating";
 import CommentCard from "./CommentCard";
-
 import { CommentsResType, CommentType, MovieType } from "../type";
-
 import { MyStateType } from "../type";
 import { Link, useOutletContext } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
