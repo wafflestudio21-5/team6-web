@@ -3,7 +3,7 @@ import styles from "./SearchUserList.module.scss";
 import UserDefault from "../assets/user_default.jpg";
 
 const rate_comment = (user: SearchUserType) => {
-  if(user.bio)return user.bio;
+  if (user.bio) return user.bio;
   if (user.rate_num) {
     if (user.comment_num) {
       return `평가 ${user.rate_num} • 코멘트 ${user.comment_num}`;
