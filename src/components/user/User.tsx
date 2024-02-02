@@ -153,6 +153,7 @@ export default function User() {
                   <span>팔로잉 {pageUser.following_count}</span>
                 </Link>
               </div>
+              <p>{pageUser.bio}</p>
               {pageMode === "myPage" ? (
                 <button
                   className={styles.userEditBttn}
