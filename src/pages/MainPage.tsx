@@ -13,6 +13,10 @@ export default function MainPage() {
       title: "최신 영화",
       order: "latest",
     },
+    {
+      title: "🧇 TEAM6's PICK",
+      order: "recommend",
+    },
   ];
   return (
     <section className={styles.mainSection}>

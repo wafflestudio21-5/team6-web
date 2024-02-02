@@ -109,41 +109,56 @@ export default function ContentList({ title, order }: ContentListProps) {
   const { accessToken } = useAuthContext();
 
   useEffect(() => {
-    order === "box-office"
-      ? getContentListRequest(order, accessToken ?? undefined)
-          .then(defaultResponseHandler)
-          .then((data) => {
-            setContents(
-              data.map(
-                (movieRes: {
-                  movie: MovieType;
-                  my_rate: number | null;
-                  rank: number;
-                }) => {
-                  const movie = movieRes.movie;
-                  return {
-                    ...movie,
-                    poster: movie.poster.replace("http", "https"),
-                    my_rate: movieRes.my_rate
-                      ? { my_rate: movieRes.my_rate }
-                      : null,
-                  };
-                },
-              ),
-            );
-          })
-      : getContentListRequest(order, accessToken ?? undefined)
-          .then(defaultResponseHandler)
-          .then((data) => {
-            setContents(
-              data.map((movie: MovieType) => {
+    order === "box-office" &&
+      getContentListRequest(order, accessToken ?? undefined)
+        .then(defaultResponseHandler)
+        .then((data) => {
+          setContents(
+            data.map(
+              (movieRes: {
+                movie: MovieType;
+                my_rate: number | null;
+                rank: number;
+              }) => {
+                const movie = movieRes.movie;
                 return {
                   ...movie,
                   poster: movie.poster.replace("http", "https"),
+                  my_rate: movieRes.my_rate
+                    ? { my_rate: movieRes.my_rate }
+                    : null,
                 };
-              }),
-            );
-          });
+              }
+            )
+          );
+        });
+    order === "latest" &&
+      getContentListRequest(order, accessToken ?? undefined)
+        .then(defaultResponseHandler)
+        .then((data) => {
+          setContents(
+            data.map((movie: MovieType) => {
+              return {
+                ...movie,
+                poster: movie.poster.replace("http", "https"),
+              };
+            })
+          );
+        });
+    order === "recommend" &&
+      getContentListRequest(order, accessToken ?? undefined)
+        .then(defaultResponseHandler)
+        .then((data) => {
+          const movies = data.movies;
+          setContents(
+            movies.map((movie: MovieType) => {
+              return {
+                ...movie,
+                poster: movie.poster.replace("http", "https"),
+              };
+            })
+          );
+        });
   }, [order, accessToken]);
 
   function handleRightClick() {
