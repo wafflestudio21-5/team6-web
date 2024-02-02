@@ -9,14 +9,24 @@ export async function getKeywordSearch(query: string) {
   });
 }
 
-export async function getSearch(query: string, category: string, page: number) {
+export async function getSearch(
+  query: string,
+  category: string,
+  page: number,
+  accessToken?: string,
+) {
   return fetch(
     `${BASE_API_URL}/search?query=${query}&category=${category}&page=${page}`,
     {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: accessToken
+        ? {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
+          }
+        : {
+            "Content-Type": "application/json",
+          },
     },
   );
 }

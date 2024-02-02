@@ -91,14 +91,38 @@
             border: none;
             margin: 0px;
             cursor: pointer;
-            background: rgb(255, 234, 241);
-            color: rgb(255, 47, 110);
             font-size: 14px;
             font-weight: 500;
             line-height: 17px;
             height: 28px;
             padding: 6px 11px 5px 12px;
             border-radius: 14px;
+          }
+
+          .follow {
+            background: rgb(255, 234, 241);
+            color: rgb(255, 47, 110);
+          }
+
+          .follow:hover {
+            background: rgb(255, 229, 238);
+          }
+
+          .follow:active {
+            background: rgb(255, 223, 234);
+          }
+
+          .following {
+            background: rgb(245, 245, 247);
+            color: rgb(116, 116, 123);
+          }
+
+          .following:hover {
+            background: rgb(241, 241, 241);
+          }
+
+          .following:active {
+            background: rgb(230, 230, 230);
           }
         }
       }
