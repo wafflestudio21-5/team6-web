@@ -34,7 +34,6 @@ export default function SearchBar({
 
   const searchConfirm = (query: string) => {
     const exHistory = history.filter((str) => str != query);
-    console.log(query, exHistory);
     if (exHistory.length == 3) {
       setHistory([query, exHistory[0], exHistory[1]]);
     } else {

@@ -56,29 +56,23 @@ export default function DeleteComReplyModal({
             onClick={() => {
               if (!accessToken) return;
               modalType === "deleteReply" &&
-                deleteReply(currentModalState.targetReply.id, accessToken)
-                  .then((res) => {
+                deleteReply(currentModalState.targetReply.id, accessToken).then(
+                  (res) => {
                     if (!res.ok) throw new Error("삭제 실패");
                     autoSave.remove(myId!, mode, autoSaveId);
                     deleteReplyState(currentModalState.targetReply.id);
                     setCurrentModalState(null);
-                  })
-                  .catch(() => {
-                    console.log("실패");
-                  });
+                  },
+                );
               modalType === "deleteComment" &&
                 deleteCommentRequest(
                   currentModalState.targetComment.id,
                   accessToken,
-                )
-                  .then((res) => {
-                    if (!res.ok) throw new Error("삭제 실패");
-                    autoSave.remove(myId!, mode, autoSaveId);
-                    window.document.location.href = `/contents/${currentModalState.targetComment.movie.movieCD}`;
-                  })
-                  .catch(() => {
-                    console.log("실패");
-                  });
+                ).then((res) => {
+                  if (!res.ok) throw new Error("삭제 실패");
+                  autoSave.remove(myId!, mode, autoSaveId);
+                  window.document.location.href = `/contents/${currentModalState.targetComment.movie.movieCD}`;
+                });
             }}
           >
             확인

@@ -47,16 +47,10 @@ export default function User() {
           .then(() => {
             setIsMyFollowing(false);
           })
-          .catch(() => {
-            console.log("팔로우 취소 실패");
-          })
       : postAddFollow(accessToken, pageUser.id)
           .then(defaultResponseHandler)
           .then(() => {
             setIsMyFollowing(true);
-          })
-          .catch(() => {
-            console.log("팔로우 실패");
           });
   };
 
@@ -72,9 +66,6 @@ export default function User() {
               : "와플피디아 - 영화 평가 서비스",
           );
           setPageUser(data);
-        })
-        .catch((e) => {
-          console.log(e);
         })
         .finally(() => {
           setPageUserLoading(false);
@@ -94,9 +85,6 @@ export default function User() {
           !!pageUserId && myFollowingIdList.includes(parseInt(pageUserId));
 
         setIsMyFollowing(isMyFollowing);
-      })
-      .catch((e) => {
-        console.log(e);
       })
       .finally(() => {
         setIsMyFollowingLoading(false);

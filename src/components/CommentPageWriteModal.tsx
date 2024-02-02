@@ -154,9 +154,6 @@ export default function CommentPageWriteModal({
                           addReply(data);
                           setCurrentModal(null);
                           autoSave.remove(myId!, mode, autoSaveId!);
-                        })
-                        .catch(() => {
-                          console.log("댓글 작성 실패");
                         });
                     currentModalState.type === "updateReply" &&
                       putUpdateReply(
@@ -169,9 +166,6 @@ export default function CommentPageWriteModal({
                           updateReply(data);
                           setCurrentModal(null);
                           autoSave.remove(myId!, mode, autoSaveId!);
-                        })
-                        .catch(() => {
-                          console.log("댓글 수정 실패");
                         });
                     currentModalState.type === "updateComment" &&
                       accessToken &&
@@ -188,9 +182,6 @@ export default function CommentPageWriteModal({
                           refetchComment();
                           setCurrentModal(null);
                           autoSave.remove(myId!, mode, autoSaveId!);
-                        })
-                        .catch(() => {
-                          console.log("코멘트 수정 실패");
                         });
                   }}
                 >

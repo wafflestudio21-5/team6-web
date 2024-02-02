@@ -47,9 +47,6 @@ function MovieCaroucelBox({ ratingNumber }: { ratingNumber: number }) {
           setMoviesWithRatingNumber(data.results);
           setmovieCount(data.count);
         })
-        .catch(() => {
-          console.log("에러");
-        })
         .finally(() => {
           setLoading(false);
         });

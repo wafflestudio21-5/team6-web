@@ -29,16 +29,10 @@ export default function UserCard({
           .then(() => {
             setIsFollowing(false);
           })
-          .catch(() => {
-            console.log("팔로우 취소 실패");
-          })
       : postAddFollow(accessToken, follower.id)
           .then(defaultResponseHandler)
           .then(() => {
             setIsFollowing(true);
-          })
-          .catch(() => {
-            console.log("팔로우 실패");
           });
   };
 
