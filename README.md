@@ -84,9 +84,9 @@ BACKEND 개발에 관해 궁금하시다면? [TEAM6-SERVER REPO](https://github.
 |:-----:|:-----:|:----:|
 |![image](https://github.com/wafflestudio21-5/team6-web/assets/141830897/1df1212c-c8be-4262-8fde-55f05faf2bd8)|![responsive_content](https://github.com/wafflestudio21-5/team6-web/assets/141830897/87114f59-204c-4184-b534-19933e6f07e5)|![responsive_comment](https://github.com/wafflestudio21-5/team6-web/assets/141830897/25c4eb1e-1be7-4231-916a-04485d211666)|
 |메인|영화 개별|코멘트 개별|
-|![responsive_user](https://github.com/wafflestudio21-5/team6-web/assets/141830897/11cc25e3-a1bd-438c-9e29-71ccfc06beb2)|![responsive_storage](https://github.com/wafflestudio21-5/team6-web/assets/141830897/9487b0a8-3b4f-4502-a324-9c65017d4de2)|![responsive_login](https://github.com/wafflestudio21-5/team6-web/assets/141830897/52193973-0683-4a20-8565-0429595f22d9)
-|
+|![responsive_user](https://github.com/wafflestudio21-5/team6-web/assets/141830897/11cc25e3-a1bd-438c-9e29-71ccfc06beb2)|![responsive_storage](https://github.com/wafflestudio21-5/team6-web/assets/141830897/9487b0a8-3b4f-4502-a324-9c65017d4de2)|![responsive_login](https://github.com/wafflestudio21-5/team6-web/assets/141830897/52193973-0683-4a20-8565-0429595f22d9)|
 |유저|보관함|로그인 모달|
+
 <br></br>
 
 ## 🚀 기능 정리
