@@ -128,8 +128,8 @@ export default function ContentList({ title, order }: ContentListProps) {
                     ? { my_rate: movieRes.my_rate }
                     : null,
                 };
-              }
-            )
+              },
+            ),
           );
         });
     order === "latest" &&
@@ -142,7 +142,7 @@ export default function ContentList({ title, order }: ContentListProps) {
                 ...movie,
                 poster: movie.poster.replace("http", "https"),
               };
-            })
+            }),
           );
         });
     order === "recommend" &&
@@ -156,7 +156,7 @@ export default function ContentList({ title, order }: ContentListProps) {
                 ...movie,
                 poster: movie.poster.replace("http", "https"),
               };
-            })
+            }),
           );
         });
   }, [order, accessToken]);
