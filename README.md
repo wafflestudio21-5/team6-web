@@ -36,15 +36,23 @@
 
 ## 🙋‍♂️ 개발팀 & 역할 분담
 
-<div style="width: 65%;">
-
-|                                                                                                                   |                                                                                                            |                                                                                                      |
-| :---------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
-| [![image_ohsuhyeon0119](https://avatars.githubusercontent.com/u/141830897?v=4)](https://github.com/ohsuhyeon0119) | [![image_ComPhyPark](https://avatars.githubusercontent.com/u/69303148?v=4)](https://github.com/ComPhyPark) | [![image_izone00](https://avatars.githubusercontent.com/u/91773764?v=4)](https://github.com/izone00) |
-|                                                      오수현                                                       |                                                   박민철                                                   |                                                정우진                                                |
-|            팀장 역할 수행 및 일정 관리, 유저 페이지 및 유저 하위 페이지 디자인&기능 / 인증 서비스 구현            |             랜딩 페이지와 레이아웃의 디자인 & 기능 구현, 웹서비스의 전체적인 버그 관리 및 수정             |     영화 개별 페이지 및 콘텐츠 하위 페이지 구현, 추가 서비스 (내가 구경한 영화 모음 보관함) 구현     |
-
-</div>
+<table style="width: 70%; text-align:center; ">
+  <tr>
+    <td><a href="https://github.com/ohsuhyeon0119"><img src="https://avatars.githubusercontent.com/u/141830897?v=4"/></a></td>
+    <td><a href="https://github.com/ComPhyPark"><img src="https://avatars.githubusercontent.com/u/69303148?v=4"/></a></td>
+    <td><a href="https://github.com/izone00"><img src="https://avatars.githubusercontent.com/u/91773764?v=4"/></a></td>
+  </tr>
+  <tr>
+    <td>오수현</td>
+    <td>박민철</td>
+    <td>정우진</td>
+  </tr>
+  <tr>
+    <td>팀장 역할 수행 및 일정 관리, 유저 페이지 및 유저 하위 페이지 디자인&기능 / 인증 서비스 구현</td>
+    <td>랜딩 페이지와 레이아웃의 디자인 & 기능 구현, 웹서비스의 전체적인 버그 관리 및 수정</td>
+    <td>영화 개별 페이지 및 콘텐츠 하위 페이지 구현, 추가 서비스 (내가 구경한 영화 모음 보관함) 구현</td>
+  </tr>
+</table>
 
 ## 🔧 Stacks
 
