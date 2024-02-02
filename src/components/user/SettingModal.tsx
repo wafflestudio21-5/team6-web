@@ -4,6 +4,8 @@ import { postLogout, deleteWithDrawalUser } from "../../apis/auth";
 import { defaultResponseHandler } from "../../apis/custom";
 import { useAuthContext } from "../../contexts/authContext";
 import { useState } from "react";
+import usePreventScroll from "../../hooks/usePreventScroll";
+import useHandlePopState from "../../hooks/useHandlePopState";
 type SettingModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
 };
@@ -13,6 +15,10 @@ export default function SettingModal({ setCurrentModal }: SettingModalProps) {
     "logoutAlert" | "withdrawalAlert" | "clipboard" | null
   >(null);
 
+  usePreventScroll();
+  useHandlePopState(() => {
+    setCurrentModal(null);
+  });
   return (
     <div
       className={styles.modalContainer}
@@ -76,7 +82,7 @@ export default function SettingModal({ setCurrentModal }: SettingModalProps) {
 
 type ButtonBoxProps = {
   setAlertMessage: (
-    alertMessage: "logoutAlert" | "withdrawalAlert" | "clipboard" | null,
+    alertMessage: "logoutAlert" | "withdrawalAlert" | "clipboard" | null
   ) => void;
 };
 

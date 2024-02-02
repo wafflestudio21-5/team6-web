@@ -1,6 +1,8 @@
 import Modal from "./Modal";
 import { SortQueryType } from "../type";
 import styles from "./SortModal.module.scss";
+import usePreventScroll from "../hooks/usePreventScroll";
+import useHandlePopState from "../hooks/useHandlePopState";
 
 export default function SortMoadal({
   onCloseModal,
@@ -18,6 +20,11 @@ export default function SortMoadal({
   const addCheckStyle = (queryString: SortQueryType) => {
     return queryString === sortQuery ? styles.checkedBox : "";
   };
+
+  usePreventScroll();
+  useHandlePopState(() => {
+    onCloseModal();
+  });
   return (
     <Modal
       onClose={() => {

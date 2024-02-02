@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import styles from "./Modal.module.scss";
+import usePreventScroll from "../hooks/usePreventScroll";
 
 type ModalProps = {
   onClose: () => void;
@@ -12,6 +13,7 @@ export default function Modal({ onClose, children }: ModalProps) {
       onClose();
     }
   };
+  usePreventScroll();
   return (
     <div className={styles.modalContainer} onClick={handleClickOutside}>
       {children}

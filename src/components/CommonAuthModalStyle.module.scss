@@ -12,13 +12,45 @@
   .signupModalBox,
   .loginModalBox {
     width: 375px;
-
     background-color: white;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     padding: 35px 0;
     position: relative;
+
+    @media (max-width: 500px) {
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0px;
+      h2 {
+        margin-bottom: 40px;
+      }
+
+      .divisionLine {
+        margin-top: 60px;
+      }
+    }
+
+    .cancelButtonContainer {
+      width: 100%;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      button {
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9IiNGRjJGNkUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgdHJhbnNmb3JtPSJyb3RhdGUoNDUgMTIgMTIpIj4KICAgICAgICA8cmVjdCB3aWR0aD0iMiIgaGVpZ2h0PSIxOCIgeD0iMTEiIHk9IjMiIHJ4PSIxIi8+CiAgICAgICAgPHJlY3Qgd2lkdGg9IjE4IiBoZWlnaHQ9IjIiIHg9IjMiIHk9IjExIiByeD0iMSIvPgogICAgPC9nPgo8L3N2Zz4K");
+        background-color: inherit;
+        border: none;
+      }
+      @media (min-width: 500px) {
+        display: none;
+      }
+    }
 
     .watchaPediaLogo {
       width: 70%;
@@ -86,6 +118,7 @@ form {
 
     input {
       flex-grow: 1;
+
       border: none;
       background-color: inherit;
       font-size: 16px;
@@ -99,6 +132,7 @@ form {
     .inputClearIcon {
       width: 24px;
       height: 24px;
+
       background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGZpbGw9IiNBMEEwQTAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEyLjIwOCAxMS40TDkuMzggOC41N2wtLjgwOS44MDkgMi44MjkgMi44MjgtMi44MjkgMi44MjguODA5LjgwOSAyLjgyOC0yLjgyOSAyLjgyOCAyLjgyOS44MDktLjgwOS0yLjgyOS0yLjgyOCAyLjgyOS0yLjgyOC0uODA5LS44MDktMi44MjggMi44Mjl6TTEyIDIwYTggOCAwIDEgMSAwLTE2IDggOCAwIDAgMSAwIDE2eiIvPgo8L3N2Zz4K");
       background-repeat: no-repeat;
       cursor: pointer;
@@ -109,6 +143,9 @@ form {
         height: 24px;
         margin-left: 24px;
         background-repeat: no-repeat;
+        @media (max-width: 500px) {
+          margin-left: 10px;
+        }
       }
       .validIcon {
         background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSI+CiAgICAgICAgPGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iMTAuNSIgc3Ryb2tlPSIjMEZDM0I5Ii8+CiAgICAgICAgPHBhdGggZmlsbD0iIzBGQzNCOSIgZD0iTTkuMzkgMTIuODM5bDUuNjU2LTUuNjU3YTEgMSAwIDEgMSAxLjQxNCAxLjQxNGwtNi4zNjQgNi4zNjRhLjk5Ny45OTcgMCAwIDEtMS40MTQgMGwtMi44MjgtMi44MjhhMSAxIDAgMSAxIDEuNDE0LTEuNDE0bDIuMTIxIDIuMTJ6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=");

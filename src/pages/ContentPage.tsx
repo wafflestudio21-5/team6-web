@@ -8,6 +8,7 @@ import { defaultResponseHandler } from "../apis/custom";
 import { useAuthContext } from "../contexts/authContext";
 import useChangeTitle from "../hooks/useChangeTitle";
 import useRecentContents from "../hooks/useRecentContents";
+import useMoveScrollToTop from "../hooks/useMoveScrollToTop";
 
 export default function ContentPage() {
   const { id } = useParams();
@@ -18,7 +19,9 @@ export default function ContentPage() {
   const [refetch, setRefetch] = useState(false);
   const refetchContent = () => setRefetch(!refetch);
   const { addRecentContent } = useRecentContents();
-
+  
+  useMoveScrollToTop();
+  
   useEffect(() => {
     id &&
       getContentRequest(id, accessToken ?? undefined)

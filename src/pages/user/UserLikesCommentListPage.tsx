@@ -7,6 +7,7 @@ import { defaultResponseHandler } from "../../apis/custom";
 import { CommentType } from "../../type";
 import { getMyLikesComments } from "../../apis/auth";
 import { useAuthContext } from "../../contexts/authContext";
+import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 
 export default function UserLikesCommentListPage() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function UserLikesCommentListPage() {
         setComments(
           commentsResponse.results.map((comment: CommentType) => {
             return { ...comment, liked_by_user: true };
-          }),
+          })
         );
         setNextCommentsUrl(commentsResponse.next);
       })
@@ -36,6 +37,8 @@ export default function UserLikesCommentListPage() {
         setLoading(false);
       });
   }, []);
+
+  useMoveScrollToTop();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,8 +55,8 @@ export default function UserLikesCommentListPage() {
                 comments.concat(
                   commentsResponse.results.map((comment: CommentType) => {
                     return { ...comment, liked_by_user: true };
-                  }),
-                ),
+                  })
+                )
               );
               setNextCommentsUrl(commentsResponse.next);
             })
@@ -80,8 +83,8 @@ export default function UserLikesCommentListPage() {
                 comments.concat(
                   commentsResponse.results.map((comment: CommentType) => {
                     return { ...comment, liked_by_user: true };
-                  }),
-                ),
+                  })
+                )
               );
               setNextCommentsUrl(commentsResponse.next);
             })
