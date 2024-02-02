@@ -4,6 +4,7 @@ import { CommentType, ReplyType } from "../type";
 import { deleteCommentRequest, deleteReply } from "../apis/comment";
 import { useAuthContext } from "../contexts/authContext";
 import autoSave from "../utils/autoSave";
+import useHandlePopState from "../hooks/useHandlePopState";
 
 type DeleteComReplyModalProps = {
   setCurrentModalState: (value: null) => void;
@@ -26,6 +27,10 @@ export default function DeleteComReplyModal({
     modalType == "deleteComment"
       ? currentModalState.targetComment.movie.movieCD
       : currentModalState.targetReply.id;
+
+  useHandlePopState(() => {
+    setCurrentModalState(null);
+  });
   return (
     <Modal
       onClose={() => {

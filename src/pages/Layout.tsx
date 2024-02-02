@@ -10,6 +10,7 @@ import { useAuthContext } from "../contexts/authContext";
 import { defaultResponseHandler } from "../apis/custom";
 import SettingModal from "../components/user/SettingModal";
 import UserEditModal from "../components/user/UserEditModal";
+import RecentlyViewedContents from "../components/RecentlyViewedContents";
 
 export type CurrentModalType =
   | null
@@ -88,6 +89,7 @@ export default function Layout() {
                 } satisfies OutletContextType
               }
             />
+            <RecentlyViewedContents />
             <Footer />
           </div>
         </section>

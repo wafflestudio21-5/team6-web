@@ -8,6 +8,8 @@ import { defaultResponseHandler } from "../apis/custom";
 import { CommentType, ReplyType } from "../type";
 import { updateCommentRequest } from "../apis/comment";
 import autoSave from "../utils/autoSave";
+import usePreventScroll from "../hooks/usePreventScroll";
+import useHandlePopState from "../hooks/useHandlePopState";
 
 export type CommentPageWriteModalStateType =
   | { type: "updateComment"; targetComment: CommentType }
@@ -71,6 +73,10 @@ export default function CommentPageWriteModal({
     autoSave.set(myId!, mode, autoSaveId!, s); //모달은 로그인을 했고, id의 코멘트가 있을 때 뜬다
   };
 
+  usePreventScroll();
+  useHandlePopState(() => {
+    setCurrentModal(null);
+  });
   return (
     <Modal
       onClose={() => {

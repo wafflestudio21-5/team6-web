@@ -6,6 +6,8 @@ import { ChangeEvent, useState } from "react";
 import { useAuthContext } from "../contexts/authContext";
 import { defaultResponseHandler } from "../apis/custom";
 import autoSave from "../utils/autoSave";
+import usePreventScroll from "../hooks/usePreventScroll";
+import useHandlePopState from "../hooks/useHandlePopState";
 
 type WritingModalProps = {
   title: string;
@@ -44,6 +46,11 @@ export default function WritingModal(props: WritingModalProps) {
     setCommentInput(s);
     autoSave.set(myId!, "comment", movieCD, s); //모달은 로그인을 했을 때만 뜬다
   };
+
+  usePreventScroll();
+  useHandlePopState(() => {
+    setCurrentModal(null);
+  });
 
   return (
     <Modal

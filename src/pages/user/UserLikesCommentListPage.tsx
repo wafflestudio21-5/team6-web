@@ -7,6 +7,7 @@ import { defaultResponseHandler } from "../../apis/custom";
 import { CommentType } from "../../type";
 import { getMyLikesComments } from "../../apis/auth";
 import { useAuthContext } from "../../contexts/authContext";
+import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 
 export default function UserLikesCommentListPage() {
   const navigate = useNavigate();
@@ -36,6 +37,8 @@ export default function UserLikesCommentListPage() {
         setLoading(false);
       });
   }, []);
+
+  useMoveScrollToTop();
 
   useEffect(() => {
     const handleScroll = () => {

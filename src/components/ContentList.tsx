@@ -28,34 +28,44 @@ function ContentCell(content: MovieType, rank: number) {
           {content.poster ? (
             <img className={styles.poster} src={content.poster} />
           ) : (
-            <div className={styles.poster} />
+            <div className={styles.poster + " " + styles.skeletonBox} />
           )}
           <div className={styles.rank}>{rank}</div>
         </div>
         <div className={styles.movieInfo}>
-          <div className={styles.movieName}>{content.title_ko}</div>
+          <div className={styles.movieName}>
+            {!content.poster && <div className={styles.skeletonBox} />}
+            {content.title_ko}
+          </div>
+
           <div className={styles.movieYearCountry}>
+            {!content.poster && <div className={styles.skeletonBox} />}
             {content.prod_country
               ? content.release_date.substring(0, 4) +
                 " · " +
                 content.prod_country
               : "ㅤ"}
           </div>
+
           {content.my_rate ? (
             <div className={styles.movieRatingMy}>
               평가함 ★{content.my_rate.my_rate.toFixed(1)}
             </div>
+          ) : content.average_rate ? (
+            <div
+              className={
+                content.average_rate
+                  ? styles.movieRating
+                  : styles.movieRatingNone
+              }
+            >
+              평균 ★{content.average_rate.toFixed(1)}
+            </div>
           ) : (
-            content.average_rate && (
+            !content.poster && (
               <div
-                className={
-                  content.average_rate
-                    ? styles.movieRating
-                    : styles.movieRatingNone
-                }
-              >
-                평균 ★{content.average_rate.toFixed(1)}
-              </div>
+                className={styles.ratingSkeletonBox + " " + styles.skeletonBox}
+              />
             )
           )}
         </div>

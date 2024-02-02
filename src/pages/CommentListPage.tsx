@@ -9,6 +9,7 @@ import { SortQueryType } from "../type";
 import SortMoadal from "../components/SortModal";
 import useChangeTitle from "../hooks/useChangeTitle";
 import { useAuthContext } from "../contexts/authContext";
+import useMoveScrollToTop from "../hooks/useMoveScrollToTop";
 
 export default function CommentListPage() {
   const { id: movieCD } = useParams();
@@ -33,6 +34,8 @@ export default function CommentListPage() {
         })
         .catch(() => alert("잘못된 요청입니다"));
   }, [movieCD, sortQuery]);
+
+  useMoveScrollToTop();
 
   useEffect(() => {
     const handleScroll = () => {

@@ -103,15 +103,6 @@ export default function User() {
       });
   }, [pageUserId]);
 
-  useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-      });
-    };
-    scrollToTop();
-  }, []);
-
   const backgoundStyle = {
     backgroundImage: `url(${pageUser?.background_photo ?? ""})`,
     backgroundSize: "cover",
@@ -130,12 +121,14 @@ export default function User() {
               style={backgoundStyle}
             ></div>
             <div className={styles.setBttnBox}>
-              <button
-                className={styles.setBttn}
-                onClick={() => {
-                  setCurrentModal("setting");
-                }}
-              />
+              {pageMode === "myPage" && (
+                <button
+                  className={styles.setBttn}
+                  onClick={() => {
+                    setCurrentModal("setting");
+                  }}
+                />
+              )}
             </div>
             <div className={styles.profileInfoBox}>
               <img

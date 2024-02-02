@@ -7,6 +7,7 @@ import { defaultResponseHandler } from "../apis/custom";
 import { CommentType } from "../type";
 import { useAuthContext } from "../contexts/authContext";
 import useChangeTitle from "../hooks/useChangeTitle";
+import useMoveScrollToTop from "../hooks/useMoveScrollToTop";
 
 export default function CommentPage() {
   const { id } = useParams();
@@ -16,7 +17,7 @@ export default function CommentPage() {
   const { accessToken } = useAuthContext();
   const { setTitle } = useChangeTitle();
   const refetchComment = () => setRefetch(!refetch);
-
+  useMoveScrollToTop();
   useEffect(() => {
     id &&
       getCommentRequest(parseInt(id), accessToken ?? undefined)

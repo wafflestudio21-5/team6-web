@@ -5,6 +5,7 @@ import MovieListByRatingValueContainer from "../../components/user/MovieListByRa
 import { getUserRatingMovies } from "../../apis/user";
 import { defaultResponseHandler } from "../../apis/custom";
 import { MovieResByUserType } from "../../type";
+import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 export default function UserRatingsPage() {
   const navigate = useNavigate();
   const [navMode, setNavMode] = useState<"default" | "ratingsOrder">("default");
@@ -17,6 +18,8 @@ export default function UserRatingsPage() {
   const displayStyleHandler = (sectionKey: "default" | "ratingsOrder") => {
     if (navMode !== sectionKey) return { display: "none" };
   };
+
+  useMoveScrollToTop();
 
   useEffect(() => {
     userId &&
@@ -54,15 +57,6 @@ export default function UserRatingsPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [movies]);
-
-  useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-      });
-    };
-    scrollToTop();
-  }, []);
 
   return (
     <>

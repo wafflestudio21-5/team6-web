@@ -1,7 +1,9 @@
 import styles from "./MainPage.module.scss";
 import ContentList, { ContentListProps } from "../components/ContentList";
+import useMoveScrollToTop from "../hooks/useMoveScrollToTop";
 
 export default function MainPage() {
+  useMoveScrollToTop();
   const props = [
     {
       title: "박스오피스 순위",

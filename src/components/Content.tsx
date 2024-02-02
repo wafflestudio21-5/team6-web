@@ -4,9 +4,7 @@ import { Carousel } from "./Carousel";
 import profileDefault from "../assets/user_default.jpg";
 import StarRating from "./StarRating";
 import CommentCard from "./CommentCard";
-
 import { CommentsResType, CommentType, MovieType } from "../type";
-
 import { MyStateType } from "../type";
 import { Link, useOutletContext } from "react-router-dom";
 import { defaultResponseHandler } from "../apis/custom";
@@ -292,12 +290,14 @@ function ContentComments({ content }: { content: MovieType }) {
         <h2>
           코멘트 <span className={styles.commentCount}>{commentsLength}+</span>
         </h2>
-        <Link
-          to={`/contents/${content.movieCD}/comments`}
-          className={styles.moreComments}
-        >
-          더보기
-        </Link>
+        {commentsLength !== 0 && (
+          <Link
+            to={`/contents/${content.movieCD}/comments`}
+            className={styles.moreComments}
+          >
+            더보기
+          </Link>
+        )}
       </header>
       <div className={styles.commentGridCon}>
         <ul className={styles.commentsGrid}>

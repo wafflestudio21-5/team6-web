@@ -9,6 +9,7 @@ import { defaultResponseHandler } from "../../apis/custom";
 import { CommentType, SortQueryType } from "../../type";
 import SortMoadal from "../../components/SortModal";
 import { useAuthContext } from "../../contexts/authContext";
+import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 
 export default function UserWrittenCommentListPage() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function UserWrittenCommentListPage() {
   const [sortQuery, setSortQuery] = useState<SortQueryType>("like");
   const [currentModal, setCurrenModal] = useState<null | "sort">(null);
 
+  useMoveScrollToTop();
   useEffect(() => {
     userId &&
       getUserWrittenComments(
@@ -71,15 +73,6 @@ export default function UserWrittenCommentListPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [comments]);
-
-  useEffect(() => {
-    const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-      });
-    };
-    scrollToTop();
-  }, []);
 
   return (
     <div className={styles.pageCon}>

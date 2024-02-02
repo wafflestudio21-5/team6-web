@@ -3,6 +3,8 @@ import styles from "./UserEditModal.module.scss";
 import Modal from "../Modal";
 import profileDefault from "../../assets/user_default.jpg";
 import useUserEdit from "../../hooks/useUserEdit";
+import usePreventScroll from "../../hooks/usePreventScroll";
+import useHandlePopState from "../../hooks/useHandlePopState";
 
 type UserEditModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -20,6 +22,11 @@ export default function UserEditModal({ setCurrentModal }: UserEditModalProps) {
     handleBio,
     handleSubmit,
   } = useUserEdit();
+
+  usePreventScroll();
+  useHandlePopState(() => {
+    setCurrentModal(null);
+  });
 
   const backgoundStyle = {
     backgroundImage: `url(${backgroundPhotoUrl})`,

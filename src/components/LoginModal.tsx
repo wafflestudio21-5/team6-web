@@ -4,6 +4,8 @@ import styles from "./LoginModal.module.scss";
 import { CurrentModalType } from "../pages/Layout";
 import { postLogin } from "../apis/auth";
 import { defaultResponseHandler } from "../apis/custom";
+import usePreventScroll from "../hooks/usePreventScroll";
+import useHandlePopState from "../hooks/useHandlePopState";
 
 type LoginModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
@@ -49,6 +51,11 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
     );
   };
 
+  usePreventScroll();
+  useHandlePopState(() => {
+    setCurrentModal(null);
+  });
+
   return (
     <div
       className={styles.modalContainer}
@@ -62,6 +69,14 @@ export default function LoginModal({ setCurrentModal }: LoginModalProps) {
           e.stopPropagation();
         }}
       >
+        <div className={styles.cancelButtonContainer}>
+          <button
+            onClick={() => {
+              setCurrentModal(null);
+            }}
+          />
+        </div>
+
         {!!authErrorMessage && (
           <div
             className={styles.authErrorBoxContainer}
