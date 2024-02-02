@@ -21,7 +21,6 @@ export type ContentListProps = {
 };
 
 function ContentCell(content: MovieType, rank: number) {
-  console.log(content.title_ko, content.average_rate);
   return (
     <li key={rank}>
       <Link to={`/contents/${content.movieCD}`}>
@@ -114,7 +113,6 @@ export default function ContentList({ title, order }: ContentListProps) {
       getContentListRequest(order, accessToken ?? undefined)
         .then(defaultResponseHandler)
         .then((data) => {
-          console.log("boxoffice : ", data);
           setContents(
             data.map(
               (movieRes: {
@@ -138,7 +136,6 @@ export default function ContentList({ title, order }: ContentListProps) {
       getContentListRequest(order, accessToken ?? undefined)
         .then(defaultResponseHandler)
         .then((data) => {
-          console.log(data);
           setContents(
             data.map((movie: MovieType) => {
               return {
