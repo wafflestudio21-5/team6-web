@@ -7,7 +7,7 @@ import { MovieResByUserType } from "../../type";
 import useMoveScrollToTop from "../../hooks/useMoveScrollToTop";
 export default function UserMovieListByRatingValuePage() {
   const { ratingNumber, id: userId } = useParams();
-  const number = !!ratingNumber ? parseInt(ratingNumber) : undefined;
+  const number = ratingNumber ? parseInt(ratingNumber) : undefined;
   const navigate = useNavigate();
 
   const [movies, setMovies] = useState<MovieResByUserType[] | null>(null);
@@ -81,7 +81,10 @@ export default function UserMovieListByRatingValuePage() {
                       navigate(`/contents/${movie.movieCD}`);
                     }}
                   >
-                    <img src={movie.poster} alt={movie.title_ko} />
+                    <img
+                      src={movie.poster.replace("http", "https")}
+                      alt={movie.title_ko}
+                    />
                     <p>{movie.title_ko}</p>
                   </li>
                 );

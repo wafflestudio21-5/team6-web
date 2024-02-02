@@ -23,7 +23,9 @@ export default function MovieListByRatingValueContainer({
       {Array(10)
         .fill(10)
         .map((_, index) => {
-          return <MovieCaroucelBox ratingNumber={5 - 0.5 * index} />;
+          return (
+            <MovieCaroucelBox key={index} ratingNumber={5 - 0.5 * index} />
+          );
         })}
     </section>
   );
@@ -165,7 +167,7 @@ function MovieCell({ movie }: { movie: MovieByUserType }) {
         navigate(`/contents/${movie.movieCD}`);
       }}
     >
-      <img src={movie.poster} alt={movie.title_ko} />
+      <img src={movie.poster.replace("http", "https")} alt={movie.title_ko} />
       <p>{movie.title_ko}</p>
     </li>
   );
