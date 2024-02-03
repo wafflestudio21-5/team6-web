@@ -26,11 +26,9 @@ $small-screen: 680px;
     margin: 0 60px;
   }
   @media (max-width: #{$medium-screen + 100}) {
-    max-width: $medium-screen;
-    margin: 0 auto;
+    margin: 0 3.5%;
   }
-  @media (max-width: #{$medium-screen + 40}) {
-    max-width: $medium-screen;
+  @media (max-width: #{$small-screen + 80}) {
     margin: 0 20px;
   }
 }

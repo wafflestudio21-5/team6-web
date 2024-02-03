@@ -69,7 +69,10 @@ function CommentHeader({ comment }: { comment: CommentType }) {
       {movie && (
         <Link to={`/contents/${movie.movieCD}`} title={movie.title_ko}>
           <div className={styles.poster}>
-            <img src={movie.poster} alt={movie.title_ko + "의 포스터"} />
+            <img
+              src={movie.poster.replace("http:", "https:")}
+              alt={movie.title_ko + "의 포스터"}
+            />
           </div>
         </Link>
       )}

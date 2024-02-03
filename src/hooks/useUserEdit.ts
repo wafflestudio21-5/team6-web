@@ -8,14 +8,14 @@ export default function useUserEdit() {
   const [nickname, setNickname] = useState(myUserData?.nickname ?? "");
   const [bio, setBio] = useState(myUserData?.bio ?? "");
   const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(
-    null
+    null,
   );
   const [profilePhotoFile, setProfilePhotoFile] = useState<File | null>(null);
   const [backgroundPhotoUrl, setBackgroundPhotoUrl] = useState(
-    myUserData?.background_photo ?? ""
+    myUserData?.background_photo ?? "",
   );
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(
-    myUserData?.profile_photo ?? ""
+    myUserData?.profile_photo ?? "",
   );
 
   const handleBackgroundPhoto = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,10 +43,14 @@ export default function useUserEdit() {
   };
 
   const handleNickname = (e: ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
+    if (e.target.value.length <= 20) {
+      setNickname(e.target.value);
+    }
   };
   const handleBio = (e: ChangeEvent<HTMLInputElement>) => {
-    setBio(e.target.value);
+    if (e.target.value.length <= 60) {
+      setBio(e.target.value);
+    }
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

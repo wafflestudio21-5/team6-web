@@ -66,11 +66,15 @@ export default function UserStorageSubPage() {
                 const movie = movieContent.movie;
                 return (
                   <li
+                    key={movieContent.id}
                     onClick={() => {
                       navigate(`/contents/${movie.movieCD}`);
                     }}
                   >
-                    <img src={movie.poster} alt={movie.title_ko} />
+                    <img
+                      src={movie.poster.replace("http", "https")}
+                      alt={movie.title_ko}
+                    />
                     <p>{movie.title_ko}</p>
                   </li>
                 );

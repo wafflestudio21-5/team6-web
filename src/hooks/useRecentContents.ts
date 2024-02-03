@@ -11,7 +11,7 @@ export default function useRecentContents() {
 
   function addRecentContent(newContent: Partial<MovieType>) {
     recentContents = recentContents.filter(
-      (content) => content.movieCD !== newContent.movieCD
+      (content) => content.movieCD !== newContent.movieCD,
     );
     recentContents.push(newContent);
     recentContents.length > 10 && recentContents.splice(0, 1);

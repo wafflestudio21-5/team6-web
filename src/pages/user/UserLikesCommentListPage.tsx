@@ -28,7 +28,7 @@ export default function UserLikesCommentListPage() {
         setComments(
           commentsResponse.results.map((comment: CommentType) => {
             return { ...comment, liked_by_user: true };
-          })
+          }),
         );
         setNextCommentsUrl(commentsResponse.next);
       })
@@ -55,8 +55,8 @@ export default function UserLikesCommentListPage() {
                 comments.concat(
                   commentsResponse.results.map((comment: CommentType) => {
                     return { ...comment, liked_by_user: true };
-                  })
-                )
+                  }),
+                ),
               );
               setNextCommentsUrl(commentsResponse.next);
             })
@@ -83,8 +83,8 @@ export default function UserLikesCommentListPage() {
                 comments.concat(
                   commentsResponse.results.map((comment: CommentType) => {
                     return { ...comment, liked_by_user: true };
-                  })
-                )
+                  }),
+                ),
               );
               setNextCommentsUrl(commentsResponse.next);
             })

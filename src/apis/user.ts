@@ -8,7 +8,7 @@ export async function getUserDetail(userId: number) {
 export async function putUserUpdate(
   nickname: string,
   bio: string,
-  accessToken: string
+  accessToken: string,
 ) {
   return fetch(`${BASE_API_URL}/users/mypage/`, {
     method: "PUT",
@@ -23,7 +23,7 @@ export async function putUserUpdate(
 export async function putUserPhotoUpdate(
   backgroundPhoto: File | null,
   profilePhoto: File | null,
-  accessToken: string
+  accessToken: string,
 ) {
   const formData = new FormData();
   backgroundPhoto && formData.append("background_photo", backgroundPhoto);
@@ -99,7 +99,7 @@ export async function getUserRatingMovies(
   query: {
     order?: "high-rating" | "low-rating" | "created";
     rate?: number;
-  }
+  },
 ) {
   const result = Object.entries(query)
     .map(([key, value]) => `${key}=${value}`)
@@ -117,7 +117,7 @@ export async function getUserWantToWatch(userId: number) {
 export async function postCreateWatchingState(
   movieCD: string,
   accessToken: string,
-  user_state: "watching" | "want_to_watch" | "not_interested" | null
+  user_state: "watching" | "want_to_watch" | "not_interested" | null,
 ) {
   return fetch(`${BASE_API_URL}/contents/${movieCD}/state`, {
     method: "POST",
@@ -135,7 +135,7 @@ export async function postCreateWatchingState(
 export async function putUpdateWatchingState(
   state_id: number,
   accessToken: string,
-  user_state: "watching" | "want_to_watch" | "not_interested" | null
+  user_state: "watching" | "want_to_watch" | "not_interested" | null,
 ) {
   return fetch(`${BASE_API_URL}/contents/states/${state_id}`, {
     method: "PUT",
@@ -151,7 +151,7 @@ export async function putUpdateWatchingState(
 
 export async function deleteWatchingState(
   state_id: number,
-  accessToken: string
+  accessToken: string,
 ) {
   return fetch(`${BASE_API_URL}/contents/states/${state_id}`, {
     method: "DELETE",

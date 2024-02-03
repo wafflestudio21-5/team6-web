@@ -16,7 +16,6 @@ import { defaultResponseHandler } from "../apis/custom";
 
 export default function CommentCard({ comment }: { comment: CommentType }) {
   // user 하위 페이지에서 코멘트를 불러오는 경우, movie의 정보를 이용해야 한다.
-  console.log(comment);
   const { accessToken } = useAuthContext();
   const { setCurrentModal } = useOutletContext<OutletContextType>();
   const likeExceptMe =
@@ -122,7 +121,7 @@ function CommentContentBox({
       {!onHiddenMoviedata && (
         <div className={styles.posterBox}>
           <img
-            src={comment.movie.poster}
+            src={comment.movie.poster.replace("http:", "https:")}
             alt={comment.movie.title_ko}
             onClick={() => {
               navigate(`/contents/${comment.movie.movieCD}`);

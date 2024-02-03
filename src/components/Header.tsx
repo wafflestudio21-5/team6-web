@@ -83,66 +83,64 @@ export default function Header({ setCurrentModal }: HeaderProps) {
     <header
       className={styles.header + (transparent ? " " + styles.transparent : "")}
     >
-      <div>
-        <div className={styles.headerDiv}>
-          <ul>
-            <li className={styles.logoLi}>
-              <Link to="/">
-                <img
-                  className={styles.logoImg}
-                  src={inContentPage && isScrollTop ? WhiteLogo : Logo}
-                  alt="왓챠피디아 로고"
-                />
+      <div className={styles.headerDiv}>
+        <ul>
+          <li className={styles.logoLi}>
+            <Link to="/">
+              <img
+                className={styles.logoImg}
+                src={inContentPage && isScrollTop ? WhiteLogo : Logo}
+                alt="왓챠피디아 로고"
+              />
+            </Link>
+          </li>
+          <WidthBig>
+            <SearchBar
+              transparent={transparent}
+              searchInput={searchInput}
+              setSearchInput={setSearchInput}
+            />
+          </WidthBig>
+          <WidthSmall>
+            <li className={styles.searchButton} onClick={gotoSearch}>
+              <div>
+                <img src={transparent ? searchBig : searchSmall} />
+              </div>
+            </li>
+          </WidthSmall>
+          {isLogined ? (
+            <li className={styles.myProfileLi}>
+              <Link to={`/users/${myUserData?.id}`}>
+                <div>
+                  <img src={myUserData?.profile_photo ?? profileDefault} />
+                </div>
               </Link>
             </li>
-            <WidthBig>
-              <SearchBar
-                transparent={transparent}
-                searchInput={searchInput}
-                setSearchInput={setSearchInput}
-              />
-            </WidthBig>
-            <WidthSmall>
-              <li className={styles.searchButton} onClick={gotoSearch}>
-                <div>
-                  <img src={transparent ? searchBig : searchSmall} />
-                </div>
+          ) : (
+            <>
+              <li className={styles.loginLi}>
+                <button
+                  className={styles.loginButton}
+                  onClick={() => {
+                    setCurrentModal("login");
+                  }}
+                >
+                  로그인
+                </button>
               </li>
-            </WidthSmall>
-            {isLogined ? (
-              <li className={styles.myProfileLi}>
-                <Link to={`/users/${myUserData?.id}`}>
-                  <div>
-                    <img src={myUserData?.profile_photo ?? profileDefault} />
-                  </div>
-                </Link>
+              <li className={styles.loginLi}>
+                <button
+                  className={styles.registerButton}
+                  onClick={() => {
+                    setCurrentModal("signup");
+                  }}
+                >
+                  회원가입
+                </button>
               </li>
-            ) : (
-              <>
-                <li className={styles.loginLi}>
-                  <button
-                    className={styles.loginButton}
-                    onClick={() => {
-                      setCurrentModal("login");
-                    }}
-                  >
-                    로그인
-                  </button>
-                </li>
-                <li className={styles.loginLi}>
-                  <button
-                    className={styles.registerButton}
-                    onClick={() => {
-                      setCurrentModal("signup");
-                    }}
-                  >
-                    회원가입
-                  </button>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
+            </>
+          )}
+        </ul>
       </div>
     </header>
   );

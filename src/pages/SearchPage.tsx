@@ -9,9 +9,11 @@ import { defaultResponseHandler } from "../apis/custom";
 import { getSearch } from "../apis/search";
 import SearchUserList, { SearchUserType } from "../components/SearchUserList";
 import useChangeTitle from "../hooks/useChangeTitle";
+import { useAuthContext } from "../contexts/authContext";
 
 export default function SearchPage() {
   const { setTitle } = useChangeTitle();
+  const { accessToken } = useAuthContext();
   const [searchParams, setSearchParams_] = useSearchParams();
   const query = searchParams.get("query");
   const category_ = searchParams.get("category");
@@ -51,7 +53,7 @@ export default function SearchPage() {
           ]);
         });
     } else if (category == "users") {
-      getSearch(query, "users", page + 1)
+      getSearch(query, "users", page + 1, accessToken ?? undefined)
         .then(defaultResponseHandler)
         .then((data) => {
           if (data.next) setNextAvailable(true);
@@ -85,7 +87,7 @@ export default function SearchPage() {
           );
         });
     } else if (category == "users") {
-      getSearch(query, "users", 1)
+      getSearch(query, "users", 1, accessToken ?? undefined)
         .then(defaultResponseHandler)
         .then((data) => {
           if (data.next) setNextAvailable(true);

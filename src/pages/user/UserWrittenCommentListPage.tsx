@@ -28,12 +28,10 @@ export default function UserWrittenCommentListPage() {
       getUserWrittenComments(
         parseInt(userId),
         accessToken ?? undefined,
-        sortQuery
+        sortQuery,
       )
         .then(defaultResponseHandler)
         .then((data) => {
-          console.log("success!!!!", data);
-
           const commentsResponse = data;
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);
@@ -61,7 +59,6 @@ export default function UserWrittenCommentListPage() {
           })
             .then(defaultResponseHandler)
             .then((data) => {
-              console.log("scroll success  :", data);
               const commentsResponse = data;
               setComments(comments.concat(commentsResponse.results));
               setNextCommentsUrl(commentsResponse.next);

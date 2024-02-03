@@ -27,7 +27,7 @@ export default function CommentListPage() {
         .then((data) => {
           const commentsResponse = data;
           setTitle(
-            `${commentsResponse.results.length}개의 코멘트 목록 - 와플피디아`
+            `${commentsResponse.results.length}개의 코멘트 목록 - 와플피디아`,
           );
           setComments(commentsResponse.results);
           setNextCommentsUrl(commentsResponse.next);

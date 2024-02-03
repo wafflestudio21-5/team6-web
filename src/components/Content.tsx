@@ -109,7 +109,10 @@ function ContentPanel({
     <section className={styles.panelBackground}>
       <div className={styles.panelCon}>
         <div className={styles.imageCon}>
-          <img src={content.poster} alt="영화 포스터" />
+          <img
+            src={content.poster.replace("http:", "https:")}
+            alt="영화 포스터"
+          />
         </div>
         <main className={styles.reviewCon}>
           <nav className={styles.reviewNav}>

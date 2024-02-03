@@ -19,9 +19,9 @@ export default function ContentPage() {
   const [refetch, setRefetch] = useState(false);
   const refetchContent = () => setRefetch(!refetch);
   const { addRecentContent } = useRecentContents();
-  
+
   useMoveScrollToTop();
-  
+
   useEffect(() => {
     id &&
       getContentRequest(id, accessToken ?? undefined)

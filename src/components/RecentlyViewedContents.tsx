@@ -24,7 +24,10 @@ export default function RecentlyViewedContents() {
                   {recentContents.map((content) => (
                     <li key={content.movieCD}>
                       <Link to={`/contents/${content.movieCD}`}>
-                        <img src={content.poster} alt="" />
+                        <img
+                          src={content.poster?.replace("http:", "https:")}
+                          alt=""
+                        />
                         <div className={styles.contentTitleBox}>
                           {`${content.title_ko} · ${content.directors?.[0].name}`}
                         </div>
