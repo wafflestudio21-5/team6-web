@@ -19,7 +19,7 @@ export default function UserCard({
   const myId = myUserData?.id;
   const isMyUserCard = follower.id === myId;
   const buttonClickHandler = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     if (!accessToken) return;
@@ -41,7 +41,10 @@ export default function UserCard({
       <Link to={`/users/${follower.id}`}>
         <div className={styles.imgBox}>
           <img
-            src="https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_large-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
+            src={
+              follower.profile_photo ??
+              "https://an2-glx.amz.wtchn.net/assets/default/user/photo_file_name_large-ab0a7f6a92a282859192ba17dd4822023e22273e168c2daf05795e5171e66446.jpg"
+            }
             alt="userImg"
           />
         </div>

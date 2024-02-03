@@ -94,7 +94,7 @@ export default function SearchBar({
               onBlur={() => setShowRecommend(false)}
               onFocus={() => setShowRecommend(true)}
               autoComplete="off"
-              placeholder="콘텐츠, 인물, 유저를 검색해보세요."
+              placeholder="영화 또는 유저를 검색해보세요."
               type="text"
               value={searchInput}
               onChange={onSearchChange}
