@@ -23,8 +23,8 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
   const { setAccessToken } = useAuthContext();
   const error = {
     name:
-      nameInput.length < 2 || nameInput.length > 20 || nameInput.includes(" ")
-        ? "정확하지 않은 이름입니다."
+      nameInput.length < 3 || nameInput.length > 20
+        ? "세 글자 이상 20글자 미만의 닉네임을 입력해주세요"
         : "",
     id:
       idInput.length < 2 || idInput.length > 20 || idInput.includes(" ")
@@ -47,11 +47,13 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
       })
       .then((data) => {
         if ("access" in data) {
+          alert("회원가입 성공!");
           setIsSignupSuccess(true);
-          return;
-        }
-        if ("username" in data && data.username[0].includes("already exists")) {
-          setAuthErrorMessage("이미 존재하는 아이디입니다.");
+        } else if (
+          "username" in data &&
+          data.username[0].includes("already exists")
+        ) {
+          return setAuthErrorMessage("이미 존재하는 아이디입니다.");
         } else if (
           "non_field_errors" in data &&
           data.non_field_errors[0].includes("didn't match.")
@@ -62,6 +64,11 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
           data.non_field_errors[0].includes("too similar")
         ) {
           setAuthErrorMessage("아이디와 비밀번호가 매우 유사합니다.");
+        } else if (
+          "password1" in data &&
+          data.password1[0].includes("common")
+        ) {
+          setAuthErrorMessage("너무 흔한 비밀번호입니다.");
         } else {
           setAuthErrorMessage("예상치 못한 오류가 발생하였습니다.");
         }
@@ -291,7 +298,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
                   window.open(
                     "/auth/toKakao",
                     "_blank",
-                    "width=350,height=600",
+                    "width=350,height=600"
                   );
                 }}
               >

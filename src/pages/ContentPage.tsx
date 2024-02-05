@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Content from "../components/Content";
 import styles from "./ContentPage.module.scss";
 import { useEffect, useState } from "react";
@@ -19,7 +19,7 @@ export default function ContentPage() {
   const [refetch, setRefetch] = useState(false);
   const refetchContent = () => setRefetch(!refetch);
   const { addRecentContent } = useRecentContents();
-
+  const navigate = useNavigate();
   useMoveScrollToTop();
 
   useEffect(() => {
@@ -32,6 +32,7 @@ export default function ContentPage() {
         })
         .catch(() => {
           alert("잘못된 요청입니다");
+          navigate(-1);
         });
   }, [id, accessToken, setTitle, refetch]);
 

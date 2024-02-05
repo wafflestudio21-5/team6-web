@@ -19,6 +19,7 @@ import { AuthContextProvider } from "./contexts/authContext.tsx";
 import UserStorageSubPage from "./pages/user/UserStorageSubPage.tsx";
 import UserFollowerPage from "./pages/user/UserFollowerPage.tsx";
 import AuthToKaKao from "./pages/AuthToKakao.tsx";
+import { Navigate } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
         path: "/search",
         element: <SearchPage />,
       },
+      {
+        path: "/*",
+        element: <Navigate to={"/"} replace={true}></Navigate>,
+      },
     ],
   },
   { path: "/auth/callback/kakao", element: <AuthCallBackKakaoPage /> },
@@ -90,5 +95,5 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <AuthContextProvider>
     <RouterProvider router={router} />
-  </AuthContextProvider>,
+  </AuthContextProvider>
 );

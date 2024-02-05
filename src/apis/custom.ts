@@ -1,6 +1,5 @@
 export function defaultResponseHandler(res: Response) {
   if (!res.ok) {
-    console.log(res); //res.json().code=="token_not_valid"
     /*res.json().then((data)=>{
       console.log;
       if(data.code=="token_not_valid"){

@@ -5,12 +5,13 @@ import profileDefault from "../../assets/user_default.jpg";
 import useUserEdit from "../../hooks/useUserEdit";
 import usePreventScroll from "../../hooks/usePreventScroll";
 import useHandlePopState from "../../hooks/useHandlePopState";
-
+import { useState } from "react";
 type UserEditModalProps = {
   setCurrentModal: (currentModal: CurrentModalType) => void;
 };
 
 export default function UserEditModal({ setCurrentModal }: UserEditModalProps) {
+  const [nicknameError, setNicknameError] = useState<null | string>(null);
   const {
     nickname,
     bio,
@@ -59,7 +60,11 @@ export default function UserEditModal({ setCurrentModal }: UserEditModalProps) {
             취소
           </button>
           <h2>프로필 변경</h2>
-          <button type="submit" className={styles.saveBtn}>
+          <button
+            type="submit"
+            disabled={!!nicknameError}
+            className={styles.saveBtn}
+          >
             확인
           </button>
         </header>
@@ -95,8 +100,17 @@ export default function UserEditModal({ setCurrentModal }: UserEditModalProps) {
             type="text"
             id="nicknameEdit"
             value={nickname}
-            onChange={handleNickname}
+            onChange={(e) => {
+              if (e.target.value.replace(/\s/g, "").length) {
+                setNicknameError(null);
+              } else {
+                setNicknameError("공백을 제외한 한글자 이상을 입력해주세요.");
+              }
+
+              handleNickname(e);
+            }}
           />
+          <p className={styles.errorMessage}>{nicknameError}</p>
         </div>
         <div className={styles.textInputCon}>
           <label htmlFor="bioEdit">소개</label>

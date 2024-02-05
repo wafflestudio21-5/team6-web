@@ -2,6 +2,7 @@
   margin: 62px 0 0 0;
 
   .searchHeader {
+    width: 100%;
     display: flex;
     align-items: center;
     background: rgb(247, 247, 247);
@@ -10,13 +11,14 @@
     font-weight: 700;
     letter-spacing: -0.3px;
     line-height: 26px;
-    width: 100%;
-    height: 43px;
 
     div {
       margin: 0 20px;
+
       width: 100%;
       max-width: 1320px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
 
       @media (min-width: 760px) {
         margin: 0 3.5%;
