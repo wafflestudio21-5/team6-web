@@ -52,25 +52,20 @@ function Star(props: StarProps) {
 }
 
 type StarRatingProps = {
-  myRate: {
+  movieCD: string;
+  refetchContent: () => void;
+  myRateData: {
     id: number;
     my_rate: number;
   } | null;
-  setMyRate: (
-    newRate: {
-      id: number;
-      my_rate: number;
-    } | null,
-  ) => void;
-  movieCD: string;
 };
 
 export default function StarRating({
-  myRate,
-  setMyRate,
   movieCD,
+  refetchContent,
+  myRateData,
 }: StarRatingProps) {
-  const savedRating = myRate ? myRate.my_rate : 0;
+  const savedRating = myRateData ? myRateData.my_rate : 0;
   const [selectedRating, setSelectedRating] = useState(savedRating);
   const [hover, setHover] = useState(false);
   const { isLogined, accessToken } = useAuthContext();
@@ -88,20 +83,20 @@ export default function StarRating({
     if (!isLogined) {
       setCurrentModal("login");
     } else {
-      if (myRate) {
+      if (myRateData) {
         if (rating === savedRating) {
-          deleteRatingRequest(myRate.id, accessToken ?? "")
+          deleteRatingRequest(myRateData.id, accessToken ?? "")
             .then(() => {
-              setMyRate(null);
               setSelectedRating(0);
+              refetchContent();
             })
             .catch((e) => console.log(e));
         } else {
-          updateRatingRequest(myRate.id, rating, accessToken ?? "")
+          updateRatingRequest(myRateData.id, rating, accessToken ?? "")
             .then(defaultResponseHandler)
             .then((data) => {
-              setMyRate({ ...data, my_rate: data.rate });
               setSelectedRating(data.rate);
+              refetchContent();
             })
             .catch((e) => console.log(e));
         }
@@ -109,8 +104,8 @@ export default function StarRating({
         createRatingRequest(movieCD, rating, accessToken ?? "")
           .then(defaultResponseHandler)
           .then((data) => {
-            setMyRate({ ...data, my_rate: data.rate });
             setSelectedRating(data.rate);
+            refetchContent();
           })
           .catch((e) => console.log(e));
       }

@@ -8,19 +8,23 @@ export default function useUserEdit() {
   const [nickname, setNickname] = useState(myUserData?.nickname ?? "");
   const [bio, setBio] = useState(myUserData?.bio ?? "");
   const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(
-    null,
+    null
   );
   const [profilePhotoFile, setProfilePhotoFile] = useState<File | null>(null);
   const [backgroundPhotoUrl, setBackgroundPhotoUrl] = useState(
-    myUserData?.background_photo ?? "",
+    myUserData?.background_photo ?? ""
   );
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(
-    myUserData?.profile_photo ?? "",
+    myUserData?.profile_photo ?? ""
   );
 
   const handleBackgroundPhoto = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const reader = new FileReader();
+
+    if (!file) return;
+    if (file["type"].split("/")[0] !== "image")
+      return alert("이미지 파일만 업로드 가능합니다.");
 
     reader.onload = (e) => {
       const previewPhotoUrl = e.target?.result as string | null | undefined;
@@ -33,6 +37,10 @@ export default function useUserEdit() {
   const handleProfilePhoto = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const reader = new FileReader();
+
+    if (!file) return;
+    if (file["type"].split("/")[0] !== "image")
+      return alert("이미지 파일만 업로드 가능합니다.");
 
     reader.onload = (e) => {
       const previewPhotoUrl = e.target?.result as string | null | undefined;

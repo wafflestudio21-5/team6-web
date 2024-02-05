@@ -1,7 +1,7 @@
 // import { useEffect } from "react";
 import { useAuthContext } from "../../contexts/authContext";
 import styles from "./User.module.scss";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { OutletContextType } from "../../pages/Layout";
 import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -23,8 +23,8 @@ export default function User() {
   const pageMode = !loginUserId
     ? "notLoggedIn"
     : pageUserId === loginUserId.toString()
-      ? "myPage"
-      : "otherPage";
+    ? "myPage"
+    : "otherPage";
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
   // isLoggedIn : 팔로우 버튼 보여준다(무조건 팔로우) / 좋아요 섹션 보여주지 않는다.
@@ -34,9 +34,11 @@ export default function User() {
   const [isMyFollowing, setIsMyFollowing] = useState<boolean>(false);
   const [isMyFollowingLoading, setIsMyFollowingLoading] = useState(true);
   const loading = pageUserloading || isMyFollowingLoading;
-
+  const navigate = useNavigate();
+  const [refetch, setRefetch] = useState(false);
+  const refetchPageUser = () => setRefetch(!refetch);
   const followButtonClickHandler = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     if (!pageUser) return;
@@ -46,11 +48,13 @@ export default function User() {
           .then(defaultResponseHandler)
           .then(() => {
             setIsMyFollowing(false);
+            refetchPageUser();
           })
       : postAddFollow(accessToken, pageUser.id)
           .then(defaultResponseHandler)
           .then(() => {
             setIsMyFollowing(true);
+            refetchPageUser();
           });
   };
 
@@ -63,14 +67,18 @@ export default function User() {
           setTitle(
             data.nickname
               ? `${data.nickname}님의 프로필 페이지 - 와플피디아`
-              : "와플피디아 - 영화 평가 서비스",
+              : "와플피디아 - 영화 평가 서비스"
           );
           setPageUser(data);
+        })
+        .catch(() => {
+          alert("잘못된 요청입니다.");
+          navigate(-1);
         })
         .finally(() => {
           setPageUserLoading(false);
         });
-  }, [pageUserId, myUserData]);
+  }, [pageUserId, myUserData, , refetch]);
 
   // 유저데이터에 팔로잉 리스트가 없어서 추가로 가져와야 함
 

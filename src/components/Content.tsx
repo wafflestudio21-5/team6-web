@@ -63,8 +63,6 @@ function ContentPanel({
   const { setCurrentModal: setLayoutCurrentModal } =
     useOutletContext<OutletContextType>();
 
-  const [myRate, setMyRate] = useState(content.my_rate ?? null);
-
   const { isLogined, accessToken } = useAuthContext();
   const myState = content.my_state ?? null;
 
@@ -119,13 +117,13 @@ function ContentPanel({
             <div className={styles.userRatingCon}>
               <div className={styles.starRatingBox}>
                 <StarRating
-                  myRate={myRate}
-                  setMyRate={setMyRate}
+                  refetchContent={refetchContent}
+                  myRateData={content.my_rate}
                   movieCD={content.movieCD}
                 />
               </div>
               <div className={styles.userRatingTextBox}>
-                {rateStr[myRate ? myRate.my_rate * 2 : 0]}
+                {rateStr[content.my_rate ? content.my_rate.my_rate * 2 : 0]}
               </div>
             </div>
             <div className={styles.avgRatingCon}>
@@ -202,7 +200,7 @@ function ContentPanel({
             </ul>
           </nav>
           <MyCommentBox
-            myRate={myRate ? myRate.my_rate : 0}
+            myRate={content.my_rate ? content.my_rate.my_rate : 0}
             closeModal={() => {
               setCurrentModal(null);
             }}
