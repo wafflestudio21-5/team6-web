@@ -24,7 +24,7 @@ export default function SignupModal({ setCurrentModal }: SignupModalProps) {
   const error = {
     name:
       nameInput.length < 3 || nameInput.length > 20
-        ? "세 글자 이상 20글자 미만의 닉네임을 입력해주세요"
+        ? "세 글자 이상 20글자 이하의 닉네임을 입력해주세요"
         : "",
     id:
       idInput.length < 2 || idInput.length > 20 || idInput.includes(" ")
