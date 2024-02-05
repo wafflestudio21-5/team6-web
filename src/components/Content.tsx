@@ -118,7 +118,7 @@ function ContentPanel({
               <div className={styles.starRatingBox}>
                 <StarRating
                   refetchContent={refetchContent}
-                  my_rate={content.my_rate}
+                  myRateData={content.my_rate}
                   movieCD={content.movieCD}
                 />
               </div>
