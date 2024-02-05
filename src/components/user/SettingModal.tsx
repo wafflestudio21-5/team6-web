@@ -82,7 +82,7 @@ export default function SettingModal({ setCurrentModal }: SettingModalProps) {
 
 type ButtonBoxProps = {
   setAlertMessage: (
-    alertMessage: "logoutAlert" | "withdrawalAlert" | "clipboard" | null
+    alertMessage: "logoutAlert" | "withdrawalAlert" | "clipboard" | null,
   ) => void;
 };
 

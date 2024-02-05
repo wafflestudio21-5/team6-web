@@ -49,7 +49,7 @@ export default function CommentCard({ comment }: { comment: CommentType }) {
       <div className={styles.commentHead}>
         <Link to={`/users/${comment.created_by.id}`} className={styles.userBox}>
           <img src={comment.created_by.profile_photo ?? profileDefault} />
-          {comment.created_by.nickname}
+          <div>{comment.created_by.nickname}</div>
         </Link>
         {comment.rating && (
           <div className={styles.reviewRating}>

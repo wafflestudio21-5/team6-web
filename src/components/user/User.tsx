@@ -23,8 +23,8 @@ export default function User() {
   const pageMode = !loginUserId
     ? "notLoggedIn"
     : pageUserId === loginUserId.toString()
-    ? "myPage"
-    : "otherPage";
+      ? "myPage"
+      : "otherPage";
   // myPage : 팔로우 버튼 보여주지 않는다 / 좋아요 섹션 보여준다
   // otherPage : 팔로우 버튼 보여준다(팔로우or언팔로우) / 좋아요 섹션 보여주지 않는다.
   // isLoggedIn : 팔로우 버튼 보여준다(무조건 팔로우) / 좋아요 섹션 보여주지 않는다.
@@ -38,7 +38,7 @@ export default function User() {
   const [refetch, setRefetch] = useState(false);
   const refetchPageUser = () => setRefetch(!refetch);
   const followButtonClickHandler = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
     if (!pageUser) return;
@@ -67,7 +67,7 @@ export default function User() {
           setTitle(
             data.nickname
               ? `${data.nickname}님의 프로필 페이지 - 와플피디아`
-              : "와플피디아 - 영화 평가 서비스"
+              : "와플피디아 - 영화 평가 서비스",
           );
           setPageUser(data);
         })

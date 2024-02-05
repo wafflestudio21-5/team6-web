@@ -103,7 +103,7 @@ export default function ContentList({ title, order }: ContentListProps) {
           average_rate: 5,
           my_rate: null,
         },
-      ])
+      ]),
   );
 
   const { accessToken } = useAuthContext();
@@ -130,8 +130,8 @@ export default function ContentList({ title, order }: ContentListProps) {
                     ? { my_rate: movieRes.my_rate }
                     : null,
                 };
-              }
-            )
+              },
+            ),
           );
         });
     order === "latest" &&
@@ -144,7 +144,7 @@ export default function ContentList({ title, order }: ContentListProps) {
                 ...movie,
                 poster: movie.poster.replace("http", "https"),
               };
-            })
+            }),
           );
         });
     order === "recommend" &&
@@ -158,7 +158,7 @@ export default function ContentList({ title, order }: ContentListProps) {
                 ...movie,
                 poster: movie.poster.replace("http", "https"),
               };
-            })
+            }),
           );
         });
   }, [order, accessToken]);
@@ -177,7 +177,7 @@ export default function ContentList({ title, order }: ContentListProps) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false
+          : false,
       );
     }
   }
@@ -193,7 +193,7 @@ export default function ContentList({ title, order }: ContentListProps) {
       setIsLast(
         scrollWidth && carouselWidth
           ? carouselWidth - nextTranslateX === scrollWidth
-          : false
+          : false,
       );
     }
   }
@@ -205,7 +205,7 @@ export default function ContentList({ title, order }: ContentListProps) {
         <div className={styles.scrollBar} ref={carouselContentRef}>
           <ul ref={carouselUlRef}>
             {contents.map((content: MovieType, index: number) =>
-              ContentCell(content, index + 1)
+              ContentCell(content, index + 1),
             )}
           </ul>
         </div>

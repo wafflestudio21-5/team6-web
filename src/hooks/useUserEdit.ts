@@ -8,14 +8,14 @@ export default function useUserEdit() {
   const [nickname, setNickname] = useState(myUserData?.nickname ?? "");
   const [bio, setBio] = useState(myUserData?.bio ?? "");
   const [backgroundPhotoFile, setBackgroundPhotoFile] = useState<File | null>(
-    null
+    null,
   );
   const [profilePhotoFile, setProfilePhotoFile] = useState<File | null>(null);
   const [backgroundPhotoUrl, setBackgroundPhotoUrl] = useState(
-    myUserData?.background_photo ?? ""
+    myUserData?.background_photo ?? "",
   );
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(
-    myUserData?.profile_photo ?? ""
+    myUserData?.profile_photo ?? "",
   );
 
   const handleBackgroundPhoto = (e: ChangeEvent<HTMLInputElement>) => {
